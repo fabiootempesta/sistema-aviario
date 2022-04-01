@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "string": "cpp",
+        "*.tcc": "cpp",
+        "system_error": "cpp",
+        "regex": "cpp"
+    }
+}
