@@ -150,8 +150,8 @@
       <table>
         <thead>
           <tr>
-            <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeNebulizer(1);'>Manual</a> </td>
-            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeNebulizer(0);'>Automático</a> </td>
+            <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeActuator(1, "nebulizer");'>Manual</a> </td>
+            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -182,8 +182,8 @@
       <table>
         <thead>
           <tr>
-            <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeExchanger(1);'>Manual</a> </td>
-            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeExchanger(0);'>Automático</a> </td>
+            <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeActuator(1, "exchanger");'>Manual</a> </td>
+            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -203,7 +203,7 @@
       <div id="div_act_exchanger" class="divOperacao">
         <br>
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_exchanger" onclick="buttonSetExchanger()">---</button>
+        <button type="button" id="button_exchanger" onclick="buttonSetStatusActuator()">---</button>
       </div>
     </div>
 
@@ -214,8 +214,8 @@
       <table>
         <thead>
           <tr>
-            <td id="manual_fan"> <a href='javascript:buttonSetOpModeFan(1);'>Manual</a> </td>
-            <td id="automatico_fan"> <a href='javascript:buttonSetOpModeFan(0);'>Automático</a> </td>
+            <td id="manual_fan"> <a href='javascript:buttonSetOpModeActuator(1, "fan");'>Manual</a> </td>
+            <td id="automatico_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -279,20 +279,20 @@
 
   function buttonSetOpModeActuator(opmode, actuator) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/set/" + opmode, true);
-
+    xhttp.open("POST", "/actuators/opmode/set/" + actuator, true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         setOperationMode(opmode, actuator);
       }
     };
-    xhttp.send();
+    xhttp.send("value=" + state);
 
   }
 
 
 
-  function buttonSetActuator(state, actuator_name) {
+  function buttonSetStatusActuator(state, actuator_name) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -315,6 +315,7 @@
         document.getElementById("maxTempNeb").placeholder = array[1];
         document.getElementById("deltaTemperature").placeholder = array[2];
         document.getElementById("maxTempFan").placeholder = array[3];
+        
       }
     };
     xhttp.open("GET", "/actuators/parameter/getall", true);
@@ -334,10 +335,7 @@
         updateSensor(array[1], "climate_humidity", "%", "nan");
         updateSensor(array[0], "climate_temperature", "°C", "nan");
         
-        document.getElementById("").placeholder = array[0];
-        document.getElementById("maxTempNeb").placeholder = array[1];
-        document.getElementById("deltaTemperature").placeholder = array[2];
-        document.getElementById("maxTempFan").placeholder = array[3];
+        
       }
     };
     xhttp.open("GET", "/sensors/getall", true);
@@ -367,14 +365,14 @@
       if (actuator_name == "exchanger")
         document.getElementById("button_exchanger").innerHTML = "Interromper";
       else
-        document.getElementById("button_" + name).innerHTML = "Desligar";
+        document.getElementById("button_" + actuator_name).innerHTML = "Desligar";
       
-      document.getElementById("status_" + name).innerHTML = "Ligado";
-      document.getElementById("status_" + name).style.color = "green";
+      document.getElementById("status_" + actuator_name).innerHTML = "Ligado";
+      document.getElementById("status_" + actuator_name).style.color = "green";
     } else {
-      document.getElementById("button_" + name).innerHTML = "Ligar";
-      document.getElementById("status_" + name).innerHTML = "Desligado";
-      document.getElementById("status_" + name).style.color = "red";
+      document.getElementById("button_" + actuator_name).innerHTML = "Ligar";
+      document.getElementById("status_" + actuator_name).innerHTML = "Desligado";
+      document.getElementById("status_" + actuator_name).style.color = "red";
     }
   }
 
@@ -389,7 +387,7 @@
         setActuator(array[2],"nebulizer");
       }
     };
-    xhttp.open("GET", "/actuators/getall", true);
+    xhttp.open("GET", "/actuators/status/getall", true);
     xhttp.send();
   }
 

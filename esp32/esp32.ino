@@ -21,8 +21,8 @@ DallasTemperature ds18b20(&oneWire);
 AsyncWebServer server(80);
 
 //---Conexão na rede local sem fio---
-const char* ssid     = "Raul";
-const char* password = "pederinoceronte";
+const char* ssid     = "Bethpsi";
+const char* password = "raulfabio21";
 
 //---Variáveis globais---
 //Valores dos parâmetros
@@ -30,7 +30,6 @@ float deltat_nipple_parameter = 5.4;
 float temperature_nebulizer_parameter = 20.0;
 float temperature_fan_parameter = 22.2;
 int humidity_nebulizer_parameter = 90;
-long time_nipple_parameter = 14400000; // 14.400.000 ms = 4 horas
 //Valores atuais rebido dos sensores
 float current_nipple_temp = 0;
 float current_box_temp = 0;
@@ -61,10 +60,6 @@ const char index_html[] PROGMEM = R"rawliteral(
       display: inline-block;
       margin: 0px auto;
       text-align: center;
-    }
-
-    p {
-      font-size: 3.0rem;
     }
 
     span {
@@ -99,10 +94,6 @@ const char index_html[] PROGMEM = R"rawliteral(
       border: 2px solid #555;
     }
 
-    .units {
-      font-size: 1.2rem;
-    }
-
     .divPrincipal {
       border: 2px solid black;
       height: 300px;
@@ -131,19 +122,14 @@ const char index_html[] PROGMEM = R"rawliteral(
       height: 50%;
     }
 
-    .divError {
-      float: left;
-      width: 33.33333%;
-      color: red;
-      display: none;
-    }
+
 
 
     #div_param_nebulizer {
       display: block;
     }
 
-    #div_act_nebulizer {
+    #div_act_exchanger {
       display: none;
     }
 
@@ -214,8 +200,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       <table>
         <thead>
           <tr>
-            <td id="manual1"> <a href='javascript:buttonSetOpModeNebulizer(1);'>Manual</a> </td>
-            <td id="automatico1"> <a href='javascript:buttonSetOpModeNebulizer(0);'>Automático</a> </td>
+            <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeActuator(1, "nebulizer");'>Manual</a> </td>
+            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -226,10 +212,10 @@ const char index_html[] PROGMEM = R"rawliteral(
         <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
         Umidade máxima: <br>
         <input type="text" id="minUmidity" value=""> % 
-        <button type="button" onclick="buttonSetUmidity()">Reconfigurar</button> <br><br>
+        <button type="button" onclick="buttonSetParameter('nebulizer/umidity', 'minUmidity')">Reconfigurar</button> <br><br>
         Temperatura mínima: <br>
         <input type="text" id="maxTempNeb" value=""> °C 
-        <button type="button" onclick="buttonSetTempNeb()">Reconfigurar</button>
+        <button type="button" onclick="buttonSetParameter('nebulizer/temp', 'maxTempNeb')">Reconfigurar</button>
       </div>
 
       <div id="div_act_nebulizer" class="divOperacao">
@@ -237,7 +223,6 @@ const char index_html[] PROGMEM = R"rawliteral(
         <button type="button" id="button_nebulizer" onclick="buttonSetNebulizer()">---</button>
       </div>
 
-      <div id="div_error_1" class="divError"> <b>Falha na conexão com o atuador!</b> </div>
 
     </div>
     <div class="divAtuador" id="div_actuator_exchanger">
@@ -247,8 +232,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       <table>
         <thead>
           <tr>
-            <td id="manual2"> <a href='javascript:buttonSetOpModeExchanger(1);'>Manual</a> </td>
-            <td id="automatico2"> <a href='javascript:buttonSetOpModeExchanger(0);'>Automático</a> </td>
+            <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeActuator(1, "exchanger");'>Manual</a> </td>
+            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -256,10 +241,13 @@ const char index_html[] PROGMEM = R"rawliteral(
 
       <div id="div_param_exchanger" class="divOperacao">
 
-        <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br><br>
+        <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
         Variação mínima: <br>
         <input type="text" id="deltaTemperature" value=""> °C 
-        <button type="button" onclick="buttonSetVariation()">Reconfigurar</button>
+        <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Reconfigurar</button> <br><br>
+        Tempo mínimo para uma próxima troca: <br>
+        <input type="text" id="timeNextExchange" value=""> horas 
+        <button type="button" onclick="buttonSetParameter('exchanger/time', 'timeNextExchange')">Reconfigurar</button>
       </div>
 
       <div id="div_act_exchanger" class="divOperacao">
@@ -267,7 +255,6 @@ const char index_html[] PROGMEM = R"rawliteral(
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
         <button type="button" id="button_exchanger" onclick="buttonSetExchanger()">---</button>
       </div>
-      <div id="div_error_2" class="divError"> <b>Falha na conexão com o atuador!</b> </div>
     </div>
 
     <div class="divAtuador" id="div_actuator_fan">
@@ -277,8 +264,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       <table>
         <thead>
           <tr>
-            <td id="manual3"> <a href='javascript:buttonSetOpModeFan(1);'>Manual</a> </td>
-            <td id="automatico3"> <a href='javascript:buttonSetOpModeFan(0);'>Automático</a> </td>
+            <td id="manual_fan"> <a href='javascript:buttonSetOpModeActuator(1, "fan");'>Manual</a> </td>
+            <td id="automatico_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automatico</a> </td>
           </tr>
         </thead>
       </table>
@@ -287,8 +274,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       <div id="div_param_fan" class="divOperacao">
         <b>Parâmetro de acionamento  <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br><br>
         Temperatura mínima: <br>
-        <input type="text" id="maxTempFan"> °C 
-        <button onclick="buttonSetTempFan()">Reconfigurar</button>
+        <input type="number" id="maxTempFan"> °C 
+        <button onclick="buttonSetParameter('fan/temp', 'maxTempFan')">Reconfigurar</button>
 
       </div>
       <div id="div_act_fan" class="divOperacao">
@@ -296,251 +283,112 @@ const char index_html[] PROGMEM = R"rawliteral(
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
         <button type="button" id="button_fan" onclick="buttonSetFan()">---</button>
       </div>
-      <div id="div_error_3" class="divError"> <b>Falha na conexão com o atuador!</b> </div>
     </div>
   </div>
 </body>
 <script>
-  function buttonSetTempFan() {
+  function buttonSetParameter(url, inputID) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/parameter/fan", true);
+    xhttp.open("POST", "/actuators/parameter/set/" + url, true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          alert("Temperatura reconfigurada para " + document.getElementById("maxTempFan").value + "°C");
+          alert("Parâmetro reconfigurado!");
         }
         if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do ventilador!");
+          alert("Erro em reconfigurar o parâmetro de acionamento do equipamento!");
         }
       }
 
     };
-    xhttp.send("value=" + document.getElementById("maxTempFan").value);
-  }
-  function buttonSetTempNeb() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/parameter/nebTemp", true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          alert("Temperatura reconfigurada para " + document.getElementById("maxTempNeb").value + "°C");
-        }
-        if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do nebulizador!");
-        }
-      }
-
-    };
-    xhttp.send("value=" + document.getElementById("maxTempNeb").value);
-  }
-  function buttonSetVariation() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/parameter/exchanger", true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          alert("Temperatura reconfigurada para " + document.getElementById("deltaTemperature").value + "°C");
-        }
-        if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do trocador de água!");
-        }
-      }
-    };
-    xhttp.send("value=" + document.getElementById("deltaTemperature").value);
-  }
-  function buttonSetUmidity() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/parameter/nebulizer", true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          alert("Umidade reconfigurada para " + document.getElementById("minUmidity").value + "%");
-        }
-        if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do nebulizador!");
-        }
-      }
-    };
-    xhttp.send("value=" + document.getElementById("minUmidity").value);
+    xhttp.send("value=" + document.getElementById(inputID).value);
   }
 
-  function setOperationMode(actuator, mode, actuator_name) {
-    //actuator= |1: nebulizador|  |2: trocador de água|   |3: ventilador|
+  
+
+
+  function setOperationMode(mode, actuator_name) {
     // true = modo manual | false = modo automático
-    document.getElementById("div_error_" + actuator).style.display = "none";
     if (mode == true) {
-      document.getElementById("manual" + actuator).innerHTML = "<b>" + document.getElementById("manual" + actuator).innerHTML + "</b>";
-      document.getElementById("automatico" + actuator).innerHTML = " <a href='javascript:buttonSetOpMode" + actuator_name + "(0);'>Automático</a> ";
+      document.getElementById("manual_" + actuator_name).style.fontWeight = 700;
+      document.getElementById("automatic_" + actuator_name).style.fontWeight = 400;
 
-      if (actuator == 1) { //tratando o modo de operação do nebulizador
-        document.getElementById("div_param_nebulizer").style.display = "none";
-        document.getElementById("div_act_nebulizer").style.display = "block";
-      }
-
-      if (actuator == 2) { //tratando o modo de operação do trocador de água
-        document.getElementById("div_param_exchanger").style.display = "none";
-        document.getElementById("div_act_exchanger").style.display = "block";
-      }
-
-      if (actuator == 3) { //tratando o modo de operação do ventilador
-        document.getElementById("div_param_fan").style.display = "none";
-        document.getElementById("div_act_fan").style.display = "block";
-      }
+      document.getElementById("div_param_" + actuator_name).style.display = "none";
+      document.getElementById("div_act_" + actuator_name).style.display = "block";
 
     } else {
-      document.getElementById("automatico" + actuator).innerHTML = "<b>" + document.getElementById("automatico" + actuator).innerHTML + "</b>";
-      document.getElementById("manual" + actuator).innerHTML = " <a href='javascript:buttonSetOpMode" + actuator_name + "(1);'>Manual</a> ";
+      document.getElementById("manual_" + actuator_name).style.fontWeight = 400;
+      document.getElementById("automatic_" + actuator_name).style.fontWeight = 700;
 
-      if (actuator == 1) { //tratando o modo de operação do nebulizador
-        document.getElementById("div_param_nebulizer").style.display = "block";
-        document.getElementById("div_act_nebulizer").style.display = "none";
-      }
-
-      if (actuator == 2) { //tratando o modo de operação do trocador de água
-        document.getElementById("div_param_exchanger").style.display = "block";
-        document.getElementById("div_act_exchanger").style.display = "none";
-      }
-
-      if (actuator == 3) { //tratando o modo de operação do ventilador
-        document.getElementById("div_param_fan").style.display = "block";
-        document.getElementById("div_act_fan").style.display = "none";
-      }
+      document.getElementById("div_param_" + actuator_name).style.display = "block";
+      document.getElementById("div_act_" + actuator_name).style.display = "none";
 
     }
   }
 
-  function buttonSetOpModeNebulizer(opmode) {
+  function buttonSetOpModeActuator(opmode, actuator) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/setnebulizer" + opmode, true);
+    xhttp.open("POST", "/actuators/opmode/set/" + opmode, true);
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        setOperationMode(1, opmode, "Nebulizer");
+        setOperationMode(opmode, actuator);
       }
     };
     xhttp.send();
 
   }
 
-  function buttonSetOpModeExchanger(opmode) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/setexchanger" + opmode, true);
 
+
+  function buttonSetActuator(state, actuator_name) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        setOperationMode(2, opmode, "Exchanger");
+        setFan(state, actuator_name);
       }
     };
-    xhttp.send();
-
-  }
-
-  function buttonSetOpModeFan(opmode) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/setfan" + opmode, true);
-
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setOperationMode(3, opmode, "Fan");
-      }
-    };
-    xhttp.send();
-
-  }
-
-  function buttonSetFan() {
-    var xhttp0 = new XMLHttpRequest();
-    xhttp0.open("POST", "/actuators/setfan0", true);
-    var xhttp1 = new XMLHttpRequest();
-    xhttp1.open("POST", "/actuators/setfan1", true);
-
-    xhttp1.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setFan(1);
-      }
-    };
-    xhttp0.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setFan(0);
-      }
-    };
-
-    if (document.getElementById("button_fan").innerHTML == "Ligar")
-      xhttp1.send();
-    else
-      xhttp0.send();
-
-
-
-  }
-
-  function buttonSetNebulizer() {
-    var xhttp0 = new XMLHttpRequest();
-    xhttp0.open("POST", "/actuators/setnebulizer0", true);
-    var xhttp1 = new XMLHttpRequest();
-    xhttp1.open("POST", "/actuators/setnebulizer1", true);
-
-    xhttp1.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setNebulizer(1);
-        setFan(1);
-      }
-    };
-
-    xhttp0.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setNebulizer(0);
-        updateFanState();
-      }
-    };
-
-    if (document.getElementById("button_nebulizer").innerHTML == "Ligar")
-      xhttp1.send();
-    else
-      xhttp0.send();
-  }
-
-  function buttonSetExchanger() {
-    var xhttp1 = new XMLHttpRequest();
-    xhttp1.open("POST", "/actuators/setexchanger1", true);
-    var xhttp0 = new XMLHttpRequest();
-    xhttp0.open("POST", "/actuators/setexchanger0", true);
-    xhttp1.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setExchanger(1);
-      }
-    };
-    xhttp0.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setExchanger(0);
-      }
-    };
-    if (document.getElementById("button_exchanger").innerHTML == "Ligar")
-      xhttp1.send();
-    else
-      xhttp0.send();
+    xhttp.send("value=" + state);
   }
 
   function updateActuatorsParam() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        //console.log("response text: "+this.responseText);
         var array = this.responseText.split(" ");
-        //console.log(array[0]);
 
         //index = |0: nebulizador umidade| |1: nebulizador temperatura|  |2: trocador de água variação| |3: ventilador temperatura|
         document.getElementById("minUmidity").placeholder = array[0];
         document.getElementById("maxTempNeb").placeholder = array[1];
         document.getElementById("deltaTemperature").placeholder = array[2];
         document.getElementById("maxTempFan").placeholder = array[3];
+        
       }
     };
     xhttp.open("GET", "/actuators/parameter/getall", true);
+    xhttp.send();
+  }
+
+  function updateSensors() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var array = this.responseText.split(" ");
+
+        //index = |0: temperatura ambiente| |1: umidade ambiente relativa|  |2: temperatura da caixa| |3: temperatura do bebedouro|
+        
+        updateSensor(array[3], "nipple_temperature", "°C", "-127.00");
+        updateSensor(array[2], "box_temperature", "°C", "-127.00");
+        updateSensor(array[1], "climate_humidity", "%", "nan");
+        updateSensor(array[0], "climate_temperature", "°C", "nan");
+        
+        
+      }
+    };
+    xhttp.open("GET", "/sensors/getall", true);
     xhttp.send();
   }
 
@@ -550,124 +398,65 @@ const char index_html[] PROGMEM = R"rawliteral(
       if (this.readyState == 4 && this.status == 200) {
         var array = this.responseText.split(" ");
 
-        //array index = |0: nebulizador|  |1: trocador de água|   |2: ventilador|
-        setOperationMode(1, array[0], "Nebulizer");
-        setOperationMode(2, array[1], "Exchanger");
-        setOperationMode(3, array[2], "Fan");
+        //array indice = |0: nebulizador|  |1: trocador de água|   |2: ventilador|
+        setOperationMode(array[0], "nebulizer");
+        setOperationMode(array[1], "exchanger");
+        setOperationMode(array[2], "fan");
       }
     };
     xhttp.open("GET", "/actuators/opmode/getall", true);
     xhttp.send();
   }
 
-  function setNebulizer(state) {
+  function setActuator(state, actuator_name) {
 
     if (state == true) {
-      document.getElementById("button_nebulizer").innerHTML = "Desligar";
-      document.getElementById("status_nebulizer").innerHTML = "Ligado";
-      document.getElementById("status_nebulizer").style.color = "green";
+      
+      if (actuator_name == "exchanger")
+        document.getElementById("button_exchanger").innerHTML = "Interromper";
+      else
+        document.getElementById("button_" + actuator_name).innerHTML = "Desligar";
+      
+      document.getElementById("status_" + actuator_name).innerHTML = "Ligado";
+      document.getElementById("status_" + actuator_name).style.color = "green";
     } else {
-      document.getElementById("button_nebulizer").innerHTML = "Ligar";
-      document.getElementById("status_nebulizer").innerHTML = "Desligado";
-      document.getElementById("status_nebulizer").style.color = "red";
+      document.getElementById("button_" + actuator_name).innerHTML = "Ligar";
+      document.getElementById("status_" + actuator_name).innerHTML = "Desligado";
+      document.getElementById("status_" + actuator_name).style.color = "red";
     }
   }
 
-  function setFan(state) {
+  function updateActuatorsState() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var array = this.responseText.split(" ");
+        //array index = |0: trocador|  |1: ventilador|   |2: nebulizador|
+        setActuator(array[0],"exchanger");
+        setActuator(array[1],"fan");
+        setActuator(array[2],"nebulizer");
+      }
+    };
+    xhttp.open("GET", "/actuators/status/getall", true);
+    xhttp.send();
+  }
 
-    if (state == true) {
-      document.getElementById("button_fan").innerHTML = "Desligar";
-      document.getElementById("status_fan").innerHTML = "Ligado";
-      document.getElementById("status_fan").style.color = "green";
+
+  function updateSensor(value, sensor_span, unit_measurement, text_error) {
+    if (value == text_error) {
+      document.getElementById(sensor_span).innerHTML = "Falha na leitura do sensor!";
+      document.getElementById(sensor_span).style.color = "red";
     } else {
-      document.getElementById("button_fan").innerHTML = "Ligar";
-      document.getElementById("status_fan").innerHTML = "Desligado";
-      document.getElementById("status_fan").style.color = "red";
+      document.getElementById(sensor_span).style.color = "black";
+      document.getElementById(sensor_span).innerHTML = value + unit_measurement;
     }
-  }
-
-  function setExchanger(state) {
-
-    if (state == true) {
-      document.getElementById("status_exchanger").innerHTML = "Ligado";
-      document.getElementById("button_exchanger").innerHTML = "Interromper";
-      document.getElementById("status_exchanger").style.color = "green";
-    } else {
-      document.getElementById("status_exchanger").innerHTML = "Desligado";
-      document.getElementById("button_exchanger").innerHTML = "Ligar";
-      document.getElementById("status_exchanger").style.color = "red";
-    }
-  }
-
-  function updateFanState() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        if (this.responseText == "Ligado")
-          setFan(1);
-        else
-          setFan(0);
-      }
-    };
-    xhttp.open("GET", "/actuators/getfan", true);
-    xhttp.send();
-  }
-
-  function updateExchangerState() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        if (this.responseText == "Ligado")
-          setExchanger(1);
-        else
-          setExchanger(0);
-      }
-    };
-    xhttp.open("GET", "/actuators/getexchanger", true);
-    xhttp.send();
-  }
-
-  function updateNebulizerState() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        if (this.responseText == "Ligado")
-          setNebulizer(1);
-        else
-          setNebulizer(0);
-      }
-    };
-    xhttp.open("GET", "/actuators/getnebulizer", true);
-    xhttp.send();
-  }
-
-  function updateSensor(sensor_url, sensor_span, unit_measurement, text_error) {
-    var xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        if (this.responseText == text_error) {
-          document.getElementById(sensor_span).innerHTML = "Falha na leitura do sensor!";
-          document.getElementById(sensor_span).style.color = "red";
-        } else {
-          document.getElementById(sensor_span).style.color = "black";
-          document.getElementById(sensor_span).innerHTML = this.responseText + unit_measurement;
-        }
-
-      }
-    };
-    xhttp.open("GET", "/sensors/get" + sensor_url, true);
-    xhttp.send();
   }
 
   //taxa de atualização de 5 segundos
   setInterval(function () {
     //atualizando o valor dos sensores
-    updateSensor("nippletemp", "nipple_temperature", "°C", "-127.00");
-    updateSensor("boxtemp", "box_temperature", "°C", "-127.00");
-    updateSensor("climatehumdt", "climate_humidity", "%", "nan");
-    updateSensor("climatetemp", "climate_temperature", "°C", "nan");
-
+    updateSensors();
+    
     //parametro de acionamento
     updateActuatorsParam();
 
@@ -678,9 +467,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   //taxa de atualização de 1 segundo
   setInterval(function () {
     //status dos atuadores
-    updateFanState();
-    updateExchangerState();
-    updateNebulizerState();
+    updateActuatorsState();
   }, 1000);
 
 </script>
@@ -1023,8 +810,8 @@ void setup() {
     for (int i = 0; i < params; i++){
         AsyncWebParameter *p = request->getParam(i);
         
-        if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
+        if(p->name() == "value"){
+          if (bool current_value = (p->value().toInt())){
             operation_mode_fan = current_value;
             request->send(200);
             Serial.println("Ventilador mudou seu modo de operação para Manual!");
@@ -1071,28 +858,6 @@ void setup() {
         if(p->name() == "value"){
           if(float current_value = (p->value().toFloat())){
             deltat_nipple_parameter = current_value;
-            request->send(200);
-            Serial.println("Parâmetro de acionamento do trocador modificado via interface Web!");
-          }else{
-            request->send(304);
-            Serial.println("Erro em modificar o parâmetro de acionamento do trocador via interface Web!");
-          }
-        }
-    }
-  });
-
-  //URL para modificar o parâmetro de tempo de um novo acionamento automático do trocador de água
-  server.on(
-    "/actuators/parameter/set/exchanger/time",
-    HTTP_POST,
-    [](AsyncWebServerRequest * request){
-    int params = request->params();
-    for (int i = 0; i < params; i++){
-        AsyncWebParameter *p = request->getParam(i);
-        
-        if(p->name()=="value"){
-          if(int current_value = (p->value().toInt())){
-            time_nipple_parameter = current_value * 3600000;
             request->send(200);
             Serial.println("Parâmetro de acionamento do trocador modificado via interface Web!");
           }else{
