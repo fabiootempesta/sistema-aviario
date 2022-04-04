@@ -55,6 +55,8 @@ const char index_html[] PROGMEM = R"rawliteral(
   <title>Controle Aviário</title>
   <meta charset="UTF-8">
   <style>
+
+  
     html {
       font-family: Arial;
       display: inline-block;
@@ -62,9 +64,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       text-align: center;
     }
 
-    span {
-      font-weight: bold;
-    }
+    
 
     button {
       border-radius: 8px;
@@ -92,6 +92,10 @@ const char index_html[] PROGMEM = R"rawliteral(
 
     input:focus{
       border: 2px solid #555;
+    }
+
+    .boldSpan {
+      font-weight: bold;
     }
 
     .divPrincipal {
@@ -175,19 +179,19 @@ const char index_html[] PROGMEM = R"rawliteral(
   <h2>Sensores    <img src="https://i.ibb.co/bFLxfbg/sensores.png" width="35" height="25"></h2> 
   <div class="divPrincipal">
     <div class="divSensor" id="div_sensor_temp">
-      <h3>Temperatura ambiente</h3> <br> <span id="climate_temperature"> --- </span> <br> <br>
+      <h3>Temperatura ambiente</h3> <br> <span class="boldSpan" id="climate_temperature"> --- </span> <br> <br>
       <img src="https://i.ibb.co/F62Cdvf/temperatura-ambiente.png" width="210" height="170">
     </div>
     <div class="divSensor" id="div_sensor_umidity">
-      <h3>Umidade relativa do ar</h3> <br> <span id="climate_humidity"> --- </span> <br> <br>
+      <h3>Umidade relativa do ar</h3> <br> <span class="boldSpan" id="climate_humidity"> --- </span> <br> <br>
       <img src="https://i.ibb.co/brRzT46/umidade.png" width="150" height="170">
     </div>
     <div class="divSensor" id="div_sensor_nipple">
-      <h3>Temperatura da água do bebedouro</h3> <span id="nipple_temperature"> --- </span><br> <br>
+      <h3>Temperatura da água do bebedouro</h3> <span class="boldSpan" id="nipple_temperature"> --- </span><br> <br>
       <img src="https://i.ibb.co/1bLQnq1/temperatura-bebedouro.png" width="130" height="170">
     </div>
     <div class="divSensor" id="div_sensor_box">
-      <h3>Temperatura da água da caixa</h3> <span id="box_temperature"> --- </span><br> <br>
+      <h3>Temperatura da água da caixa</h3> <span class="boldSpan" id="box_temperature"> --- </span><br> <br>
       <img src="https://i.ibb.co/nRSqZgW/temperatura-caixa.png" width="200" height="170">
     </div>
   </div>
@@ -195,13 +199,13 @@ const char index_html[] PROGMEM = R"rawliteral(
   <div class="divPrincipal">
     <div class="divAtuador" id="div_actuator_nebulizer">
       <h3>Nebulizador</h3>
-      Status: <span id="status_nebulizer"> --- </span> <br>
-      <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
+      Status: <span class="boldSpan" id="status_nebulizer"> --- </span> <br>
+      <b> Modo de Operação  </b><img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> 
       <table>
         <thead>
           <tr>
             <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeActuator(1, "nebulizer");'>Manual</a> </td>
-            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automatico</a> </td>
+            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -227,13 +231,13 @@ const char index_html[] PROGMEM = R"rawliteral(
     </div>
     <div class="divAtuador" id="div_actuator_exchanger">
       <h3>Trocador de água</h3>
-      Status: <span id="status_exchanger"> --- </span> <br>
+      Status: <span class="boldSpan" id="status_exchanger"> --- </span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
       <table>
         <thead>
           <tr>
             <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeActuator(1, "exchanger");'>Manual</a> </td>
-            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automatico</a> </td>
+            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -245,27 +249,25 @@ const char index_html[] PROGMEM = R"rawliteral(
         Variação mínima: <br>
         <input type="text" id="deltaTemperature" value=""> °C 
         <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Reconfigurar</button> <br><br>
-        Tempo mínimo para uma próxima troca: <br>
-        <input type="text" id="timeNextExchange" value=""> horas 
-        <button type="button" onclick="buttonSetParameter('exchanger/time', 'timeNextExchange')">Reconfigurar</button>
+        
       </div>
 
       <div id="div_act_exchanger" class="divOperacao">
         <br>
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_exchanger" onclick="buttonSetExchanger()">---</button>
+        <button type="button" id="button_exchanger" onclick="buttonSetStatusActuator()">---</button>
       </div>
     </div>
 
     <div class="divAtuador" id="div_actuator_fan">
       <h3>Ventilador</h3>
-      Status: <span id="status_fan">---</span> <br>
+      Status: <span class="boldSpan" id="status_fan">---</span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
       <table>
         <thead>
           <tr>
             <td id="manual_fan"> <a href='javascript:buttonSetOpModeActuator(1, "fan");'>Manual</a> </td>
-            <td id="automatico_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automatico</a> </td>
+            <td id="automatic_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -329,20 +331,20 @@ const char index_html[] PROGMEM = R"rawliteral(
 
   function buttonSetOpModeActuator(opmode, actuator) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/set/" + opmode, true);
-
+    xhttp.open("POST", "/actuators/opmode/set/" + actuator, true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         setOperationMode(opmode, actuator);
       }
     };
-    xhttp.send();
+    xhttp.send("value=" + opmode);
 
   }
 
 
 
-  function buttonSetActuator(state, actuator_name) {
+  function buttonSetStatusActuator(state, actuator_name) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -474,6 +476,18 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 </html>)rawliteral";
 
+int stringToBool(String n){ //auxiliar para transformar em booleano
+  if(n == "1")
+    return 1;
+  else{
+    if(n == "0"){
+      return 0;
+    }else{
+      return 2;
+    }
+  }
+    
+}
 
 String getStatusActuator(char n){
   //'n' para nebulizador; 'e' para o trocador de agua; 'f' para o ventilador
@@ -498,18 +512,18 @@ String getStatusActuator(char n){
 }
 
 void setNebulizer(bool state){
-  if (state==1){
+  if (state == 1){
     digitalWrite(PIN_NEBULIZER, HIGH);
     if (digitalRead(PIN_FAN)==HIGH)
-      fan_on_directly=1;
+      fan_on_directly = 1;
     else{
       fan_on_directly=0;
       digitalWrite(PIN_FAN, HIGH);
     }
   }
-  if (state==0){
+  if (state == 0){
     digitalWrite(PIN_NEBULIZER, LOW);
-    if(fan_on_directly==0)
+    if(fan_on_directly == 0)
       digitalWrite(PIN_FAN, LOW);
   }
 }
@@ -677,8 +691,8 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
-            setNebulizer(current_value);
+          if(stringToBool(p->value()) != 2){
+            setNebulizer(stringToBool(p->value()));
             request->send(200);
             Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
           }else{
@@ -699,8 +713,8 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
-            setExchanger(current_value);
+          if(stringToBool(p->value()) != 2){
+            setExchanger(stringToBool(p->value()));
             request->send(200);
             Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
           }else{
@@ -721,8 +735,8 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
-            if (current_value){
+          if(stringToBool(p->value()) != 2){
+            if (stringToBool(p->value())){
               digitalWrite(PIN_FAN,HIGH);
               request->send(200);
               Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
@@ -767,12 +781,13 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
-            operation_mode_nebulizer = current_value;
+          if(stringToBool(p->value()) != 2){
+            operation_mode_nebulizer = stringToBool(p->value());
+            Serial.println(stringToBool(p->value()));
             request->send(200);
-            Serial.println("Nebulizador mudou seu modo de operação para Manual!");
+            Serial.println("Nebulizador trocou seu modo de operação!");
           }else{
-            Serial.println("Erro em mudar o modo de operação do Nebulizador!");
+            Serial.println("Erro em mudar o modo de operação do Nebulizador. (Valor inválido) not int");
             request->send(304);
           }
         }
@@ -789,12 +804,12 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(bool current_value = (p->value().toInt())){
-            operation_mode_exchanger = current_value;
+          if(stringToBool(p->value()) != 2){
+            operation_mode_exchanger = stringToBool(p->value());
             request->send(200);
-            Serial.println("Trocador de água mudou seu modo de operação para Manual!");
+            Serial.println("Trocador trocou seu modo de operação!");
           }else{
-            Serial.println("Erro em mudar o modo de operação do Trocador de água!");
+            Serial.println("Erro em mudar o modo de operação do Trocador. (Valor inválido)");
             request->send(304);
           }
         }
@@ -810,13 +825,13 @@ void setup() {
     for (int i = 0; i < params; i++){
         AsyncWebParameter *p = request->getParam(i);
         
-        if(p->name() == "value"){
-          if (bool current_value = (p->value().toInt())){
-            operation_mode_fan = current_value;
+        if(p->name()=="value"){
+          if(stringToBool(p->value()) != 2){
+            operation_mode_fan = stringToBool(p->value());
             request->send(200);
-            Serial.println("Ventilador mudou seu modo de operação para Manual!");
+            Serial.println("Ventilador trocou seu modo de operação!");
           }else{
-            Serial.println("Erro em mudar o modo de operação do Ventilador!");
+            Serial.println("Erro em mudar o modo de operação do Ventilador. (Valor inválido)");
             request->send(304);
           }
         }

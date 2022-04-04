@@ -5,6 +5,8 @@
   <title>Controle Aviário</title>
   <meta charset="UTF-8">
   <style>
+
+  
     html {
       font-family: Arial;
       display: inline-block;
@@ -12,9 +14,7 @@
       text-align: center;
     }
 
-    span {
-      font-weight: bold;
-    }
+    
 
     button {
       border-radius: 8px;
@@ -42,6 +42,10 @@
 
     input:focus{
       border: 2px solid #555;
+    }
+
+    .boldSpan {
+      font-weight: bold;
     }
 
     .divPrincipal {
@@ -125,19 +129,19 @@
   <h2>Sensores    <img src="https://i.ibb.co/bFLxfbg/sensores.png" width="35" height="25"></h2> 
   <div class="divPrincipal">
     <div class="divSensor" id="div_sensor_temp">
-      <h3>Temperatura ambiente</h3> <br> <span id="climate_temperature"> --- </span> <br> <br>
+      <h3>Temperatura ambiente</h3> <br> <span class="boldSpan" id="climate_temperature"> --- </span> <br> <br>
       <img src="https://i.ibb.co/F62Cdvf/temperatura-ambiente.png" width="210" height="170">
     </div>
     <div class="divSensor" id="div_sensor_umidity">
-      <h3>Umidade relativa do ar</h3> <br> <span id="climate_humidity"> --- </span> <br> <br>
+      <h3>Umidade relativa do ar</h3> <br> <span class="boldSpan" id="climate_humidity"> --- </span> <br> <br>
       <img src="https://i.ibb.co/brRzT46/umidade.png" width="150" height="170">
     </div>
     <div class="divSensor" id="div_sensor_nipple">
-      <h3>Temperatura da água do bebedouro</h3> <span id="nipple_temperature"> --- </span><br> <br>
+      <h3>Temperatura da água do bebedouro</h3> <span class="boldSpan" id="nipple_temperature"> --- </span><br> <br>
       <img src="https://i.ibb.co/1bLQnq1/temperatura-bebedouro.png" width="130" height="170">
     </div>
     <div class="divSensor" id="div_sensor_box">
-      <h3>Temperatura da água da caixa</h3> <span id="box_temperature"> --- </span><br> <br>
+      <h3>Temperatura da água da caixa</h3> <span class="boldSpan" id="box_temperature"> --- </span><br> <br>
       <img src="https://i.ibb.co/nRSqZgW/temperatura-caixa.png" width="200" height="170">
     </div>
   </div>
@@ -145,13 +149,13 @@
   <div class="divPrincipal">
     <div class="divAtuador" id="div_actuator_nebulizer">
       <h3>Nebulizador</h3>
-      Status: <span id="status_nebulizer"> --- </span> <br>
-      <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
+      Status: <span class="boldSpan" id="status_nebulizer"> --- </span> <br>
+      <b> Modo de Operação  </b><img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> 
       <table>
         <thead>
           <tr>
             <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeActuator(1, "nebulizer");'>Manual</a> </td>
-            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automatico</a> </td>
+            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -177,13 +181,13 @@
     </div>
     <div class="divAtuador" id="div_actuator_exchanger">
       <h3>Trocador de água</h3>
-      Status: <span id="status_exchanger"> --- </span> <br>
+      Status: <span class="boldSpan" id="status_exchanger"> --- </span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
       <table>
         <thead>
           <tr>
             <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeActuator(1, "exchanger");'>Manual</a> </td>
-            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automatico</a> </td>
+            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -195,9 +199,7 @@
         Variação mínima: <br>
         <input type="text" id="deltaTemperature" value=""> °C 
         <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Reconfigurar</button> <br><br>
-        Tempo mínimo para uma próxima troca: <br>
-        <input type="text" id="timeNextExchange" value=""> horas 
-        <button type="button" onclick="buttonSetParameter('exchanger/time', 'timeNextExchange')">Reconfigurar</button>
+        
       </div>
 
       <div id="div_act_exchanger" class="divOperacao">
@@ -209,13 +211,13 @@
 
     <div class="divAtuador" id="div_actuator_fan">
       <h3>Ventilador</h3>
-      Status: <span id="status_fan">---</span> <br>
+      Status: <span class="boldSpan" id="status_fan">---</span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
       <table>
         <thead>
           <tr>
             <td id="manual_fan"> <a href='javascript:buttonSetOpModeActuator(1, "fan");'>Manual</a> </td>
-            <td id="automatico_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automatico</a> </td>
+            <td id="automatic_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automático</a> </td>
           </tr>
         </thead>
       </table>
@@ -286,7 +288,7 @@
         setOperationMode(opmode, actuator);
       }
     };
-    xhttp.send("value=" + state);
+    xhttp.send("value=" + opmode);
 
   }
 
