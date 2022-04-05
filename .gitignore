@@ -2,3 +2,12 @@
 .vs/Código principal/v17/.suo
 *.sqlite
 *.json
+*.d
+*.o
+build/sketch/esp32.ino.cpp
+*.a
+*.bin
+*.cache
+*.elf
+*.csv
+build/preproc/ctags_target_for_gcc_minus_e.cpp

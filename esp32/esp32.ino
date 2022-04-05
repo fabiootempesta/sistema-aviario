@@ -43,7 +43,7 @@ bool fan_on_directly = 0;
 //Modos de operação
 bool operation_mode_nebulizer = false; //false = automático | true = manual
 bool operation_mode_fan = false; //false = automático | true = manual
-bool operation_mode_exchanger = false; //false = automático | true = manual
+bool operation_mode_exchanger = true; //false = automático | true = manual
 
 
 //PROGMEM para armazenar na memória flash | R"rawliteral" = trate tudo como uma "raw string"
@@ -56,6 +56,71 @@ const char index_html[] PROGMEM = R"rawliteral(
   <meta charset="UTF-8">
   <style>
 
+* {
+    box-sizing: border-box;
+  }
+  .switch-button {
+    background: rgba(204, 204, 204, 0.658);
+    border-radius: 30px;
+    overflow: hidden;
+    width: 240px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: black;
+    position: relative;
+    padding-right: 120px;
+    margin: auto;
+  }
+  .switch-button:before {
+    content: "Manual";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .switch-button-checkbox {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+  }
+  .switch-button-checkbox:checked + .switch-button-label:before {
+    transform: translateX(120px);
+    transition: transform 300ms linear;
+  }
+  .switch-button-checkbox + .switch-button-label {
+    position: relative;
+    padding: 5px 0;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+  }
+  .switch-button-checkbox + .switch-button-label:before {
+    content: "";
+    background: #555;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 30px;
+    transform: translateX(0);
+    transition: transform 300ms;
+  }
+  .switch-button-checkbox + .switch-button-label .switch-button-label-span {
+    position: relative;
+  }
   
     html {
       font-family: Arial;
@@ -201,16 +266,11 @@ const char index_html[] PROGMEM = R"rawliteral(
       <h3>Nebulizador</h3>
       Status: <span class="boldSpan" id="status_nebulizer"> --- </span> <br>
       <b> Modo de Operação  </b><img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> 
-      <table>
-        <thead>
-          <tr>
-            <td id="manual_nebulizer"> <a href='javascript:buttonSetOpModeActuator(1, "nebulizer");'>Manual</a> </td>
-            <td id="automatic_nebulizer"> <a href='javascript:buttonSetOpModeActuator(0, "nebulizer");'>Automático</a> </td>
-          </tr>
-        </thead>
-      </table>
+      <div class="switch-button">
+        <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+      </div>
       <hr>
-
       <div id="div_param_nebulizer" class="divOperacao">
 
         <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
@@ -223,24 +283,20 @@ const char index_html[] PROGMEM = R"rawliteral(
       </div>
 
       <div id="div_act_nebulizer" class="divOperacao">
-        <br><b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_nebulizer" onclick="buttonSetNebulizer()">---</button>
+        <br>
+        <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
+        <button type="button" id="button_nebulizer" onclick="buttonSetStatusActuator()">---</button>
       </div>
-
-
+      
     </div>
     <div class="divAtuador" id="div_actuator_exchanger">
       <h3>Trocador de água</h3>
       Status: <span class="boldSpan" id="status_exchanger"> --- </span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
-      <table>
-        <thead>
-          <tr>
-            <td id="manual_exchanger"> <a href='javascript:buttonSetOpModeActuator(1, "exchanger");'>Manual</a> </td>
-            <td id="automatic_exchanger"> <a href='javascript:buttonSetOpModeActuator(0, "exchanger");'>Automático</a> </td>
-          </tr>
-        </thead>
-      </table>
+      <div class="switch-button">
+        <input class="switch-button-checkbox" type="checkbox" id="op_mode_exchanger" onclick='buttonSetOpModeActuator("exchanger")' ></input>
+        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+      </div>
       <hr>
 
       <div id="div_param_exchanger" class="divOperacao">
@@ -263,14 +319,10 @@ const char index_html[] PROGMEM = R"rawliteral(
       <h3>Ventilador</h3>
       Status: <span class="boldSpan" id="status_fan">---</span> <br>
       <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
-      <table>
-        <thead>
-          <tr>
-            <td id="manual_fan"> <a href='javascript:buttonSetOpModeActuator(1, "fan");'>Manual</a> </td>
-            <td id="automatic_fan"> <a href='javascript:buttonSetOpModeActuator(0, "fan");'>Automático</a> </td>
-          </tr>
-        </thead>
-      </table>
+      <div class="switch-button">
+        <input class="switch-button-checkbox" type="checkbox" id="op_mode_fan" onclick='buttonSetOpModeActuator("fan")' ></input>
+        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+      </div>
       <hr>
 
       <div id="div_param_fan" class="divOperacao">
@@ -289,6 +341,8 @@ const char index_html[] PROGMEM = R"rawliteral(
   </div>
 </body>
 <script>
+
+  
   function buttonSetParameter(url, inputID) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/actuators/parameter/set/" + url, true);
@@ -313,29 +367,27 @@ const char index_html[] PROGMEM = R"rawliteral(
   function setOperationMode(mode, actuator_name) {
     // true = modo manual | false = modo automático
     if (mode == true) {
-      document.getElementById("manual_" + actuator_name).style.fontWeight = 700;
-      document.getElementById("automatic_" + actuator_name).style.fontWeight = 400;
-
+      document.getElementById("op_mode_" + actuator_name).checked = true;
       document.getElementById("div_param_" + actuator_name).style.display = "none";
       document.getElementById("div_act_" + actuator_name).style.display = "block";
-
     } else {
-      document.getElementById("manual_" + actuator_name).style.fontWeight = 400;
-      document.getElementById("automatic_" + actuator_name).style.fontWeight = 700;
-
+      document.getElementById("op_mode_" + actuator_name).checked = false;
       document.getElementById("div_param_" + actuator_name).style.display = "block";
       document.getElementById("div_act_" + actuator_name).style.display = "none";
-
     }
   }
 
-  function buttonSetOpModeActuator(opmode, actuator) {
+  function buttonSetOpModeActuator(actuator_name) {
+    let opmode = 0;
+    if (document.getElementById("op_mode_" + actuator_name).checked) 
+      opmode = 1;
+    
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/set/" + actuator, true);
+    xhttp.open("POST", "/actuators/opmode/set/" + actuator_name, true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        setOperationMode(opmode, actuator);
+        setOperationMode(opmode, actuator_name);
       }
     };
     xhttp.send("value=" + opmode);
