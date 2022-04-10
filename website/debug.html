@@ -235,7 +235,7 @@
       <div id="div_act_nebulizer" class="divOperacao">
         <br>
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_nebulizer" onclick="buttonSetStatusActuator()">---</button>
+        <button type="button" id="button_nebulizer" onclick='buttonSetStatusActuator("nebulizer")'>---</button>
       </div>
       
     </div>
@@ -261,7 +261,7 @@
       <div id="div_act_exchanger" class="divOperacao">
         <br>
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_exchanger" onclick="buttonSetStatusActuator()">---</button>
+        <button type="button" id="button_exchanger" onclick='buttonSetStatusActuator("exchanger")'>---</button>
       </div>
     </div>
 
@@ -285,7 +285,7 @@
       <div id="div_act_fan" class="divOperacao">
         <br>
         <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_fan" onclick="buttonSetFan()">---</button>
+        <button type="button" id="button_fan" onclick='buttonSetStatusActuator("fan")'>---</button>
       </div>
     </div>
   </div>
@@ -346,13 +346,18 @@
 
 
 
-  function buttonSetStatusActuator(state, actuator_name) {
+  function buttonSetStatusActuator(actuator_name) {
     var xhttp = new XMLHttpRequest();
+    let state = 0;
+
+    if (document.getElementById("button_" + actuator_name).innerHTML == "Ligar")
+      state = 1;
+
     xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        setFan(state, actuator_name);
+        setActuator(state, actuator_name);
       }
     };
     xhttp.send("value=" + state);
