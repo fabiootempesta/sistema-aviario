@@ -50,481 +50,134 @@ bool operation_mode_exchanger = true; //false = automático | true = manual
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
 <html lang="pt-BR">
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<head>
-  <title>Controle Aviário</title>
-  <meta charset="UTF-8">
-  <style>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-* {
-    box-sizing: border-box;
-  }
-  .switch-button {
-    background: rgba(204, 204, 204, 0.658);
-    border-radius: 30px;
-    overflow: hidden;
-    width: 240px;
-    text-align: center;
-    letter-spacing: 1px;
-    color: black;
-    position: relative;
-    padding-right: 120px;
-    margin: auto;
-  }
-  .switch-button:before {
-    content: "Manual";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    pointer-events: none;
-  }
-  .switch-button-checkbox {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 2;
-  }
-  .switch-button-checkbox:checked + .switch-button-label:before {
-    transform: translateX(120px);
-    transition: transform 300ms linear;
-  }
-  .switch-button-checkbox + .switch-button-label {
-    position: relative;
-    padding: 5px 0;
+<title>Controle Aviário</title>
+<style>
+  img {
     display: block;
-    user-select: none;
-    pointer-events: none;
+    margin-left: auto;
+    margin-right: auto
   }
-  .switch-button-checkbox + .switch-button-label:before {
-    content: "";
-    background: #555;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 30px;
-    transform: translateX(0);
-    transition: transform 300ms;
+
+  .navbar .dropdown-menu {
+    background-color: #f0ad4e;
   }
-  .switch-button-checkbox + .switch-button-label .switch-button-label-span {
-    position: relative;
-  }
-  
-    html {
-      font-family: Arial;
-      display: inline-block;
-      margin: 0px auto;
-      text-align: center;
-    }
-
-    
-
-    button {
-      border-radius: 8px;
-    }
-
-    table, td {
-      margin: auto;
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
-
-    a {
-      color: black;
-    }
-
-    input {
-      width: 20%;
-      margin: 4px 0;
-      box-sizing: border-box;
-      border: 2px solid #ccc;
-      -webkit-transition: 0.5s;
-      transition: 0.5s;
-      outline: none;
-    }
-
-    input:focus{
-      border: 2px solid #555;
-    }
-
-    .boldSpan {
-      font-weight: bold;
-    }
-
-    .divPrincipal {
-      border: 2px solid black;
-      height: 300px;
-      width: 1000px;
-      margin: auto;
-    }
-
-    .divSensor {
-      box-sizing: border-box;
-      float: left;
-      width: 25%;
-      height: 100.2%;
-    }
-
-    .divAtuador {
-      box-sizing: border-box;
-
-      float: left;
-      width: 33.33333%;
-      height: 100.2%;
-    }
-
-    .divOperacao {
-      float: left;
-      width: 100%;
-      height: 50%;
-    }
-
-
-
-
-    #div_param_nebulizer {
-      display: block;
-    }
-
-    #div_act_exchanger {
-      display: none;
-    }
-
-    #div_sensor_temp {
-      border-right: 1px solid black;
-    }
-
-    #div_sensor_umidity {
-      border-right: 1px solid black;
-      border-left: 1px solid black;
-    }
-
-    #div_sensor_nipple {
-      border-right: 1px solid black;
-      border-left: 1px solid black;
-    }
-
-    #div_sensor_box {
-      border-left: 1px solid black;
-    }
-
-    #div_actuator_nebulizer {
-      border-right: 1px solid black;
-    }
-
-    #div_actuator_exchanger {
-      border-right: 1px solid black;
-      border-left: 1px solid black;
-    }
-
-    #div_actuator_fan {
-      border-left: 1px solid black;
-    }
-
-    
-
-
-  </style>
+</style>
 </head>
 
 <body>
-  <h1>MONITORAMENTO E CONTROLE DO AMBIENTE AVIÁRIO</h1>
-  <h2>Sensores    <img src="https://i.ibb.co/bFLxfbg/sensores.png" width="35" height="25"></h2> 
-  <div class="divPrincipal">
-    <div class="divSensor" id="div_sensor_temp">
-      <h3>Temperatura ambiente</h3> <br> <span class="boldSpan" id="climate_temperature"> --- </span> <br> <br>
-      <img src="https://i.ibb.co/F62Cdvf/temperatura-ambiente.png" width="210" height="170">
+  <nav class="navbar navbar-expand-sm navbar-light bg-warning">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><img src="C:\Users\gig9\Desktop\download-removebg-preview.ico" height="30" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Página Principal</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="sensors_dropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Monitoramento
+            </a>
+            <div class="dropdown-menu" aria-labelledby="sensors_dropdown">
+              <a class="dropdown-item" href="#">Temperatura Ambiente</a>
+              <a class="dropdown-item" href="#">Umidade relativa</a>
+              <a class="dropdown-item" href="#">Temperatura da Água do Bebedouro</a>
+              <a class="dropdown-item" href="#">Temperatura da Água da Caixa</a>
+
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="actuators_dropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Controle
+            </a>
+            <div class="dropdown-menu" aria-labelledby="actuators_dropdown">
+              <a class="dropdown-item" href="#">Nebulizador</a>
+              <a class="dropdown-item" href="#">Trocador de Água</a>
+              <a class="dropdown-item" href="#">Ventilador</a>
+
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+
     </div>
-    <div class="divSensor" id="div_sensor_umidity">
-      <h3>Umidade relativa do ar</h3> <br> <span class="boldSpan" id="climate_humidity"> --- </span> <br> <br>
-      <img src="https://i.ibb.co/brRzT46/umidade.png" width="150" height="170">
-    </div>
-    <div class="divSensor" id="div_sensor_nipple">
-      <h3>Temperatura da água do bebedouro</h3> <span class="boldSpan" id="nipple_temperature"> --- </span><br> <br>
-      <img src="https://i.ibb.co/1bLQnq1/temperatura-bebedouro.png" width="130" height="170">
-    </div>
-    <div class="divSensor" id="div_sensor_box">
-      <h3>Temperatura da água da caixa</h3> <span class="boldSpan" id="box_temperature"> --- </span><br> <br>
-      <img src="https://i.ibb.co/nRSqZgW/temperatura-caixa.png" width="200" height="170">
-    </div>
-  </div>
-  <h2>Atuadores  <img src="https://i.ibb.co/xzX95vw/atuadores.png" width="25" height="30"></h2>
-  <div class="divPrincipal">
-    <div class="divAtuador" id="div_actuator_nebulizer">
-      <h3>Nebulizador</h3>
-      Status: <span class="boldSpan" id="status_nebulizer"> --- </span> <br>
-      <b> Modo de Operação  </b><img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> 
-      <div class="switch-button">
-        <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
-        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+  </nav>
+  <p class="h1 text-center text-uppercase">Monitoramento</p>
+  <div class="container-fluid border border-4 border-dark">
+    <div class="row">
+      <div class="col border-end border-4 border-dark">
+        <p class="h5 text-center text-uppercase">Temperatura Ambiente</p>
       </div>
-      <hr>
-      <div id="div_param_nebulizer" class="divOperacao">
-
-        <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
-        Umidade máxima: <br>
-        <input type="text" id="minUmidity" value=""> % 
-        <button type="button" onclick="buttonSetParameter('nebulizer/umidity', 'minUmidity')">Reconfigurar</button> <br><br>
-        Temperatura mínima: <br>
-        <input type="text" id="maxTempNeb" value=""> °C 
-        <button type="button" onclick="buttonSetParameter('nebulizer/temp', 'maxTempNeb')">Reconfigurar</button>
+      <div class="col border-end border-4 border-dark">
+        <p class="h5 text-center text-uppercase">Umidade relativa</p>
       </div>
-
-      <div id="div_act_nebulizer" class="divOperacao">
-        <br>
-        <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_nebulizer" onclick="buttonSetStatusActuator()">---</button>
+      <div class="col border-end border-4 border-dark">
+        <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro</p>
       </div>
-      
-    </div>
-    <div class="divAtuador" id="div_actuator_exchanger">
-      <h3>Trocador de água</h3>
-      Status: <span class="boldSpan" id="status_exchanger"> --- </span> <br>
-      <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
-      <div class="switch-button">
-        <input class="switch-button-checkbox" type="checkbox" id="op_mode_exchanger" onclick='buttonSetOpModeActuator("exchanger")' ></input>
-        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
-      </div>
-      <hr>
-
-      <div id="div_param_exchanger" class="divOperacao">
-
-        <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
-        Variação mínima: <br>
-        <input type="text" id="deltaTemperature" value=""> °C 
-        <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Reconfigurar</button> <br><br>
-        
-      </div>
-
-      <div id="div_act_exchanger" class="divOperacao">
-        <br>
-        <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_exchanger" onclick="buttonSetStatusActuator()">---</button>
-      </div>
-    </div>
-
-    <div class="divAtuador" id="div_actuator_fan">
-      <h3>Ventilador</h3>
-      Status: <span class="boldSpan" id="status_fan">---</span> <br>
-      <b> Modo de Operação  <img src="https://i.ibb.co/3hS4Xv1/modo-operacao.png" width="18" height="18"> </b>
-      <div class="switch-button">
-        <input class="switch-button-checkbox" type="checkbox" id="op_mode_fan" onclick='buttonSetOpModeActuator("fan")' ></input>
-        <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
-      </div>
-      <hr>
-
-      <div id="div_param_fan" class="divOperacao">
-        <b>Parâmetro de acionamento  <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br><br>
-        Temperatura mínima: <br>
-        <input type="number" id="maxTempFan"> °C 
-        <button onclick="buttonSetParameter('fan/temp', 'maxTempFan')">Reconfigurar</button>
-
-      </div>
-      <div id="div_act_fan" class="divOperacao">
-        <br>
-        <b>Acionamento <img src="https://i.ibb.co/1dJJJDr/acionamento.png" width="18" height="18"></b><br><br>
-        <button type="button" id="button_fan" onclick="buttonSetFan()">---</button>
+      <div class="col">
+        <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa</p>
       </div>
     </div>
   </div>
+  <p class="h1 text-center text-uppercase">controle</p>
+  <div class="container-fluid border border-4 border-dark">
+    <div class="row ">
+      <div class="col col border-end border-4 border-dark">
+        <p class="h5 text-center text-uppercase">Nebulizador</p>
+      </div>
+      <div class="col col border-end border-4 border-dark">
+        <p class="h5 text-center text-uppercase">Trocador de Água</p>
+      </div>
+      <div class="col">
+        <p class="h5 text-center text-uppercase">Ventilador</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+
 </body>
-<script>
-
-  
-  function buttonSetParameter(url, inputID) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/parameter/set/" + url, true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          alert("Parâmetro reconfigurado!");
-        }
-        if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do equipamento!");
-        }
-      }
-
-    };
-    xhttp.send("value=" + document.getElementById(inputID).value);
-  }
-
-  
-
-
-  function setOperationMode(mode, actuator_name) {
-    // true = modo manual | false = modo automático
-    if (mode == true) {
-      document.getElementById("op_mode_" + actuator_name).checked = true;
-      document.getElementById("div_param_" + actuator_name).style.display = "none";
-      document.getElementById("div_act_" + actuator_name).style.display = "block";
-    } else {
-      document.getElementById("op_mode_" + actuator_name).checked = false;
-      document.getElementById("div_param_" + actuator_name).style.display = "block";
-      document.getElementById("div_act_" + actuator_name).style.display = "none";
-    }
-  }
-
-  function buttonSetOpModeActuator(actuator_name) {
-    let opmode = 0;
-    if (document.getElementById("op_mode_" + actuator_name).checked) 
-      opmode = 1;
-    
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/opmode/set/" + actuator_name, true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setOperationMode(opmode, actuator_name);
-      }
-    };
-    xhttp.send("value=" + opmode);
-
-  }
-
-
-
-  function buttonSetStatusActuator(state, actuator_name) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
-    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        setFan(state, actuator_name);
-      }
-    };
-    xhttp.send("value=" + state);
-  }
-
-  function updateActuatorsParam() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var array = this.responseText.split(" ");
-
-        //index = |0: nebulizador umidade| |1: nebulizador temperatura|  |2: trocador de água variação| |3: ventilador temperatura|
-        document.getElementById("minUmidity").placeholder = array[0];
-        document.getElementById("maxTempNeb").placeholder = array[1];
-        document.getElementById("deltaTemperature").placeholder = array[2];
-        document.getElementById("maxTempFan").placeholder = array[3];
-        
-      }
-    };
-    xhttp.open("GET", "/actuators/parameter/getall", true);
-    xhttp.send();
-  }
-
-  function updateSensors() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var array = this.responseText.split(" ");
-
-        //index = |0: temperatura ambiente| |1: umidade ambiente relativa|  |2: temperatura da caixa| |3: temperatura do bebedouro|
-        
-        updateSensor(array[3], "nipple_temperature", "°C", "-127.00");
-        updateSensor(array[2], "box_temperature", "°C", "-127.00");
-        updateSensor(array[1], "climate_humidity", "%", "nan");
-        updateSensor(array[0], "climate_temperature", "°C", "nan");
-        
-        
-      }
-    };
-    xhttp.open("GET", "/sensors/getall", true);
-    xhttp.send();
-  }
-
-  function updateActuatorsOpMode() { //atualizar o modo de operação dos atuadores
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var array = this.responseText.split(" ");
-
-        //array indice = |0: nebulizador|  |1: trocador de água|   |2: ventilador|
-        setOperationMode(array[0], "nebulizer");
-        setOperationMode(array[1], "exchanger");
-        setOperationMode(array[2], "fan");
-      }
-    };
-    xhttp.open("GET", "/actuators/opmode/getall", true);
-    xhttp.send();
-  }
-
-  function setActuator(state, actuator_name) {
-
-    if (state == true) {
-      
-      if (actuator_name == "exchanger")
-        document.getElementById("button_exchanger").innerHTML = "Interromper";
-      else
-        document.getElementById("button_" + actuator_name).innerHTML = "Desligar";
-      
-      document.getElementById("status_" + actuator_name).innerHTML = "Ligado";
-      document.getElementById("status_" + actuator_name).style.color = "green";
-    } else {
-      document.getElementById("button_" + actuator_name).innerHTML = "Ligar";
-      document.getElementById("status_" + actuator_name).innerHTML = "Desligado";
-      document.getElementById("status_" + actuator_name).style.color = "red";
-    }
-  }
-
-  function updateActuatorsState() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var array = this.responseText.split(" ");
-        //array index = |0: trocador|  |1: ventilador|   |2: nebulizador|
-        setActuator(array[0],"exchanger");
-        setActuator(array[1],"fan");
-        setActuator(array[2],"nebulizer");
-      }
-    };
-    xhttp.open("GET", "/actuators/status/getall", true);
-    xhttp.send();
-  }
-
-
-  function updateSensor(value, sensor_span, unit_measurement, text_error) {
-    if (value == text_error) {
-      document.getElementById(sensor_span).innerHTML = "Falha na leitura do sensor!";
-      document.getElementById(sensor_span).style.color = "red";
-    } else {
-      document.getElementById(sensor_span).style.color = "black";
-      document.getElementById(sensor_span).innerHTML = value + unit_measurement;
-    }
-  }
-
-  //taxa de atualização de 5 segundos
-  setInterval(function () {
-    //atualizando o valor dos sensores
-    updateSensors();
-    
-    //parametro de acionamento
-    updateActuatorsParam();
-
-    //status do modo de operação dos atuadores
-    updateActuatorsOpMode();
-  }, 5000);
-
-  //taxa de atualização de 1 segundo
-  setInterval(function () {
-    //status dos atuadores
-    updateActuatorsState();
-  }, 1000);
-
-</script>
 
 </html>)rawliteral";
 
