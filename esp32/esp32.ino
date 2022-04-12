@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <SPIFFS.h>
 #include "DHT.h"
 #include "ESPAsyncWebServer.h"
 
@@ -46,140 +47,7 @@ bool operation_mode_fan = false; //false = automático | true = manual
 bool operation_mode_exchanger = true; //false = automático | true = manual
 
 
-//PROGMEM para armazenar na memória flash | R"rawliteral" = trate tudo como uma "raw string"
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML>
-<html lang="pt-BR">
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-<title>Controle Aviário</title>
-<style>
-  img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto
-  }
-
-  .navbar .dropdown-menu {
-    background-color: #f0ad4e;
-  }
-</style>
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-sm navbar-light bg-warning">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img src="C:\Users\gig9\Desktop\download-removebg-preview.ico" height="30" /></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Página Principal</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="sensors_dropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              Monitoramento
-            </a>
-            <div class="dropdown-menu" aria-labelledby="sensors_dropdown">
-              <a class="dropdown-item" href="#">Temperatura Ambiente</a>
-              <a class="dropdown-item" href="#">Umidade relativa</a>
-              <a class="dropdown-item" href="#">Temperatura da Água do Bebedouro</a>
-              <a class="dropdown-item" href="#">Temperatura da Água da Caixa</a>
-
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="actuators_dropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              Controle
-            </a>
-            <div class="dropdown-menu" aria-labelledby="actuators_dropdown">
-              <a class="dropdown-item" href="#">Nebulizador</a>
-              <a class="dropdown-item" href="#">Trocador de Água</a>
-              <a class="dropdown-item" href="#">Ventilador</a>
-
-            </div>
-          </li>
-
-        </ul>
-      </div>
-
-
-    </div>
-  </nav>
-  <p class="h1 text-center text-uppercase">Monitoramento</p>
-  <div class="container-fluid border border-4 border-dark">
-    <div class="row">
-      <div class="col border-end border-4 border-dark">
-        <p class="h5 text-center text-uppercase">Temperatura Ambiente</p>
-      </div>
-      <div class="col border-end border-4 border-dark">
-        <p class="h5 text-center text-uppercase">Umidade relativa</p>
-      </div>
-      <div class="col border-end border-4 border-dark">
-        <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro</p>
-      </div>
-      <div class="col">
-        <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa</p>
-      </div>
-    </div>
-  </div>
-  <p class="h1 text-center text-uppercase">controle</p>
-  <div class="container-fluid border border-4 border-dark">
-    <div class="row ">
-      <div class="col col border-end border-4 border-dark">
-        <p class="h5 text-center text-uppercase">Nebulizador</p>
-      </div>
-      <div class="col col border-end border-4 border-dark">
-        <p class="h5 text-center text-uppercase">Trocador de Água</p>
-      </div>
-      <div class="col">
-        <p class="h5 text-center text-uppercase">Ventilador</p>
-      </div>
-    </div>
-  </div>
-  </div>
-
-
-
-
-
-
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"></script>
-
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
-    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
-    crossorigin="anonymous"></script>
-
-</body>
-
-</html>)rawliteral";
 
 int stringToBool(String n){ //auxiliar para transformar em booleano
   if(n == "1")
@@ -361,22 +229,35 @@ void setup() {
       long time_out_connect = 30000 + millis();
     }
   }
-
+  if(!SPIFFS.begin()){
+        Serial.println("An Error has occurred while mounting SPIFFS");
+        return;
+  }
+  
   Serial.println("");
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-
+  
 
   // URL para raiz (index)
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     //request->send_P(200, "text/html", index_html, processor);
-    request->send_P(200, "text/html", index_html);
+    //Send index.htm with default content type
+    request->send(SPIFFS, "/index.html", "text/html");
   });
 
   //---Rotas para requisições de origem do JavaScript---
-
+  server.on("/img/logo.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/logo.png", "image/png");
+  });
+  server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/styles.css", "text/css");
+  });
+  server.on("/scripts.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/scripts.js", "text/javascript");
+  });
   //URL para requisitar a temperatura   temperatura em c_str, porque deve ser mandado em vetor de char   request é um ponteiro
   //request é um ponteiro que aponta pra qual tipo de requisição vai ser feita  send_P é para enviar uma pagina web grande  send é para respostas simples
 
