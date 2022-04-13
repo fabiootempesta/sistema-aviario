@@ -10,16 +10,13 @@ img {
     right: 1px;
 }
 
-.items {
-    position: relative;
-}
-
 .navbar .dropdown-menu {
     background-color: #f0ad4e;
 }
 
 
 @media screen and (max-width: 991px) {
+    
     .border-bottom-lg {
         border-bottom: 4px solid black;
     }

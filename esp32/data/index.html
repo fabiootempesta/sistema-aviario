@@ -15,7 +15,27 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-sm navbar-light bg-warning">
+  <nav id="navComputer" class="d-lg-block d-none navbar navbar-expand-sm navbar-light bg-warning">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="/img/logo.png" height="30" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">MONITORAMENTO E CONTROLE DO AMBIENTE AVIÁRIO</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <nav id="navMobile" class="d-block d-lg-none navbar navbar-expand-sm navbar-light bg-warning">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
         <img src="/img/logo.png" height="30" />
@@ -59,7 +79,7 @@
   </nav>
 
 
-  <div class="mobile container-fluid">
+  <div id="screenComputer" class="d-lg-block d-none container-fluid">
     <br>
     <div class="container-fluid">
       <p class="h2 text-center text-uppercase">sensores
@@ -69,8 +89,88 @@
         </svg>
       </p>
       <div class="row border border-4 border-dark">
-        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg items p-1">
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
           <p class="h5 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
+            id="climate_temperature"> --- </span>
+          </p>
+           <img class="mt-auto" src="/img/air_temperature.png" width="210" height="170">
+          
+        </div>
+        <div
+          class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1 ">
+          <p class="h5 text-center text-uppercase">Umidade relativa <br>
+            <span class="boldSpan" id="climate_humidity"> --- </span>
+          </p>
+        <img class="mt-auto pb-2" src="/img/humidity.png" width="160" height="170">
+        </div>
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
+          <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
+            <span class="boldSpan" id="nipple_temperature"> --- </span>
+          </p>
+          <img class="mt-auto" src="/img/nipple_temperature.png" width="130" height="170">
+        </div>
+        <div class="col-6 col-lg-3 d-flex flex-column position-relative p-1">
+          <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa <br>
+            <span class="boldSpan" id="box_temperature"> --- </span>
+          </p>
+          <img class="mt-auto" src="/img/box_temperature.png" width="200" height="170">
+        </div>
+      </div>
+  
+    </div>
+  
+    <br> <br>
+    <div class=" container-fluid  align-bottom">
+      <p class=" h2 text-center text-uppercase"> atuadores
+        
+        
+        <svg xmlns="http://www.w3.org/2000/svg"width="28" fill="currentColor" class="bi bi-toggles2" viewBox="0 0 20 20">
+          <path d="M9.465 10H12a2 2 0 1 1 0 4H9.465c.34-.588.535-1.271.535-2 0-.729-.195-1.412-.535-2z"/>
+          <path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z"/>
+          <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/>
+        </svg>
+      </p>
+      <div class="row border border-4 border-dark">
+        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
+          <p class="h5 text-center text-uppercase">Nebulizador</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_nebulizer"> --- </span>
+          </p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_nebulizer">
+              --- </span></p>
+          
+        </div>
+        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
+          <p class="h5 text-center text-uppercase">Trocador de Água</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_exchanger">---</span>
+          </p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_exchanger">
+              --- </span></p>
+          
+        </div>
+        <div class="col-4 col-lg-4 d-flex flex-column p-2">
+          <p class="h5 text-center text-uppercase">Ventilador</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_fan">---</span></p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
+              id="opmode_nebulizer">---</span></p>
+          
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <div id="screenMobile" class="d-block d-lg-none container-fluid">
+    <br>
+    <div class="container-fluid">
+      <p class="h2 text-center text-uppercase">sensores
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" class="bi bi-broadcast" viewBox="0 0 20 20">
+          <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+        </svg>
+      </p>
+      <div class="row border border-4 border-dark">
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
+          <p class="h6 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
               id="climate_temperature"> --- </span></p>
           <button type="button"  class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
@@ -81,8 +181,8 @@
           </button>
         </div>
         <div
-          class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 items p-1">
-          <p class="h5 text-center text-uppercase">Umidade relativa <br>
+          class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1">
+          <p class="h6 text-center text-uppercase">Umidade relativa <br>
             <span class="boldSpan" id="climate_humidity"> --- </span>
           </p>
           <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
@@ -93,8 +193,8 @@
             </svg>
           </button>
         </div>
-        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark items p-1">
-          <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
+          <p class="h6 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
             <span class="boldSpan" id="nipple_temperature"> --- </span>
           </p>
           <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
@@ -105,8 +205,8 @@
             </svg>
           </button>
         </div>
-        <div class="col-6 col-lg-3 d-flex flex-column items p-1">
-          <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa <br>
+        <div class="col-6 col-lg-3 d-flex flex-column position-relative p-1">
+          <p class="h6 text-center text-uppercase">Temperatura da Água da Caixa <br>
             <span class="boldSpan" id="box_temperature"> --- </span>
           </p>
           <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
@@ -125,8 +225,11 @@
     <div class=" container-fluid  align-bottom">
       <p class=" h2 text-center text-uppercase"> atuadores
         
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 20 20">
-          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+        
+        <svg xmlns="http://www.w3.org/2000/svg"width="28" fill="currentColor" class="bi bi-toggles2" viewBox="0 0 20 20">
+          <path d="M9.465 10H12a2 2 0 1 1 0 4H9.465c.34-.588.535-1.271.535-2 0-.729-.195-1.412-.535-2z"/>
+          <path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z"/>
+          <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/>
         </svg>
       </p>
       <div class="row border border-4 border-dark">
