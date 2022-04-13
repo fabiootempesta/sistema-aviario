@@ -59,121 +59,123 @@
   </nav>
 
 
-
-  <div class="container-fluid border border-4 border-dark">
-    <p class="h1 text-center text-uppercase">Monitoramento
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" fill="currentColor" class="bi bi-display-fill"
-        viewBox="0 0 20 20">
-        <path
-          d="M6 12c0 .667-.083 1.167-.25 1.5H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-.75c-.167-.333-.25-.833-.25-1.5h4c2 0 2-2 2-2V4c0-2-2-2-2-2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h4z" />
-      </svg>
-    </p>
-    <div class="row border-top border-4 border-dark">
-      <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg items p-1">
-        <p class="h5 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
-            id="climate_temperature"> --- </span></p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
+  <div class="mobile container-fluid">
+    <br>
+    <div class="container-fluid">
+      <p class="h2 text-center text-uppercase">sensores
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" class="bi bi-broadcast" viewBox="0 0 20 20">
+          <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+        </svg>
+      </p>
+      <div class="row border border-4 border-dark">
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg items p-1">
+          <p class="h5 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
+              id="climate_temperature"> --- </span></p>
+          <button type="button"  class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 items p-1">
+          <p class="h5 text-center text-uppercase">Umidade relativa <br>
+            <span class="boldSpan" id="climate_humidity"> --- </span>
+          </p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
+        <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark items p-1">
+          <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
+            <span class="boldSpan" id="nipple_temperature"> --- </span>
+          </p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
+        <div class="col-6 col-lg-3 d-flex flex-column items p-1">
+          <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa <br>
+            <span class="boldSpan" id="box_temperature"> --- </span>
+          </p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div
-        class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 items p-1">
-        <p class="h5 text-center text-uppercase">Umidade relativa <br>
-          <span class="boldSpan" id="climate_humidity"> --- </span>
-        </p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
-      </div>
-      <div class="col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark items p-1">
-        <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
-          <span class="boldSpan" id="nipple_temperature"> --- </span>
-        </p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
-      </div>
-      <div class="col-6 col-lg-3 d-flex flex-column items p-1">
-        <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa <br>
-          <span class="boldSpan" id="box_temperature"> --- </span>
-        </p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
-      </div>
+  
     </div>
-
-  </div>
-
-  <br> <br>
-  <div class=" container-fluid border border-4 border-dark align-bottom">
-    <p class=" h1 text-center text-uppercase"> controle
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" fill="currentColor" class="bi bi-dpad-fill"
-        viewBox="0 0 20 20">
-        <path
-          d="M6.5 0A1.5 1.5 0 0 0 5 1.5v3a.5.5 0 0 1-.5.5h-3A1.5 1.5 0 0 0 0 6.5v3A1.5 1.5 0 0 0 1.5 11h3a.5.5 0 0 1 .5.5v3A1.5 1.5 0 0 0 6.5 16h3a1.5 1.5 0 0 0 1.5-1.5v-3a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 0 16 9.5v-3A1.5 1.5 0 0 0 14.5 5h-3a.5.5 0 0 1-.5-.5v-3A1.5 1.5 0 0 0 9.5 0h-3Zm1.288 2.34a.25.25 0 0 1 .424 0l.799 1.278A.25.25 0 0 1 8.799 4H7.201a.25.25 0 0 1-.212-.382l.799-1.279Zm0 11.32-.799-1.277A.25.25 0 0 1 7.201 12H8.8a.25.25 0 0 1 .212.383l-.799 1.278a.25.25 0 0 1-.424 0Zm-4.17-4.65-1.279-.798a.25.25 0 0 1 0-.424l1.279-.799A.25.25 0 0 1 4 7.201V8.8a.25.25 0 0 1-.382.212Zm10.043-.798-1.278.799A.25.25 0 0 1 12 8.799V7.2a.25.25 0 0 1 .383-.212l1.278.799a.25.25 0 0 1 0 .424Z" />
-      </svg>
-    </p>
-    <div class="row border-top border-4 border-dark">
-      <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-        <p class="h6 text-center text-uppercase">Nebulizador</p> <br>
-        <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_nebulizer"> --- </span>
-        </p>
-        <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_nebulizer">
-            --- </span></p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
+  
+    <br> <br>
+    <div class=" container-fluid  align-bottom">
+      <p class=" h2 text-center text-uppercase"> atuadores
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 20 20">
+          <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+        </svg>
+      </p>
+      <div class="row border border-4 border-dark">
+        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
+          <p class="h6 text-center text-uppercase">Nebulizador</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_nebulizer"> --- </span>
+          </p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_nebulizer">
+              --- </span></p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
+        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
+          <p class="h6 text-center text-uppercase">Trocador de Água</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_exchanger">---</span>
+          </p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_exchanger">
+              --- </span></p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
+        <div class="col-4 col-lg-4 d-flex flex-column p-2">
+          <p class="h6 text-center text-uppercase">Ventilador</p> <br>
+          <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_fan">---</span></p>
+          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
+              id="opmode_nebulizer">---</span></p>
+          <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
+              viewBox="0 0 20 20">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-        <p class="h6 text-center text-uppercase">Trocador de Água</p> <br>
-        <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_exchanger">---</span>
-        </p>
-        <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_exchanger">
-            --- </span></p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
-      </div>
-      <div class="col-4 col-lg-4 d-flex flex-column p-2">
-        <p class="h6 text-center text-uppercase">Ventilador</p> <br>
-        <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_fan">---</span></p>
-        <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
-            id="opmode_nebulizer">---</span></p>
-        <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-            viewBox="0 0 20 20">
-            <path
-              d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-          </svg>
-        </button>
-      </div>
+      <br>
     </div>
   </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
     crossorigin="anonymous"></script>
