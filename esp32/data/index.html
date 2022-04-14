@@ -35,6 +35,7 @@
     </div>
   </nav>
 
+
   <nav id="navMobile" class="d-block d-lg-none navbar navbar-expand-sm navbar-light bg-warning">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
@@ -130,28 +131,45 @@
           <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z"/>
         </svg>
       </p>
-      <div class="row border border-4 border-dark">
-        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-          <p class="h5 text-center text-uppercase">Nebulizador</p> <br>
+      <div class="row border border-4 border-dark ">
+        <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0">
+          <p class="h5 text-center text-uppercase pt-2">Nebulizador</p>
+          <img class="mt-auto pt-2" src="/img/nebulizer.png" height="170">
           <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_nebulizer"> --- </span>
           </p>
-          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_nebulizer">
-              --- </span></p>
+          
+          <p class=" text-center">Modo de operação: 
+            <div class="switch-button">
+              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+              <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+            </div>
+            <hr>
+          </p>
           
         </div>
         <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-          <p class="h5 text-center text-uppercase">Trocador de Água</p> <br>
+          <p class="h5 text-center text-uppercase">Trocador de Água</p> 
+          <img class="mt-auto pt-2" src="/img/exchanger.png" height="170">
           <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_exchanger">---</span>
           </p>
-          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase" id="opmode_exchanger">
-              --- </span></p>
+          <p class=" text-center">Modo de operação: 
+            <div class="switch-button">
+              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+              <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+            </div>
+          </p>
           
         </div>
         <div class="col-4 col-lg-4 d-flex flex-column p-2">
-          <p class="h5 text-center text-uppercase">Ventilador</p> <br>
+          <p class="h5 text-center text-uppercase">Ventilador</p>
+          <img class="mt-auto " src="/img/fan.png" height="170">
           <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_fan">---</span></p>
-          <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
-              id="opmode_nebulizer">---</span></p>
+          <p class=" text-center">Modo de operação: 
+            <div class="switch-button">
+              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+              <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
+            </div>
+          </p>
           
         </div>
       </div>
