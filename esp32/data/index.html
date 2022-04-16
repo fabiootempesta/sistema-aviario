@@ -134,10 +134,10 @@
       <div class="row border border-4 border-dark ">
         <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
           <p class="h5 text-center text-uppercase ">Nebulizador</p>
-          <img class="mt-auto pt-2 pb-2" src="/img/nebulizer.png" height="170">
+          <img class=" pt-2 pb-2" src="/img/nebulizer.png" height="170">
           <p class=" text-center">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
-              <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
+              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
             </svg>
             <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase" id="status_nebulizer"> --- </span>
           </p>
@@ -148,47 +148,148 @@
               <path d="M6.705 8.139a.25.25 0 0 0-.288-.376l-1.5.5.159.474.808-.27-.595.894a.25.25 0 0 0 .287.376l.808-.27-.595.894a.25.25 0 0 0 .287.376l1.5-.5-.159-.474-.808.27.596-.894a.25.25 0 0 0-.288-.376l-.808.27.596-.894Z"/>
               <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm-6.202-4.751 1.988-1.657a4.5 4.5 0 0 1 7.537-4.623L7.497 6.5l1 2.5 1.333 3.11c-.56.251-1.18.39-1.833.39a4.49 4.49 0 0 1-1.592-.29L4.747 14.2a7.031 7.031 0 0 1-2.949-2.951ZM12.496 8a4.491 4.491 0 0 1-1.703 3.526L9.497 8.5l2.959-1.11c.027.2.04.403.04.61Z"/>
             </svg>
+            
             <span class="fw-bold"> Modo de operação </span>  
-            <div class="switch-button">
-              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+            <div class="switch-button my-0">
+              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator(this.id, "nebulizer")' ></input>
               <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
             </div>
-            <hr>
+            
+            <hr class="mt-2 mb-1">
 
             <div>
-              <div id="div_param_nebulizer" class="text-center">
-
-                <p>
+              <div id="automatic_nebulizer" class="text-center d-flex flex-column">
+                
+                
+                
+                <p class="m-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
                   </svg>
                   <span class="fw-bold"> Parâmetros do modo automático</span>
                 </p>
-                
-                <div class="form-group row px-2">
-                  
-                  <div class="col-7 pe-0">
-                    <div class="input-group px-0 ">
-                      <label for="basic-url" class="form-label  "></label>
-                      <span class="input-group-text px-1 " id="basic-addon3">Umidade abaixo de</span>
-                      <input type="text" class="form-control form-control-sm" id="basic-url" aria-describedby="basic-addon3">
-                    </div>
-                    
+                <div class="d-flex flex-row ps-2 ">
+                  <div class="form-check form-check-inline me-4">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_on_nebulizer" onclick="ShowHideDivParam(1, 'nebulizer')" checked>
+                    <label class="form-check-label text-start negative-ms" for="param_on_nebulizer">
+                      Ligará o atuador quando:
+                    </label>
                   </div>
-                  <div class="col-5 ps-0 pe-2">
-                    % <button type="submit" class="btn btn-primary btn-sm px-1">Reconfigurar</button>
+                  <div class="form-check form-check-inline me-1 ms-auto">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_off_nebulizer" onclick="ShowHideDivParam(0, 'nebulizer')">
+                    <label class="form-check-label text-start negative-ms" for="param_off_nebulizer">
+                      Desligará o atuador após:
+                    </label>
                   </div>
-                  
                 </div>
-               
-                
-              </div>
-        
+
+                <div id="card_param_nebulizer" class="flip-container mt-3">
+                  <div class="flipper">
               
+                    <div id="card_front_nebulizer" class="front">
+                      
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura acima de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                    </div>
+              
+                    <div id="card_back_nebulizer" class="back hidden-face">
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade acima de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      
+                  </div>
+                </div>
 
-            </div>
+                
 
-            <div>
+              </div>
+              
+              <div id="manual_nebulizer" class="text-center d-none flex-column">
+                <p class="m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
+                    <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+                  </svg>
+                  <span class="fw-bold"> Acionamento do atuador</span>
+                </p>
+                <div class="">
+                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                </div>
+              </div>
 
             </div>
           </p>
@@ -196,10 +297,10 @@
         </div>
         <div class="col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
           <p class="h5 text-center text-uppercase">Trocador de Água</p> 
-          <img class="mt-auto pt-2" src="/img/exchanger.png" height="170">
+          <img class="pt-2" src="/img/exchanger.png" height="170">
           <p class=" text-center">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
-              <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
+              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
             </svg>
             <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase" id="status_exchanger">---</span>
           </p>
@@ -209,18 +310,147 @@
               <path d="M6.705 8.139a.25.25 0 0 0-.288-.376l-1.5.5.159.474.808-.27-.595.894a.25.25 0 0 0 .287.376l.808-.27-.595.894a.25.25 0 0 0 .287.376l1.5-.5-.159-.474-.808.27.596-.894a.25.25 0 0 0-.288-.376l-.808.27.596-.894Z"/>
               <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm-6.202-4.751 1.988-1.657a4.5 4.5 0 0 1 7.537-4.623L7.497 6.5l1 2.5 1.333 3.11c-.56.251-1.18.39-1.833.39a4.49 4.49 0 0 1-1.592-.29L4.747 14.2a7.031 7.031 0 0 1-2.949-2.951ZM12.496 8a4.491 4.491 0 0 1-1.703 3.526L9.497 8.5l2.959-1.11c.027.2.04.403.04.61Z"/>
             </svg>
+            
             <span class="fw-bold"> Modo de operação </span>  
-            <div class="switch-button">
-              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
+            <div class="switch-button my-0">
+              <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator(this.id, "exchanger")' ></input>
               <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
             </div>
-            <hr>
+            <hr class="mt-2 mb-1">
 
             <div>
+              <div id="automatic_nebulizer" class="text-center d-flex flex-column">
+                
+                
+                
+                <p class="m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+                  </svg>
+                  <span class="fw-bold"> Parâmetros do modo automático</span>
+                </p>
+                <div class="d-flex flex-row ps-2 ">
+                  <div class="form-check form-check-inline me-4">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_on_nebulizer" onclick="ShowHideDivParam(1, 'nebulizer')" checked>
+                    <label class="form-check-label text-start negative-ms" for="param_on_nebulizer">
+                      Ligará o atuador quando:
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline me-1 ms-auto">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_off_nebulizer" onclick="ShowHideDivParam(0, 'nebulizer')">
+                    <label class="form-check-label text-start negative-ms" for="param_off_nebulizer">
+                      Desligará o atuador após:
+                    </label>
+                  </div>
+                </div>
 
-            </div>
+                <div id="card_param_nebulizer" class="flip-container mt-3">
+                  <div class="flipper">
+              
+                    <div id="card_front_nebulizer" class="front">
+                      
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura acima de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                    </div>
+              
+                    <div id="card_back_nebulizer" class="back hidden-face">
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade acima de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      
+                  </div>
+                </div>
 
-            <div>
+                
+
+              </div>
+              
+              <div id="manual_nebulizer" class="text-center d-none flex-column">
+                <p class="m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
+                    <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+                  </svg>
+                  <span class="fw-bold"> Acionamento do atuador</span>
+                </p>
+                <div class="">
+                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                </div>
+              </div>
 
             </div>
           </p>
@@ -228,10 +458,10 @@
         </div>
         <div class="col-4 col-lg-4 d-flex flex-column px-0 pt-2">
           <p class="h5 text-center text-uppercase">Ventilador</p>
-          <img class="mt-auto " src="/img/fan.png" height="170">
+          <img src="/img/fan.png" height="170">
           <p class=" text-center">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
-              <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
+              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
             </svg>
             <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase" id="status_fan">---</span></p>
           
@@ -240,18 +470,146 @@
               <path d="M6.705 8.139a.25.25 0 0 0-.288-.376l-1.5.5.159.474.808-.27-.595.894a.25.25 0 0 0 .287.376l.808-.27-.595.894a.25.25 0 0 0 .287.376l1.5-.5-.159-.474-.808.27.596-.894a.25.25 0 0 0-.288-.376l-.808.27.596-.894Z"/>
               <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm-6.202-4.751 1.988-1.657a4.5 4.5 0 0 1 7.537-4.623L7.497 6.5l1 2.5 1.333 3.11c-.56.251-1.18.39-1.833.39a4.49 4.49 0 0 1-1.592-.29L4.747 14.2a7.031 7.031 0 0 1-2.949-2.951ZM12.496 8a4.491 4.491 0 0 1-1.703 3.526L9.497 8.5l2.959-1.11c.027.2.04.403.04.61Z"/>
             </svg>
+            
             <span class="fw-bold"> Modo de operação </span>  
-            <div class="switch-button">
+            <div class="switch-button my-0">
               <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer" onclick='buttonSetOpModeActuator("nebulizer")' ></input>
               <label class="switch-button-label" for=""><span class="switch-button-label-span">Automático</span></label>
             </div>
-            <hr>
-
+            <hr class="mt-2 mb-1">
             <div>
+              <div id="automatic_nebulizer" class="text-center d-flex flex-column">
+                
+                
+                
+                <p class="m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+                  </svg>
+                  <span class="fw-bold"> Parâmetros do modo automático</span>
+                </p>
+                <div class="d-flex flex-row ps-2 ">
+                  <div class="form-check form-check-inline me-4">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_on_nebulizer" onclick="ShowHideDivParam(1, 'nebulizer')" checked>
+                    <label class="form-check-label text-start negative-ms" for="param_on_nebulizer">
+                      Ligará o atuador quando:
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline me-1 ms-auto">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="param_off_nebulizer" onclick="ShowHideDivParam(0, 'nebulizer')">
+                    <label class="form-check-label text-start negative-ms" for="param_off_nebulizer">
+                      Desligará o atuador após:
+                    </label>
+                  </div>
+                </div>
 
-            </div>
+                <div id="card_param_nebulizer" class="flip-container mt-3">
+                  <div class="flipper">
+              
+                    <div id="card_front_nebulizer" class="front">
+                      
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura acima de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                    </div>
+              
+                    <div id="card_back_nebulizer" class="back hidden-face">
+                      <div class="row px-2">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Umidade acima de</label>
+                          </div>
+                        </div>
+                        
+                        <div class="col-6 pe-0">
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">% </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+              
+                      
+              
+                      <div class="row px-2 mt-3">
+                        <div class="row">
+                          <div class="col-9">
+                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura abaixo de</label>
+                          </div>
+                        </div>
+                        
+                        
+                        <div class="col-6 pe-0">
+                          
+                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+                        </div>
+                        <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
+                          <span class="font-size-sm ">°C </span>
+                          <div class="ms-auto">
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Reconfigurar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      
+                  </div>
+                </div>
 
-            <div>
+                
+
+              </div>
+              
+              <div id="manual_nebulizer" class="text-center d-none flex-column">
+                <p class="m-1">
+                  <svg xmlns="http://www.w3.org/2000/svg"  height="20" fill="currentColor" class="bi bi-toggle2-off pb-1" viewBox="0 0 16 16"> 
+                    <path d="M9 11c.628-.836 1-1.874 1-3a4.978 4.978 0 0 0-1-3h4a3 3 0 1 1 0 6H9z"></path> <path d="M5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 5 3a5 5 0 0 0 0 10z"></path> 
+                  </svg>
+                  <span class="fw-bold"> Acionamento do atuador</span>
+                </p>
+                <div class="">
+                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                </div>
+              </div>
 
             </div>
           </p>

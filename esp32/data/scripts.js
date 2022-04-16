@@ -15,6 +15,39 @@ var cv_actuator_opmode_exchanger_deltat;
 var cv_actuator_opmode_fan_temp_on;
 var cv_actuator_opmode_fan_temp_off;
 
+var cv_card_nebulizer = 1;
+var cv_card_exchanger = 1;
+var cv_card_fan = 1;
+
+
+
+function buttonSetOpModeActuator(checkboxId, actuator_name) {
+  var checkbox = document.getElementById(checkboxId);
+  var automatic_div = document.getElementById("automatic_" + actuator_name);
+  var manual_div = document.getElementById("manual_" + actuator_name);
+
+  if(checkbox.checked){
+    automatic_div.style.setProperty('display', 'none', 'important');
+    manual_div.style.setProperty('display', 'flex', 'important');
+  }else{
+    automatic_div.style.setProperty('display', 'flex', 'important');
+    manual_div.style.setProperty('display', 'none', 'important');
+  }
+}
+
+function ShowHideDivParam(radioCheck, actuator_name) {
+  var divParam = document.getElementById("card_param_" + actuator_name);
+  if (radioCheck) {
+    divParam.classList.remove('hover');
+    document.getElementById("card_front_" + actuator_name).classList.remove('hidden-face');
+    document.getElementById("card_back_" + actuator_name).classList.add('hidden-face');
+  }else{
+    divParam.classList.add('hover');
+    document.getElementById("card_back_" + actuator_name).classList.remove('hidden-face');
+    document.getElementById("card_front_" + actuator_name).classList.add('hidden-face');
+  }
+}
+
 
 
 function updateActuatorsState() {
