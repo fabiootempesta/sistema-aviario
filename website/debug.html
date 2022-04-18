@@ -226,10 +226,10 @@
         <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
         Umidade máxima: <br>
         <input type="text" id="minUmidity" value=""> % 
-        <button type="button" onclick="buttonSetParameter('nebulizer/umidity', 'minUmidity')">Reconfigurar</button> <br><br>
+        <button type="button" onclick="buttonSetParameter('nebulizer/umidity', 'minUmidity')">Modificar</button> <br><br>
         Temperatura mínima: <br>
         <input type="text" id="maxTempNeb" value=""> °C 
-        <button type="button" onclick="buttonSetParameter('nebulizer/temp', 'maxTempNeb')">Reconfigurar</button>
+        <button type="button" onclick="buttonSetParameter('nebulizer/temp', 'maxTempNeb')">Modificar</button>
       </div>
 
       <div id="div_act_nebulizer" class="divOperacao">
@@ -254,7 +254,7 @@
         <b>Parâmetro de acionamento <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br>
         Variação mínima: <br>
         <input type="text" id="deltaTemperature" value=""> °C 
-        <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Reconfigurar</button> <br><br>
+        <button type="button" onclick="buttonSetParameter('exchanger/deltatemp', 'deltaTemperature')">Modificar</button> <br><br>
         
       </div>
 
@@ -279,7 +279,7 @@
         <b>Parâmetro de acionamento  <img src="https://i.ibb.co/fdLtDWH/parametro.png" width="18" height="18"></b><br><br><br>
         Temperatura mínima: <br>
         <input type="number" id="maxTempFan"> °C 
-        <button onclick="buttonSetParameter('fan/temp', 'maxTempFan')">Reconfigurar</button>
+        <button onclick="buttonSetParameter('fan/temp', 'maxTempFan')">Modificar</button>
 
       </div>
       <div id="div_act_fan" class="divOperacao">
@@ -303,7 +303,7 @@
           alert("Parâmetro reconfigurado!");
         }
         if (this.status == 304) {
-          alert("Erro em reconfigurar o parâmetro de acionamento do equipamento!");
+          alert("Erro em Modificar o parâmetro de acionamento do equipamento!");
         }
       }
 
