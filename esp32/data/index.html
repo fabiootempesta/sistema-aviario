@@ -81,7 +81,7 @@
 
   <div class="container-fluid d-block">
     <br>
-    <div class="container-fluid">
+    <div id="sensors" class="container-fluid">
       <p class="h2 text-center text-uppercase">sensores
 
         <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" class="bi bi-broadcast"
@@ -124,7 +124,7 @@
 
           <! -- Sensores recolhidos -->
             <div
-              class="d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
+              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
               <p class="h6 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
                   id="mobile_climate_temperature"> --- </span></p>
               <button type="button" onclick='expandDiv("expand_climate_temperature")'
@@ -137,7 +137,7 @@
               </button>
             </div>
             <div
-              class="d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1">
+              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1">
               <p class="h6 text-center text-uppercase">Umidade relativa <br>
                 <span class="boldSpan" id="mobile_climate_humidity"> --- </span>
               </p>
@@ -150,7 +150,7 @@
               </button>
             </div>
             <div
-              class="d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
+              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
               <p class="h6 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
                 <span class="boldSpan" id="mobile_nipple_temperature"> --- </span>
               </p>
@@ -162,7 +162,7 @@
                 </svg>
               </button>
             </div>
-            <div class="d-block d-lg-none col-6 col-lg-3 d-flex flex-column position-relative p-1">
+            <div class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column position-relative p-1">
               <p class="h6 text-center text-uppercase">Temperatura da Água da Caixa <br>
                 <span class="boldSpan" id="mobile_box_temperature"> --- </span>
               </p>
@@ -178,7 +178,7 @@
     </div>
 
     <br> <br>
-    <div class="container-fluid align-bottom">
+    <div id="actuators" class="container-fluid align-bottom">
       <p class=" h2 text-center text-uppercase"> atuadores
 
 

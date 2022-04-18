@@ -15,15 +15,26 @@ var cv_actuator_opmode_exchanger_deltat;
 var cv_actuator_opmode_fan_temp_on;
 var cv_actuator_opmode_fan_temp_off;
 
-function expandDiv(div_id) {
-  var screenMobile = document.getElementById("screen_mobile");
-  screenMobile.style.setProperty('display', 'none', 'important');
-  var div = document.getElementById(div_id);
-  if (div.style.display == "none !important") {
-    div.style.setProperty('display', 'block', 'important');
-  } else {
-    div.style.setProperty('display', 'none', 'important');
+function buttonSetOpModeActuator(idButton, actuator_name){
+  console.log(document.getElementById(idButton).checked);
+}
+
+function hideAllSensors() {
+  var sensors = document.getElementsByClassName("sensor-mobile");
+  for (var i = 0; i < sensors.length; i++) {
+    sensors[i].style.setProperty('display', 'none', 'important');
   }
+}
+
+function expandDiv(div_id) {
+  var actuators = (document.getElementById("actuators"));
+  actuators.style.setProperty('display', 'none', 'important');
+  hideAllSensors();
+  var div = document.getElementById(div_id);
+
+  div.style.setProperty('display', 'block', 'important');
+  div.classList.add('col-12');
+
 }
 
 function showOpMode(value, actuator_name) {
@@ -58,8 +69,18 @@ function updateActuatorsState() {
       var array = this.responseText.split(" ");
       //array index = |0: trocador|  |1: ventilador|   |2: nebulizador|
       document.getElementById("status_exchanger").innerHTML = array[0];
+      showOpMode(array[0], "exchanger")
+      document.getElementById("op_mode_exchanger").checked = array[0];
+
       document.getElementById("status_fan").innerHTML = array[1];
+      showOpMode(array[1], "fan");
+      document.getElementById("op_mode_fan").checked = array[1];
+
       document.getElementById("status_nebulizer").innerHTML = array[2];
+      showOpMode(array[2], "nebulizer");
+      document.getElementById("op_mode_nebulizer").checked = array[2];
+      
+
     }
   };
   xhttp.open("GET", "/actuators/status/getall", true);
