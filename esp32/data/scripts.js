@@ -15,39 +15,83 @@ var cv_actuator_opmode_exchanger_deltat;
 var cv_actuator_opmode_fan_temp_on;
 var cv_actuator_opmode_fan_temp_off;
 
-function buttonSetOpModeActuator(idButton, actuator_name){
-  console.log(document.getElementById(idButton).checked);
-}
-
-function hideAllSensors() {
-  var sensors = document.getElementsByClassName("sensor-mobile");
-  for (var i = 0; i < sensors.length; i++) {
-    sensors[i].style.setProperty('display', 'none', 'important');
+function buttonSetOpModeActuator(id_checkbox, actuator_name) {
+  let opmode = 0;
+  let value = document.getElementById(id_checkbox).checked;
+  if (value){
+    opmode = 1;
   }
+  document.getElementById(id_checkbox).checked = !value;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/actuators/opmode/set/" + actuator_name, true);
+  xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      updateOpMode(opmode, actuator_name, id_checkbox);
+    }
+  };
+  xhttp.send("value=" + opmode);
 }
 
-function expandDiv(div_id) {
-  var actuators = (document.getElementById("actuators"));
-  actuators.style.setProperty('display', 'none', 'important');
-  hideAllSensors();
-  var div = document.getElementById(div_id);
-
-  div.style.setProperty('display', 'block', 'important');
-  div.classList.add('col-12');
-
-}
-
-function showOpMode(value, actuator_name) {
+function updateOpMode(value, actuator_name, id_checkbox) {
   var automatic_div = document.getElementById("automatic_" + actuator_name);
   var manual_div = document.getElementById("manual_" + actuator_name);
-  if(value){
-    automatic_div.style.setProperty('display', 'none', 'important');
-    manual_div.style.setProperty('display', 'flex', 'important');
-  }else{
-    automatic_div.style.setProperty('display', 'flex', 'important');
-    manual_div.style.setProperty('display', 'none', 'important');
+  if (value) {
+    document.getElementById(id_checkbox).checked = true;
+    if (manual_div.classList.contains('d-none')) {
+      manual_div.classList.remove('d-none');
+      automatic_div.classList.add('d-none');
+    }
+    document.getElementById("opmode_" + actuator_name).innerHTML = "Manual";
+  } else {
+    document.getElementById(id_checkbox).checked = false;
+    if(automatic_div.classList.contains('d-none')) {
+      automatic_div.classList.remove('d-none');
+      manual_div.classList.add('d-none');
+    }
+    document.getElementById("opmode_" + actuator_name).innerHTML = "Automático";
   }
 }
+
+function dNoneAllItemsClass(class_name) {
+  var sensors = document.getElementsByClassName(class_name);
+  for (var i = 0; i < sensors.length; i++) {
+    sensors[i].classList.add('d-none');
+  }
+}
+
+function dFlexAllItemsClass(class_name) {
+  var sensors = document.getElementsByClassName(class_name);
+  for (var i = 0; i < sensors.length; i++) {
+    sensors[i].classList.remove('d-none');
+  }
+}
+
+function expandDiv(div_id_expand, div_id_none) {
+  var div = (document.getElementById(div_id_none));
+  div.classList.add('d-none');
+  dNoneAllItemsClass("item-mobile");
+  var div_expand = document.getElementById(div_id_expand);
+  var buttonRetract = document.getElementById(div_id_expand + "_button");
+  buttonRetract.classList.remove('d-none');
+  div_expand.classList.remove('d-none');
+  div_expand.classList.remove('border-4');
+  div_expand.classList.add('border-0');
+}
+
+function retractDiv(div_id_retract, div_id_block) {
+  var div = (document.getElementById(div_id_block));
+  div.classList.remove('d-none');
+  dFlexAllItemsClass("item-mobile");
+  var div_retract = document.getElementById(div_id_retract);
+  var buttonRetract = document.getElementById(div_id_retract + "_button");
+  buttonRetract.classList.add('d-none');
+  div_retract.classList.add('d-none');
+  div_retract.classList.add('border-4');
+  div_retract.classList.remove('border-0');
+}
+
+
 
 function showHideDivParam(radioCheck, actuator_name) {
   var divParam = document.getElementById("card_param_" + actuator_name);
@@ -55,10 +99,36 @@ function showHideDivParam(radioCheck, actuator_name) {
     divParam.classList.remove('hover');
     document.getElementById("card_front_" + actuator_name).classList.remove('hidden-face');
     document.getElementById("card_back_" + actuator_name).classList.add('hidden-face');
-  }else{
+  } else {
     divParam.classList.add('hover');
     document.getElementById("card_back_" + actuator_name).classList.remove('hidden-face');
     document.getElementById("card_front_" + actuator_name).classList.add('hidden-face');
+  }
+}
+
+function updateActuatorState(state, actuator_name) {
+
+  if (state == true) {
+    
+    if (actuator_name == "exchanger")
+      document.getElementById("button_act_exchanger").innerHTML = "Interromper a troca";
+    else
+      document.getElementById("button_act_" + actuator_name).innerHTML = "Desligar";
+    
+    document.getElementById("status_" + actuator_name + "1").innerHTML = "Ligado";
+    document.getElementById("status_" + actuator_name + "2").innerHTML = "Ligado";
+    document.getElementById("status_" + actuator_name + "1").style.color = "green";
+    document.getElementById("status_" + actuator_name + "2").style.color = "green";
+  } else {
+    if (actuator_name == "exchanger")
+      document.getElementById("button_act_exchanger").innerHTML = "Realizar a troca";
+    else
+      document.getElementById("button_act_" + actuator_name).innerHTML = "Ligar";
+
+    document.getElementById("status_" + actuator_name + "1").innerHTML = "Desligado";
+    document.getElementById("status_" + actuator_name + "2").innerHTML = "Desligado";
+    document.getElementById("status_" + actuator_name + "1").style.color = "red";
+    document.getElementById("status_" + actuator_name + "2").style.color = "red";
   }
 }
 
@@ -68,18 +138,10 @@ function updateActuatorsState() {
     if (this.readyState == 4 && this.status == 200) {
       var array = this.responseText.split(" ");
       //array index = |0: trocador|  |1: ventilador|   |2: nebulizador|
-      document.getElementById("status_exchanger").innerHTML = array[0];
-      showOpMode(array[0], "exchanger")
-      document.getElementById("op_mode_exchanger").checked = array[0];
+      updateActuatorState(array[0], "exchanger");
+      updateActuatorState(array[1], "fan");
+      updateActuatorState(array[2], "nebulizer");
 
-      document.getElementById("status_fan").innerHTML = array[1];
-      showOpMode(array[1], "fan");
-      document.getElementById("op_mode_fan").checked = array[1];
-
-      document.getElementById("status_nebulizer").innerHTML = array[2];
-      showOpMode(array[2], "nebulizer");
-      document.getElementById("op_mode_nebulizer").checked = array[2];
-      
 
     }
   };
@@ -95,13 +157,13 @@ function updateActuatorsOpMode() { //atualizar o modo de operação dos atuadore
 
       //array index = |0: nebulizador|  |1: trocador de água|   |2: ventilador|
       document.getElementById("opmode_nebulizer").innerHTML = array[0];
-      showOpMode(array[0], "nebulizer");
+      updateOpMode(array[0], "nebulizer", "op_mode_nebulizer");
 
       document.getElementById("opmode_exchanger").innerHTML = array[1];
-      showOpMode(array[1], "exchanger");
+      updateOpMode(array[1], "exchanger", "op_mode_exchanger");
 
       document.getElementById("opmode_fan").innerHTML = array[2];
-      showOpMode(array[2], "fan");
+      updateOpMode(array[2], "fan", "op_mode_fan");
     }
   };
   xhttp.open("GET", "/actuators/opmode/getall", true);
@@ -116,17 +178,17 @@ function updateSensors() {
 
       //array index = |0: temperatura ambiente| |1: umidade ambiente relativa|  |2: temperatura da caixa| |3: temperatura do bebedouro|
 
-      updateSensor(array[3], "mobile_nipple_temperature", "°C", "-127.00");
-      updateSensor(array[3], "computer_nipple_temperature", "°C", "-127.00");
+      updateSensor(array[3], "nipple_temperature1", "°C", "-127.00");
+      updateSensor(array[3], "nipple_temperature2", "°C", "-127.00");
 
-      updateSensor(array[2], "mobile_box_temperature", "°C", "-127.00");
-      updateSensor(array[2], "computer_box_temperature", "°C", "-127.00");
+      updateSensor(array[2], "box_temperature1", "°C", "-127.00");
+      updateSensor(array[2], "box_temperature2", "°C", "-127.00");
 
-      updateSensor(array[1], "mobile_climate_humidity", "%", "nan");
-      updateSensor(array[1], "computer_climate_humidity", "%", "nan");
+      updateSensor(array[1], "climate_humidity1", "%", "nan");
+      updateSensor(array[1], "climate_humidity2", "%", "nan");
 
-      updateSensor(array[0], "mobile_climate_temperature", "°C", "nan");
-      updateSensor(array[0], "computer_climate_temperature", "°C", "nan");
+      updateSensor(array[0], "climate_temperature1", "°C", "nan");
+      updateSensor(array[0], "climate_temperature2", "°C", "nan");
     }
   };
   xhttp.open("GET", "/sensors/getall", true);
@@ -146,7 +208,7 @@ function updateSensor(value, sensor_span, unit_measurement, text_error) {
 //taxa de atualização de 5 segundos
 setInterval(function () {
   //atualizando o valor dos sensores
-  /*updateSensors();
+  updateSensors();
   updateActuatorsState();
-  updateActuatorsOpMode();*/
+  updateActuatorsOpMode();
 }, 5000);

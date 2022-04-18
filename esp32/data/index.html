@@ -92,85 +92,125 @@
       </p>
       <div class="row border border-4 border-dark">
         <! -- Sensores expandidos -->
-          <div id="expand_climate_temperature"
-            class="d-lg-block d-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
-            <p class="h5 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
-                id="computer_climate_temperature"> --- </span>
+          <div id="expanded_climate_temperature"
+            class="d-lg-flex d-none col-12 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg p-1">
+            <p class="h5 text-center text-uppercase">Temperatura Ambiente <br> <span class="fw-bold"
+                id="climate_temperature2"> --- </span>
             </p>
-            <img class="mt-auto" src="/img/air_temperature.png" width="210" height="170">
+            <img class="mt-auto ms-auto" src="/img/air_temperature.png" width="210" height="170">
+            <button id="expanded_climate_temperature_button" type="button"
+              onclick='retractDiv("expanded_climate_temperature",  "actuators")'
+              class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1 d-none"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
 
           </div>
-          <div id="expand_climate_humidity"
-            class="d-lg-block d-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1 ">
+          <div id="expanded_climate_humidity"
+            class="d-lg-flex d-none col-12 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1 ">
             <p class="h5 text-center text-uppercase">Umidade relativa <br>
-              <span class="boldSpan" id="computer_climate_humidity"> --- </span>
+              <span class="fw-bold" id="climate_humidity2"> --- </span>
             </p>
             <img class="mt-auto pb-2" src="/img/humidity.png" width="160" height="170">
+            <button id="expanded_climate_humidity_button" type="button"
+              onclick='retractDiv("expanded_climate_humidity",  "actuators")'
+              class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1 d-none"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
           </div>
-          <div id="expand_nipple_temperature"
-            class="d-lg-block d-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
+          <div id="expanded_nipple_temperature"
+            class="d-lg-flex d-none col-12 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
             <p class="h5 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
-              <span class="boldSpan" id="computer_nipple_temperature"> --- </span>
+              <span class="fw-bold" id="nipple_temperature2"> --- </span>
             </p>
             <img class="mt-auto" src="/img/nipple_temperature.png" width="130" height="170">
+            <button id="expanded_nipple_temperature_button" type="button"
+              onclick='retractDiv("expanded_nipple_temperature",  "actuators")'
+              class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1 d-none"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
           </div>
-          <div id="expand_box_temperature"
-            class="d-lg-block d-none col-6 col-lg-3 d-flex flex-column position-relative p-1">
+          <div id="expanded_box_temperature"
+            class="d-lg-flex d-none col-12 col-lg-3 d-flex flex-column position-relative p-1">
             <p class="h5 text-center text-uppercase">Temperatura da Água da Caixa <br>
-              <span class="boldSpan" id="computer_box_temperature"> --- </span>
+              <span class="fw-bold" id="box_temperature2"> --- </span>
             </p>
             <img class="mt-auto" src="/img/box_temperature.png" width="200" height="170">
+            <button id="expanded_box_temperature_button" type="button"
+              onclick='retractDiv("expanded_box_temperature",  "actuators")'
+              class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1 d-none"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
           </div>
+
 
           <! -- Sensores recolhidos -->
             <div
-              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
-              <p class="h6 text-center text-uppercase">Temperatura Ambiente <br> <span class="boldSpan"
-                  id="mobile_climate_temperature"> --- </span></p>
-              <button type="button" onclick='expandDiv("expand_climate_temperature")'
-                class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              class="item-mobile d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg position-relative p-1">
+              <p class="h6 text-center text-uppercase">Temperatura Ambiente <br> <span class="fw-bold"
+                  id="climate_temperature1"> --- </span></p>
+              <button type="button" onclick='expandDiv("expanded_climate_temperature",  "actuators")'
+                class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
             <div
-              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1">
+              class="item-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark border-bottom-lg border-end-lg-0 position-relative p-1">
               <p class="h6 text-center text-uppercase">Umidade relativa <br>
-                <span class="boldSpan" id="mobile_climate_humidity"> --- </span>
+                <span class="fw-bold" id="climate_humidity1"> --- </span>
               </p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <button type="button" onclick='expandDiv("expanded_climate_humidity",  "actuators")'
+                class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
             <div
-              class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
+              class="item-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column border-end border-4 border-dark position-relative p-1">
               <p class="h6 text-center text-uppercase">Temperatura da Água do Bebedouro <br>
-                <span class="boldSpan" id="mobile_nipple_temperature"> --- </span>
+                <span class="fw-bold" id="nipple_temperature1"> --- </span>
               </p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <button type="button" onclick='expandDiv("expanded_nipple_temperature",  "actuators")'
+                class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
-            <div class="sensor-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column position-relative p-1">
+            <div class="item-mobile d-block d-lg-none col-6 col-lg-3 d-flex flex-column position-relative p-1">
               <p class="h6 text-center text-uppercase">Temperatura da Água da Caixa <br>
-                <span class="boldSpan" id="mobile_box_temperature"> --- </span>
+                <span class="fw-bold" id="box_temperature1"> --- </span>
               </p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <button type="button" onclick='expandDiv("expanded_box_temperature",  "actuators")'
+                class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
@@ -179,7 +219,7 @@
 
     <br> <br>
     <div id="actuators" class="container-fluid align-bottom">
-      <p class=" h2 text-center text-uppercase"> atuadores
+      <p id="actuators" class=" h2 text-center text-uppercase"> atuadores
 
 
         <svg xmlns="http://www.w3.org/2000/svg" width="28" fill="currentColor" class="bi bi-toggles2"
@@ -192,7 +232,8 @@
       </p>
       <div class="row border border-4 border-dark">
         <! -- Atuadores expandidos -->
-          <div class="d-lg-block d-none col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
+          <div id="expanded_nebulizer"
+            class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
             <p class="h5 text-center text-uppercase ">Nebulizador</p>
             <img class=" pt-2 pb-2" src="/img/nebulizer.png" height="170">
             <p class=" text-center">
@@ -201,7 +242,7 @@
                 <path
                   d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
               </svg>
-              <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase" id="status_nebulizer">
+              <span class="fw-bold">Status:</span> <span class="fw-bold text-uppercase" id="status_nebulizer1">
                 --- </span>
             </p>
 
@@ -216,6 +257,7 @@
               </svg>
 
               <span class="fw-bold"> Modo de operação </span>
+            </p>
             <div class="switch-button my-0">
               <input class="switch-button-checkbox" type="checkbox" id="op_mode_nebulizer"
                 onclick='buttonSetOpModeActuator(this.id, "nebulizer")'></input>
@@ -297,7 +339,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -344,7 +386,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -367,16 +409,26 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                  <button id="button_act_nebulizer" type="submit" class="btn bg-warning btn-lg mt-2 mb-2">Desligar</button>
                 </div>
               </div>
 
             </div>
-            </p>
 
+
+
+            <button id="expanded_nebulizer_button" type="button" onclick='retractDiv("expanded_nebulizer",  "sensors")'
+              class="btn btn-outline-warning btn-sm d-none  p-1 mt-5 ms-auto mb-2 me-2"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
           </div>
 
-          <div class="d-lg-block d-none col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
+          <div id="expanded_exchanger"
+            class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
             <p class="h5 text-center text-uppercase">Trocador de Água</p>
             <img class="pt-2" src="/img/exchanger.png" height="170">
             <p class=" text-center">
@@ -385,8 +437,8 @@
                 <path
                   d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
               </svg>
-              <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase"
-                id="status_exchanger">---</span>
+              <span class="fw-bold">Status:</span> <span class="fw-bold text-uppercase"
+                id="status_exchanger1">---</span>
             </p>
 
             <p class=" text-center mb-0">
@@ -399,6 +451,7 @@
               </svg>
 
               <span class="fw-bold"> Modo de operação </span>
+            </p>
             <div class="switch-button my-0">
               <input class="switch-button-checkbox" type="checkbox" id="op_mode_exchanger"
                 onclick='buttonSetOpModeActuator(this.id, "exchanger")'></input>
@@ -457,7 +510,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -484,7 +537,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">segundos </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -511,15 +564,22 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                  <button id="button_act_exchanger" type="submit" class="btn bg-warning btn-lg mt-2 mb-2">Desligar</button>
                 </div>
               </div>
             </div>
-            </p>
 
+            <button id="expanded_exchanger_button" type="button" onclick='retractDiv("expanded_exchanger",  "sensors")'
+              class="btn btn-outline-warning btn-sm d-none p-1 mt-5 ms-auto mb-2 me-2"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
           </div>
 
-          <div class="d-lg-block d-none col-4 col-lg-4 d-flex flex-column px-0 pt-2">
+          <div id="expanded_fan" class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column px-0 pt-2">
             <p class="h5 text-center text-uppercase">Ventilador</p>
             <img src="/img/fan.png" height="170">
             <p class=" text-center">
@@ -528,8 +588,8 @@
                 <path
                   d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
               </svg>
-              <span class="fw-bold">Status:</span> <span class="font-weight-bold text-uppercase"
-                id="status_fan">---</span>
+              <span class="fw-bold">Status:</span> <span class="fw-bold text-uppercase"
+                id="status_fan1">---</span>
             </p>
 
             <p class=" text-center mb-0">
@@ -542,6 +602,7 @@
               </svg>
 
               <span class="fw-bold"> Modo de operação </span>
+            </p>
             <div class="switch-button my-0">
               <input class="switch-button-checkbox" type="checkbox" id="op_mode_fan"
                 onclick='buttonSetOpModeActuator(this.id,"fan")'></input>
@@ -601,7 +662,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -617,8 +678,7 @@
                         <div class="row">
                           <div class="col-9">
                             <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura
-                              ambiente
-                              abaixo de</label>
+                              ambiente abaixo de</label>
                           </div>
                         </div>
 
@@ -630,7 +690,7 @@
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -653,62 +713,74 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                  <button id="button_act_fan" type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
                 </div>
               </div>
 
             </div>
-            </p>
+            <button id="expanded_fan_button" type="button" onclick='retractDiv("expanded_fan",  "sensors")'
+              class="btn btn-outline-warning btn-sm d-none  p-1 mt-5 ms-auto mb-2 me-2"> Recolher Item
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-up-left-square-fill" viewBox="0 0 16 16">
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm8.096 10.803L6 6.707v2.768a.5.5 0 0 1-1 0V5.5a.5.5 0 0 1 .5-.5h3.975a.5.5 0 1 1 0 1H6.707l4.096 4.096a.5.5 0 1 1-.707.707z" />
+              </svg>
+            </button>
 
           </div>
 
 
           <! -- Atuadores recolhidos -->
-            <div class="d-block d-lg-none col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-              <p class="h6 text-center text-uppercase">Nebulizador</p> <br>
-              <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_nebulizer"> ---
+            <div
+              class="item-mobile d-block d-lg-none col-12 col-lg-4 d-flex flex-column border-bottom border-4 border-dark p-2">
+              <p class="h6 text-center text-uppercase">Nebulizador</p> 
+              <p class=" text-center mb-0">Status: <span class="fw-bold text-uppercase" id="status_nebulizer2"> ---
                 </span>
               </p>
-              <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
+              <p class=" text-center mb-0">Modo de operação: <span class="fw-bold text-uppercase"
                   id="opmode_nebulizer">
                   --- </span></p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"
+                onclick='expandDiv("expanded_nebulizer",  "sensors")'> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
 
-            <div class="d-block d-lg-none col-4 col-lg-4 d-flex flex-column border-end border-4 border-dark p-2">
-              <p class="h6 text-center text-uppercase">Trocador de Água</p> <br>
-              <p class=" text-center">Status: <span class="font-weight-bold text-uppercase"
-                  id="status_exchanger">---</span>
+            <div
+              class="item-mobile d-block d-lg-none col-12 col-lg-4 d-flex flex-column border-bottom border-4 border-dark p-2">
+              <p class="h6 text-center text-uppercase">Trocador de Água</p> 
+              <p class=" text-center mb-0">Status: <span class="fw-bold text-uppercase"
+                  id="status_exchanger2">---</span>
               </p>
-              <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
+              <p class=" text-center mb-0">Modo de operação: <span class="fw-bold text-uppercase"
                   id="opmode_exchanger">
                   --- </span></p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"
+                onclick='expandDiv("expanded_exchanger",  "sensors")'> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
 
-            <div class="d-block d-lg-none col-4 col-lg-4 d-flex flex-column p-2">
-              <p class="h6 text-center text-uppercase">Ventilador</p> <br>
-              <p class=" text-center">Status: <span class="font-weight-bold text-uppercase" id="status_fan">---</span>
+            <div class="item-mobile d-block d-lg-none col-12 col-lg-4 d-flex flex-column p-2">
+              <p class="h6 text-center text-uppercase">Ventilador</p> 
+              <p class=" text-center mb-0">Status: <span class="fw-bold text-uppercase" id="status_fan2">---</span>
               </p>
-              <p class=" text-center">Modo de operação: <span class="font-weight-bold text-uppercase"
-                  id="opmode_nebulizer">---</span></p>
-              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"> Mais Informações
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-info-circle-fill"
-                  viewBox="0 0 20 20">
+              <p class=" text-center mb-0">Modo de operação: <span class="fw-bold text-uppercase"
+                  id="opmode_fan">---</span></p>
+              <button type="button" class="btn btn-outline-warning btn-sm mt-auto ms-auto p-1"
+                onclick='expandDiv("expanded_fan",  "sensors")'> Expandir item
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
+                  class=" bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
                   <path
-                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707z" />
                 </svg>
               </button>
             </div>
