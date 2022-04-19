@@ -409,7 +409,7 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button id="button_act_nebulizer" type="submit" class="btn bg-warning btn-lg mt-2 mb-2">Desligar</button>
+                  <button id="button_act_nebulizer" value="0" type="submit" class="btn bg-warning btn-lg mt-2 mb-2" onclick='buttonSetStatusActuator(this.value, "nebulizer")'>Desligar</button>
                 </div>
               </div>
 
@@ -564,7 +564,7 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button id="button_act_exchanger" type="submit" class="btn bg-warning btn-lg mt-2 mb-2">Desligar</button>
+                  <button id="button_act_exchanger"  value="0" type="submit" class="btn bg-warning btn-lg mt-2 mb-2" onclick='buttonSetStatusActuator(this.value, "exchanger")'>Desligar</button>
                 </div>
               </div>
             </div>
@@ -713,7 +713,7 @@
                   <span class="fw-bold"> Acionamento do atuador</span>
                 </p>
                 <div class="">
-                  <button id="button_act_fan" type="submit" class="btn bg-warning btn-lg mt-2">Desligar</button>
+                  <button id="button_act_fan" value="0" type="submit" class="btn bg-warning btn-lg mt-2" onclick='buttonSetStatusActuator(this.value, "fan")'>Desligar</button>
                 </div>
               </div>
 

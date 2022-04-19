@@ -18,9 +18,9 @@ var cv_actuator_opmode_fan_temp_off;
 function buttonSetOpModeActuator(id_checkbox, actuator_name) {
   let opmode = 0;
   let value = document.getElementById(id_checkbox).checked;
-  if (value){
+  if (value)
     opmode = 1;
-  }
+  
   document.getElementById(id_checkbox).checked = !value;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/actuators/opmode/set/" + actuator_name, true);
@@ -107,24 +107,26 @@ function showHideDivParam(radioCheck, actuator_name) {
 }
 
 function updateActuatorState(state, actuator_name) {
-
+  var button = document.getElementById("button_act_" + actuator_name);
   if (state == true) {
     
     if (actuator_name == "exchanger")
-      document.getElementById("button_act_exchanger").innerHTML = "Interromper a troca";
+      button.innerHTML = "Interromper a troca";
     else
-      document.getElementById("button_act_" + actuator_name).innerHTML = "Desligar";
+      button.innerHTML = "Desligar";
     
+    button.value = "0";
     document.getElementById("status_" + actuator_name + "1").innerHTML = "Ligado";
     document.getElementById("status_" + actuator_name + "2").innerHTML = "Ligado";
     document.getElementById("status_" + actuator_name + "1").style.color = "green";
     document.getElementById("status_" + actuator_name + "2").style.color = "green";
   } else {
     if (actuator_name == "exchanger")
-      document.getElementById("button_act_exchanger").innerHTML = "Realizar a troca";
+      button.innerHTML = "Realizar a troca";
     else
-      document.getElementById("button_act_" + actuator_name).innerHTML = "Ligar";
+      button.innerHTML = "Ligar";
 
+    button.value = "1";
     document.getElementById("status_" + actuator_name + "1").innerHTML = "Desligado";
     document.getElementById("status_" + actuator_name + "2").innerHTML = "Desligado";
     document.getElementById("status_" + actuator_name + "1").style.color = "red";
@@ -205,10 +207,23 @@ function updateSensor(value, sensor_span, unit_measurement, text_error) {
   }
 }
 
+function buttonSetStatusActuator(button_value, actuator_name) {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
+  xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      updateActuatorState(button_value, actuator_name);
+    }
+  };
+  xhttp.send("value=" + button_value);
+}
+
 //taxa de atualização de 5 segundos
 setInterval(function () {
   //atualizando o valor dos sensores
-  updateSensors();
+  /*updateSensors();
   updateActuatorsState();
-  updateActuatorsOpMode();
+  updateActuatorsOpMode();*/
 }, 5000);
