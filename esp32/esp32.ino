@@ -27,10 +27,22 @@ const char* password = "raulfabio21";
 
 //---Variáveis globais---
 //Valores dos parâmetros
-float deltat_nipple_parameter = 5.4;
-float temperature_nebulizer_parameter = 20.0;
-float temperature_fan_parameter = 22.2;
-int humidity_nebulizer_parameter = 90;
+
+int parameter_nebulizer_on_humidity = 90;
+int parameter_nebulizer_off_humidity = 90;
+float parameter_nebulizer_on_temperature = 20.0;
+float parameter_nebulizer_off_temperature = 20.0;
+
+float parameter_nipple_on_deltat = 5.4;
+long parameter_nipple_off_time = 8000;
+
+float parameter_fan_on_temperature = 22.2;
+float parameter_fan_off_temperature = 22.2;
+
+
+
+
+
 //Valores atuais rebido dos sensores
 float current_nipple_temp = 0;
 float current_box_temp = 0;
@@ -130,14 +142,14 @@ void automaticModeNebulizer(){
     
     //Liga Nebulizador
     if(digitalRead(PIN_NEBULIZER) == LOW){
-      if((current_climate_humidity < humidity_nebulizer_parameter) && (current_climate_temp > temperature_nebulizer_parameter)){
+      if((current_climate_humidity < parameter_nebulizer_on_humidity) && (current_climate_temp > parameter_nebulizer_on_temperature)){
         setNebulizer(1);
         Serial.println("Nebulizador ligado via modo automático");
       }
 
     //Desliga Nebulizador
     }else{
-      if((current_climate_humidity > (humidity_nebulizer_parameter + 3)) || (current_climate_temp < (temperature_nebulizer_parameter + 0.5)) ){
+      if((current_climate_humidity > (parameter_nebulizer_on_humidity + 3)) || (current_climate_temp < (parameter_nebulizer_on_temperature + 0.5)) ){
         setNebulizer(0);
         Serial.println("Nebulizador desligado via modo automático");
       }
@@ -147,7 +159,7 @@ void automaticModeNebulizer(){
 
 void automaticModeExchanger(){
   if(!operation_mode_exchanger){
-    if( (current_nipple_temp - current_box_temp) > deltat_nipple_parameter){
+    if( (current_nipple_temp - current_box_temp) > parameter_nipple_on_deltat){
       Serial.println("Água trocada via modo automático");
       setExchanger(1);
     }
@@ -157,13 +169,13 @@ void automaticModeExchanger(){
 void automaticModeFan(){
   if(!operation_mode_fan)  {//Liga Ventilador
     if (digitalRead(PIN_FAN) == LOW){
-      if (current_climate_temp>temperature_fan_parameter){
+      if (current_climate_temp>parameter_fan_on_temperature){
         digitalWrite(PIN_FAN, HIGH);
         Serial.println("Ventilaador ligado via modo automático");
       }
     //Desliga Ventilador
     }else{
-      if ((current_climate_temp < (temperature_fan_parameter - 2)) && (digitalRead(PIN_NEBULIZER) == LOW)){
+      if ((current_climate_temp < (parameter_fan_on_temperature - 2)) && (digitalRead(PIN_NEBULIZER) == LOW)){
         digitalWrite(PIN_FAN, LOW);
         Serial.println("Ventilador ligado via modo automático");
       }
@@ -273,6 +285,9 @@ void setup() {
   server.on("/scripts.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/scripts.js", "text/javascript");
   });
+  server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/favicon.ico", "image/png");
+  });
   server.on("/img/air_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/air_temperature.png", "image/png");
   });
@@ -376,7 +391,10 @@ void setup() {
 
   //URL para capturar o valor atual de cada parâmetro de acionamento
   server.on("/actuators/parameter/getall", HTTP_GET, [](AsyncWebServerRequest *request){
-    String response = String(humidity_nebulizer_parameter) +" " + String(temperature_nebulizer_parameter) + " " + String(deltat_nipple_parameter) + " " + String(temperature_fan_parameter);
+    String response = String(parameter_nebulizer_on_humidity) +" " + String(parameter_nebulizer_off_humidity) + " " + String(parameter_nebulizer_on_temperature)
+    + " " + String(parameter_nebulizer_off_temperature) + " " + String(parameter_nipple_on_deltat) +
+    " " + String(parameter_nipple_off_time / 1000) + " " + String(parameter_fan_on_temperature) +" " + String(parameter_fan_off_temperature);
+    
     request->send(200, "text/plain", response.c_str());
   });
 
@@ -440,7 +458,7 @@ void setup() {
 
   //URL para modificar o parâmetro de temperatura do ventilador
   server.on(
-    "/actuators/parameter/set/fan/temp",
+    "/actuators/parameter/fan/on/temp",
     HTTP_POST,
     [](AsyncWebServerRequest * request){
     int params = request->params();
@@ -450,7 +468,29 @@ void setup() {
         if(p->name()=="value"){
           
           if(float current_value = (p->value().toFloat())){
-            temperature_fan_parameter = current_value;
+            parameter_fan_on_temperature = current_value;
+            request->send(200);
+            Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+          }else{
+            Serial.println("Erro em modificar o parâmetro de acionamento do ventilador via interface Web!");
+            request->send(304);
+          }
+        }
+    }
+  });
+
+  server.on(
+    "/actuators/parameter/fan/off/temp",
+    HTTP_POST,
+    [](AsyncWebServerRequest * request){
+    int params = request->params();
+    for (int i = 0; i < params; i++){
+        AsyncWebParameter *p = request->getParam(i);
+        
+        if(p->name()=="value"){
+          
+          if(float current_value = (p->value().toFloat())){
+            parameter_fan_off_temperature = current_value;
             request->send(200);
             Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
           }else{
@@ -463,7 +503,7 @@ void setup() {
 
   //URL para modificar o parâmetro de variação da temperatura do trocador de água
   server.on(
-    "/actuators/parameter/set/exchanger/deltatemp",
+    "/actuators/parameter/exchanger/on/deltatemp",
     HTTP_POST,
     [](AsyncWebServerRequest * request){
     int params = request->params();
@@ -472,7 +512,29 @@ void setup() {
         
         if(p->name() == "value"){
           if(float current_value = (p->value().toFloat())){
-            deltat_nipple_parameter = current_value;
+            parameter_nipple_on_deltat = current_value;
+            request->send(200);
+            Serial.println("Parâmetro de acionamento do trocador modificado via interface Web!");
+          }else{
+            request->send(304);
+            Serial.println("Erro em modificar o parâmetro de acionamento do trocador via interface Web!");
+          }
+        }
+    }
+  });
+
+  //URL para modificar o parâmetro de variação da temperatura do trocador de água
+  server.on(
+    "/actuators/parameter/exchanger/off/time",
+    HTTP_POST,
+    [](AsyncWebServerRequest * request){
+    int params = request->params();
+    for (int i = 0; i < params; i++){
+        AsyncWebParameter *p = request->getParam(i);
+        
+        if(p->name() == "value"){
+          if(float current_value = (p->value().toFloat())){
+            parameter_nipple_off_time = current_value * 1000;
             request->send(200);
             Serial.println("Parâmetro de acionamento do trocador modificado via interface Web!");
           }else{
@@ -485,7 +547,7 @@ void setup() {
 
   //URL para modificar o parâmetro de umidade do nebulizador
   server.on(
-    "/actuators/parameter/set/nebulizer/humidity",
+    "/actuators/parameter/nebulizer/on/humidity",
     HTTP_POST,
     [](AsyncWebServerRequest * request){
     int params = request->params();
@@ -494,7 +556,29 @@ void setup() {
         
         if(p->name()=="value"){
           if(float current_value = (p->value().toFloat())){
-            humidity_nebulizer_parameter = current_value;
+            parameter_nebulizer_on_humidity = current_value;
+            request->send(200);
+            Serial.println("Parâmetro de umidade de acionamento do nebulizador modificado via interface Web!");
+          }else{
+            request->send(304);
+            Serial.println("Erro em modificar o parâmetro de acionamento do nebulizador via interface Web!");
+          }
+        }
+    }
+  });
+
+  //URL para modificar o parâmetro de umidade do nebulizador
+  server.on(
+    "/actuators/parameter/nebulizer/off/humidity",
+    HTTP_POST,
+    [](AsyncWebServerRequest * request){
+    int params = request->params();
+    for (int i = 0; i < params; i++){
+        AsyncWebParameter *p = request->getParam(i);
+        
+        if(p->name()=="value"){
+          if(float current_value = (p->value().toFloat())){
+            parameter_nebulizer_off_humidity_humidity = current_value;
             request->send(200);
             Serial.println("Parâmetro de umidade de acionamento do nebulizador modificado via interface Web!");
           }else{
@@ -507,7 +591,7 @@ void setup() {
   
   //URL para modificar o parâmetro de temperatura do nebulizador
   server.on(
-    "/actuators/parameter/nebulizer/temp",
+    "/actuators/parameter/nebulizer/on/temp",
     HTTP_POST,
     [](AsyncWebServerRequest * request){
     int params = request->params();
@@ -515,7 +599,28 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         if(p->name()=="value"){
           if(float current_value = (p->value().toFloat())){
-            temperature_nebulizer_parameter = current_value;
+            parameter_nebulizer_on_temperature = current_value;
+            request->send(200);
+            Serial.println("Parâmetro de temperatura de acionamento do nebulizador modificado via interface Web!");
+          }else{
+            Serial.println("Erro em modificar o parâmetro de acionamento do ventilador via interface Web!");
+            request->send(304);
+          }
+        }
+    }
+  });
+
+  //URL para modificar o parâmetro de temperatura do nebulizador
+  server.on(
+    "/actuators/parameter/nebulizer/off/temp",
+    HTTP_POST,
+    [](AsyncWebServerRequest * request){
+    int params = request->params();
+    for (int i = 0; i < params; i++){
+        AsyncWebParameter *p = request->getParam(i);
+        if(p->name()=="value"){
+          if(float current_value = (p->value().toFloat())){
+            parameter_nebulizer_off_temperature = current_value;
             request->send(200);
             Serial.println("Parâmetro de temperatura de acionamento do nebulizador modificado via interface Web!");
           }else{

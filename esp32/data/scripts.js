@@ -92,6 +92,29 @@ function retractDiv(div_id_retract, div_id_block) {
   div_retract.classList.remove('border-0');
 }
 
+function updateActuatorsParam() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var array = this.responseText.split(" ");
+
+      //index = |0: ligar nebulizador umidade| |1: desligar nebulizador umidade| |2: ligar nebulizador temperatura| 
+      //|3: desligar nebulizador temperatura| |4: ligar trocador de água variação temperatura| |5: desligar trocador de água tempo|
+      //|6: ligar ventilador temperatura| |7: desligar ventilador temperatura|
+      document.getElementById("nebulizer_parameter_on_humidity").placeholder = array[0];
+      document.getElementById("nebulizer_parameter_off_humidity").placeholder = array[1];
+      document.getElementById("nebulizer_parameter_on_temperature").placeholder = array[2];
+      document.getElementById("nebulizer_parameter_off_temperature").placeholder = array[3];
+      document.getElementById("exchanger_parameter_on_temperature").placeholder = array[4];
+      document.getElementById("exchanger_parameter_off_time").placeholder = array[5];
+      document.getElementById("exchanger_parameter_on_temperature").placeholder = array[6];
+      document.getElementById("exchanger_parameter_off_temperature").placeholder = array[7];
+      
+    }
+  };
+  xhttp.open("GET", "/actuators/parameter/getall", true);
+  xhttp.send();
+}
 
 
 function showHideDivParam(radioCheck, actuator_name) {
@@ -150,6 +173,24 @@ function updateActuatorsState() {
   };
   xhttp.open("GET", "/actuators/status/getall", true);
   xhttp.send();
+}
+
+function buttonSetParameter(url, inputID) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "/actuators/parameter/" + url, true);
+  xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status == 200) {
+        alert("Parâmetro reconfigurado!");
+      }
+      if (this.status == 304) {
+        alert("Erro em Modificar o parâmetro de acionamento do equipamento!");
+      }
+    }
+
+  };
+  xhttp.send("value=" + document.getElementById(inputID).value);
 }
 
 function updateActuatorsOpMode() { //atualizar o modo de operação dos atuadores

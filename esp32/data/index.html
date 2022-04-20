@@ -310,12 +310,13 @@
                         </div>
 
                         <div class="col-6 pe-0">
-                          <input type="email" class="form-control form-control-sm" id="nebulizer_parameter_on_humidity">
+                          <input type="number" class="form-control form-control-sm" id="nebulizer_parameter_on_humidity">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">% </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning"
+                            onclick='buttonSetParameter("nebulizer/on/humidity", "nebulizer_parameter_on_humidity")' >Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -333,13 +334,14 @@
 
                         <div class="col-6 pe-0">
 
-                          <input type="email" class="form-control form-control-sm"
+                          <input type="number" class="form-control form-control-sm"
                             id="nebulizer_parameter_on_temperature">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2" 
+                            onclick='buttonSetParameter("nebulizer/on/temperature", "nebulizer_parameter_on_temperature")'>Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -356,13 +358,13 @@
                         </div>
 
                         <div class="col-6 pe-0">
-                          <input type="email" class="form-control form-control-sm"
+                          <input type="number" class="form-control form-control-sm"
                             id="nebulizer_parameter_off_humidity">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">% </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning">Modificar</button>
+                            <button type="submit" onclick='buttonSetParameter("nebulizer/off/humidity", "nebulizer_parameter_off_humidity")' class="btn px-1 font-size-sm bg-warning">Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -380,13 +382,14 @@
 
                         <div class="col-6 pe-0">
 
-                          <input type="email" class="form-control form-control-sm"
+                          <input type="number" class="form-control form-control-sm"
                             id="nebulizer_parameter_off_temperature">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            onclick='buttonSetParameter("nebulizer/off/temperature", "nebulizer_parameter_off_temperature")'>Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -504,13 +507,14 @@
                         </div>
 
                         <div class="col-6 pe-0">
-                          <input type="email" class="form-control form-control-sm"
+                          <input type="number" class="form-control form-control-sm"
                             id="exchanger_parameter_on_temperature">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            onclick='buttonSetParameter("exchanger/on/deltat", "exchanger_parameter_on_temperature")'>Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -532,12 +536,13 @@
                         </div>
 
                         <div class="col-6 pe-0">
-                          <input type="email" class="form-control form-control-sm" id="exchanger_parameter_off_time">
+                          <input type="number" class="form-control form-control-sm" id="exchanger_parameter_off_time">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">segundos </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            onclick='buttonSetParameter("exchanger/off/time", "exchanger_parameter_off_time")'>Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -657,12 +662,13 @@
 
                         <div class="col-6 pe-0">
 
-                          <input type="email" class="form-control form-control-sm" id="fan_parameter_on_temperature">
+                          <input type="number" class="form-control form-control-sm" id="fan_parameter_on_temperature">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            onclick='buttonSetParameter("fan/on/temperature", "fan_parameter_on_temperature")'>Modificar</button>
                           </div>
                         </div>
                       </div>
@@ -677,7 +683,7 @@
                       <div class="row px-2">
                         <div class="row">
                           <div class="col-9">
-                            <label for="colFormLabelSm" class="col-form-label col-form-label-sm pb-0">Temperatura
+                            <label for="fan_parameter_off_temperature" class="col-form-label col-form-label-sm pb-0">Temperatura
                               ambiente abaixo de</label>
                           </div>
                         </div>
@@ -685,12 +691,13 @@
 
                         <div class="col-6 pe-0">
 
-                          <input type="email" class="form-control form-control-sm" id="colFormLabelSm">
+                          <input type="number" class="form-control form-control-sm" id="fan_parameter_off_temperature">
                         </div>
                         <div class="col-6 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2">Modificar</button>
+                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            onclick='buttonSetParameter("fan/off/temperature", "fan_parameter_off_temperature")'>Modificar</button>
                           </div>
                         </div>
                       </div>
