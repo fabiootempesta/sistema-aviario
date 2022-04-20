@@ -266,13 +266,20 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  
+  server.setAuthentication("user", "pass");
 
   // URL para raiz (index)
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     //request->send_P(200, "text/html", index_html, processor);
     //Send index.htm with default content type
     request->send(SPIFFS, "/index.html", "text/html");
+  });
+
+  // HTTP basic authentication
+  server.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
+    if(!request->authenticate("user", "pass"))
+        return request->requestAuthentication();
+    request->send(200, "text/plain", "Login Success!");
   });
 
   //---Rotas para requisições de origem do JavaScript---
