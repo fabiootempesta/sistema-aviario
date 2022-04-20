@@ -1,19 +1,4 @@
 //cv = current value (valor atual)
-var cv_climate_temp;
-var cv_climate_humidity;
-var cv_nipple_temp;
-var cv_box_temp;
-var cv_actuator_status_nebulizer;
-var cv_actuator_status_exchanger;
-var cv_actuator_status_fan;
-var cv_actuator_opmode_nebulizer_humidity_on;
-var cv_actuator_opmode_nebulizer_humidity_off;
-var cv_actuator_opmode_nebulizer_temp_on;
-var cv_actuator_opmode_nebulizer_temp_off;
-var cv_actuator_opmode_exchanger_time;
-var cv_actuator_opmode_exchanger_deltat;
-var cv_actuator_opmode_fan_temp_on;
-var cv_actuator_opmode_fan_temp_off;
 
 function buttonSetOpModeActuator(id_checkbox, actuator_name) {
   let opmode = 0;
