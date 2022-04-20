@@ -17,6 +17,7 @@ var cv_actuator_opmode_fan_temp_off;
 
 function buttonSetOpModeActuator(id_checkbox, actuator_name) {
   let opmode = 0;
+  console.log(document.getElementById(id_checkbox).checked);
   let value = document.getElementById(id_checkbox).checked;
   if (value)
     opmode = 1;
@@ -36,7 +37,7 @@ function buttonSetOpModeActuator(id_checkbox, actuator_name) {
 function updateOpMode(value, actuator_name, id_checkbox) {
   var automatic_div = document.getElementById("automatic_" + actuator_name);
   var manual_div = document.getElementById("manual_" + actuator_name);
-  if (value) {
+  if (value == "1") {
     document.getElementById(id_checkbox).checked = true;
     if (manual_div.classList.contains('d-none')) {
       manual_div.classList.remove('d-none');
@@ -158,13 +159,13 @@ function updateActuatorsOpMode() { //atualizar o modo de operação dos atuadore
       var array = this.responseText.split(" ");
 
       //array index = |0: nebulizador|  |1: trocador de água|   |2: ventilador|
-      document.getElementById("opmode_nebulizer").innerHTML = array[0];
+      
       updateOpMode(array[0], "nebulizer", "op_mode_nebulizer");
 
-      document.getElementById("opmode_exchanger").innerHTML = array[1];
+      
       updateOpMode(array[1], "exchanger", "op_mode_exchanger");
 
-      document.getElementById("opmode_fan").innerHTML = array[2];
+      
       updateOpMode(array[2], "fan", "op_mode_fan");
     }
   };
@@ -223,7 +224,7 @@ function buttonSetStatusActuator(button_value, actuator_name) {
 //taxa de atualização de 5 segundos
 setInterval(function () {
   //atualizando o valor dos sensores
-  /*updateSensors();
+  updateSensors();
   updateActuatorsState();
-  updateActuatorsOpMode();*/
+  updateActuatorsOpMode();
 }, 5000);

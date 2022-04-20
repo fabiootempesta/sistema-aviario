@@ -49,17 +49,8 @@ bool operation_mode_exchanger = true; //false = automático | true = manual
 
 
 
-int stringToBool(String n){ //auxiliar para transformar em booleano
-  if(n == "1")
-    return 1;
-  else{
-    if(n == "0"){
-      return 0;
-    }else{
-      return 2;
-    }
-  }
-    
+bool stringToBool(String n){ //qualquer valor diferente de 1 retornará false
+  return (n == "1");
 }
 
 String getStatusActuator(char n){
@@ -67,25 +58,44 @@ String getStatusActuator(char n){
   int pin;
   switch (n) {
     case 'n':
-      pin=PIN_NEBULIZER;
+      pin = PIN_NEBULIZER;
       break;
     case 'e':
-      pin=PIN_NIPPLE;
+      pin = PIN_NIPPLE;
       break;
     case 'f':
-      pin=PIN_FAN;
+      pin = PIN_FAN;
       break;
   }
 
-  if(digitalRead(pin)==HIGH)
-    return "0";
-  else
+  if(digitalRead(pin) == HIGH)
     return "1";
+  else
+    return "0";
   
 }
 
+void printActuators(){
+  Serial.println("---------");
+  Serial.print("N: " );
+  Serial.print(getStatusActuator('n'));
+  Serial.print(" ");
+  Serial.println(operation_mode_nebulizer);
+  Serial.print("F: ");
+  Serial.print(getStatusActuator('f'));
+  Serial.print(" ");
+  Serial.println(operation_mode_fan);
+  Serial.print("E: ");
+  Serial.print(getStatusActuator('e'));
+  Serial.print(" ");
+  Serial.println(operation_mode_exchanger);
+  Serial.println("---------");
+
+}
+
 void setNebulizer(bool state){
-  if (state == 1){
+  if (state){
+    Serial.println("ligou");
     digitalWrite(PIN_NEBULIZER, HIGH);
     if (digitalRead(PIN_FAN)==HIGH)
       fan_on_directly = 1;
@@ -93,26 +103,31 @@ void setNebulizer(bool state){
       fan_on_directly=0;
       digitalWrite(PIN_FAN, HIGH);
     }
-  }
-  if (state == 0){
+  }else{
+    Serial.println("desligou nebulizador");
     digitalWrite(PIN_NEBULIZER, LOW);
+    Serial.println("desligou nebulizador");
     if(fan_on_directly == 0)
       digitalWrite(PIN_FAN, LOW);
   }
+  printActuators();
 }
 
 void setExchanger(bool state){
   //Liga trocador de água
 	if (state){
+    Serial.println("desligou");
     digitalWrite(PIN_NIPPLE, HIGH);
     exchanger_time = millis() + 20000;
 	}else{ 
+    Serial.println("ligou");
     digitalWrite(PIN_NIPPLE, LOW);
 	}
 }
 
 void automaticModeNebulizer(){
   if(!operation_mode_nebulizer){
+    
     //Liga Nebulizador
     if(digitalRead(PIN_NEBULIZER) == LOW){
       if((current_climate_humidity < humidity_nebulizer_parameter) && (current_climate_temp > temperature_nebulizer_parameter)){
@@ -258,6 +273,27 @@ void setup() {
   server.on("/scripts.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/scripts.js", "text/javascript");
   });
+  server.on("/img/air_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/air_temperature.png", "image/png");
+  });
+  server.on("/img/exchanger.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/exchanger.png", "image/png");
+  });
+  server.on("/img/box_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/box_temperature.png", "image/png");
+  });
+  server.on("/img/fan.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/fan.png", "image/png");
+  });
+  server.on("/img/humidity.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/humidity.png", "image/png");
+  });
+  server.on("/img/nebulizer.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/nebulizer.png", "image/png");
+  });
+  server.on("/img/nipple_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/nipple_temperature.png", "image/png");
+  });
   //URL para requisitar a temperatura   temperatura em c_str, porque deve ser mandado em vetor de char   request é um ponteiro
   //request é um ponteiro que aponta pra qual tipo de requisição vai ser feita  send_P é para enviar uma pagina web grande  send é para respostas simples
 
@@ -277,15 +313,13 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            setNebulizer(stringToBool(p->value()));
-            request->send(200);
-            Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
-          }else{
-            Serial.println("Erro em modificar o parâmetro de acionamento do ventilador via interface Web!");
-            request->send(304);
-          }
+          setNebulizer(stringToBool(p->value()));
+          request->send(200);
+          Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+          Serial.println(stringToBool(p->value()));
+            
         }
+        
     }
   });
 
@@ -299,14 +333,10 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            setExchanger(stringToBool(p->value()));
-            request->send(200);
-            Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
-          }else{
-            Serial.println("Erro em modificar o parâmetro de acionamento do ventilador via interface Web!");
-            request->send(304);
-          }
+          setExchanger(stringToBool(p->value()));
+          request->send(200);
+          Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+
         }
     }
   });
@@ -318,24 +348,23 @@ void setup() {
     [](AsyncWebServerRequest * request){
     int params = request->params();
     for (int i = 0; i < params; i++){
-        AsyncWebParameter *p = request->getParam(i);
-        
-        if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            if (stringToBool(p->value())){
-              digitalWrite(PIN_FAN,HIGH);
-              request->send(200);
-              Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
-            }else{
-              if(digitalRead(PIN_NEBULIZER)==HIGH)
-                request->send(409, "text/plain", String("Ventilador não pode ser desligado quando o nebulizador estiver em funcionamento!").c_str());
-            }
-            
+      AsyncWebParameter *p = request->getParam(i);
+      
+      if(p->name()=="value"){
+        if (stringToBool(p->value())){
+          digitalWrite(PIN_FAN,HIGH);
+          request->send(200);
+          Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+        }else{
+          if(digitalRead(PIN_NEBULIZER)==HIGH){
+            request->send(409, "text/plain", String("Ventilador não pode ser desligado quando o nebulizador estiver em funcionamento!").c_str());
           }else{
-            Serial.println("Erro em modificar o parâmetro de acionamento do ventilador via interface Web!");
-            request->send(304, "text/plain", String("Erro interface!").c_str());
+            digitalWrite(PIN_FAN,LOW);
+            request->send(200);
+            Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
           }
         }
+      }
     }
   });
 
@@ -364,19 +393,14 @@ void setup() {
     [](AsyncWebServerRequest * request){
     int params = request->params();
     for (int i = 0; i < params; i++){
-        AsyncWebParameter *p = request->getParam(i);
-        
-        if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            operation_mode_nebulizer = stringToBool(p->value());
-            Serial.println(stringToBool(p->value()));
-            request->send(200);
-            Serial.println("Nebulizador trocou seu modo de operação!");
-          }else{
-            Serial.println("Erro em mudar o modo de operação do Nebulizador. (Valor inválido) not int");
-            request->send(304);
-          }
-        }
+      AsyncWebParameter *p = request->getParam(i);
+      
+      if(p->name()=="value"){
+        operation_mode_nebulizer = stringToBool(p->value());
+        Serial.println(stringToBool(p->value()));
+        request->send(200);
+        Serial.println("Nebulizador trocou seu modo de operação!");
+      }
     }
   });
 
@@ -390,14 +414,9 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            operation_mode_exchanger = stringToBool(p->value());
-            request->send(200);
-            Serial.println("Trocador trocou seu modo de operação!");
-          }else{
-            Serial.println("Erro em mudar o modo de operação do Trocador. (Valor inválido)");
-            request->send(304);
-          }
+          operation_mode_exchanger = stringToBool(p->value());
+          request->send(200);
+          Serial.println("Trocador trocou seu modo de operação!");
         }
     }
   });
@@ -412,14 +431,9 @@ void setup() {
         AsyncWebParameter *p = request->getParam(i);
         
         if(p->name()=="value"){
-          if(stringToBool(p->value()) != 2){
-            operation_mode_fan = stringToBool(p->value());
-            request->send(200);
-            Serial.println("Ventilador trocou seu modo de operação!");
-          }else{
-            Serial.println("Erro em mudar o modo de operação do Ventilador. (Valor inválido)");
-            request->send(304);
-          }
+          operation_mode_fan = stringToBool(p->value());
+          request->send(200);
+          Serial.println("Ventilador trocou seu modo de operação!");
         }
     }
   });
@@ -519,7 +533,7 @@ void setup() {
 void loop() {
 
 	if (update_time < millis()){
-    
+    printActuators();
     updateSensorsValue();
     printSensorsValue();
     
