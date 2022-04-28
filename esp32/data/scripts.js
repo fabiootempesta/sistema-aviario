@@ -1,4 +1,8 @@
-//cv = current value (valor atual)
+
+updateSensors();
+updateActuatorsState();
+updateActuatorsOpMode();
+updateActuatorsParam();
 
 function buttonSetOpModeActuator(id_checkbox, actuator_name) {
   let opmode = 0;
@@ -86,14 +90,15 @@ function updateActuatorsParam() {
       //index = |0: ligar nebulizador umidade| |1: desligar nebulizador umidade| |2: ligar nebulizador temperatura| 
       //|3: desligar nebulizador temperatura| |4: ligar trocador de água variação temperatura| |5: desligar trocador de água tempo|
       //|6: ligar ventilador temperatura| |7: desligar ventilador temperatura|
-      document.getElementById("nebulizer_parameter_on_humidity").placeholder = array[0];
-      document.getElementById("nebulizer_parameter_off_humidity").placeholder = array[1];
-      document.getElementById("nebulizer_parameter_on_temperature").placeholder = array[2];
-      document.getElementById("nebulizer_parameter_off_temperature").placeholder = array[3];
-      document.getElementById("exchanger_parameter_on_temperature").placeholder = array[4];
-      document.getElementById("exchanger_parameter_off_time").placeholder = array[5];
-      document.getElementById("exchanger_parameter_on_temperature").placeholder = array[6];
-      document.getElementById("exchanger_parameter_off_temperature").placeholder = array[7];
+      document.getElementById("nebulizer_parameter_on_humidity").placeholder = array[0].replace(".", ",");
+      document.getElementById("nebulizer_parameter_off_humidity").placeholder = array[1].replace(".", ",");
+      document.getElementById("nebulizer_parameter_on_temperature").placeholder = array[2].replace(".", ",");
+      document.getElementById("nebulizer_parameter_off_temperature").placeholder = array[3].replace(".", ",");
+      document.getElementById("exchanger_parameter_on_temperature").placeholder = array[4].replace(".", ",");
+      document.getElementById("exchanger_parameter_off_time").placeholder = array[5].replace(".", ",");
+      document.getElementById("exchanger_parameter_time_act").placeholder = array[5].replace(".", ",");
+      document.getElementById("fan_parameter_on_temperature").placeholder = array[6].replace(".", ",");
+      document.getElementById("fan_parameter_off_temperature").placeholder = array[7].replace(".", ",");
       
     }
   };
@@ -119,8 +124,10 @@ function updateActuatorState(state, actuator_name) {
   var button = document.getElementById("button_act_" + actuator_name);
   if (state == true) {
     
-    if (actuator_name == "exchanger")
+    if (actuator_name == "exchanger"){
       button.innerHTML = "Interromper a troca";
+      document.getElementById("exchanger_off").classList.add('d-none');
+    }
     else
       button.innerHTML = "Desligar";
     
@@ -130,8 +137,10 @@ function updateActuatorState(state, actuator_name) {
     document.getElementById("status_" + actuator_name + "1").style.color = "green";
     document.getElementById("status_" + actuator_name + "2").style.color = "green";
   } else {
-    if (actuator_name == "exchanger")
+    if (actuator_name == "exchanger"){
+      document.getElementById("exchanger_off").classList.remove('d-none');
       button.innerHTML = "Realizar a troca";
+    }
     else
       button.innerHTML = "Ligar";
 
@@ -244,13 +253,18 @@ function buttonSetStatusActuator(button_value, actuator_name) {
       updateActuatorState(button_value, actuator_name);
     }
   };
-  xhttp.send("value=" + button_value);
+  var requestSend = "value=" + button_value;
+  if (actuator_name == "exchanger")
+    requestSend += "&time=" + document.getElementById("exchanger_parameter_time_act").value;
+
+  xhttp.send(requestSend);
 }
 
 //taxa de atualização de 5 segundos
 setInterval(function () {
   //atualizando o valor dos sensores
-  updateSensors();
+  /*updateSensors();
   updateActuatorsState();
   updateActuatorsOpMode();
+  updateActuatorsParam();*/
 }, 5000);

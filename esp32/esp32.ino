@@ -34,13 +34,10 @@ float parameter_nebulizer_on_temperature = 20.0;
 float parameter_nebulizer_off_temperature = 20.0;
 
 float parameter_nipple_on_deltat = 5.4;
-long parameter_nipple_off_time = 8000;
+int parameter_nipple_off_time = 8000;
 
 float parameter_fan_on_temperature = 22.2;
 float parameter_fan_off_temperature = 22.2;
-
-
-
 
 
 //Valores atuais rebido dos sensores
@@ -48,11 +45,14 @@ float current_nipple_temp = 0;
 float current_box_temp = 0;
 float current_climate_temp = 0;
 float current_climate_humidity = 0;
+
 //Variáveis de tempo para função millis()
 long update_time = 0;
 long exchanger_time = 0;
+
 //Variável para auxiliar desligar ou manter o ventilador ligado após desligar o nebulizador
-bool fan_on_directly = 0; 
+bool fan_on_directly = 0;
+ 
 //Modos de operação
 bool operation_mode_nebulizer = false; //false = automático | true = manual
 bool operation_mode_fan = false; //false = automático | true = manual
@@ -125,14 +125,16 @@ void setNebulizer(bool state){
   printActuators();
 }
 
-void setExchanger(bool state){
+void setExchanger(bool state, int time_exchange){
   //Liga trocador de água
+  //timeExchange = 0 quando a duração da troca for da variavel parameter_nipple_off_time
 	if (state){
-    Serial.println("desligou");
     digitalWrite(PIN_NIPPLE, HIGH);
-    exchanger_time = millis() + 20000;
+    if (time_exchange == 0)
+      exchanger_time = millis() + parameter_nipple_off_time;
+    else
+      exchanger_time = millis() + time_exchange;
 	}else{ 
-    Serial.println("ligou");
     digitalWrite(PIN_NIPPLE, LOW);
 	}
 }
@@ -161,7 +163,7 @@ void automaticModeExchanger(){
   if(!operation_mode_exchanger){
     if( (current_nipple_temp - current_box_temp) > parameter_nipple_on_deltat){
       Serial.println("Água trocada via modo automático");
-      setExchanger(1);
+      setExchanger(1, 0);
     }
   }
 }
@@ -184,7 +186,7 @@ void automaticModeFan(){
 }
 
 void changeWaterOff(){
-  if((digitalRead(PIN_NIPPLE)==HIGH) && (exchanger_time < millis())){
+  if((digitalRead(PIN_NIPPLE) == HIGH) && (exchanger_time < millis())){
     digitalWrite(PIN_NIPPLE, LOW);
     Serial.println("Trocador de água terminou sua ação!");
 	}
@@ -265,8 +267,6 @@ void setup() {
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-
-  server.setAuthentication("user", "pass");
 
   // URL para raiz (index)
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -351,15 +351,35 @@ void setup() {
     HTTP_POST,
     [](AsyncWebServerRequest * request){
     int params = request->params();
+    bool flagState, flagTime, currentState;
+    int currentTime = 0;
     for (int i = 0; i < params; i++){
         AsyncWebParameter *p = request->getParam(i);
         
-        if(p->name()=="value"){
-          setExchanger(stringToBool(p->value()));
-          request->send(200);
-          Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
-
+        if(p->name() == "value"){
+          flagState = true;
+          currentState = (stringToBool(p->value()));
         }
+        if(p->name() == "time"){
+          if (currentTime = p->value().toInt())
+            flagTime = true;
+        }
+        
+    }
+    if (flagState){
+      if (currentState){
+        if (flagState){
+          setExchanger(currentState, currentTime * 1000);
+          request->send(200);
+        }else{
+          request->send(304);
+        }
+      }else{
+        setExchanger(currentState, 0);
+        request->send(200);
+      }
+    }else{
+      request->send(304);
     }
   });
 
@@ -585,7 +605,7 @@ void setup() {
         
         if(p->name()=="value"){
           if(float current_value = (p->value().toFloat())){
-            parameter_nebulizer_off_humidity_humidity = current_value;
+            parameter_nebulizer_off_humidity = current_value;
             request->send(200);
             Serial.println("Parâmetro de umidade de acionamento do nebulizador modificado via interface Web!");
           }else{
