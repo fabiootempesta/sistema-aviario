@@ -144,14 +144,14 @@ void automaticModeNebulizer(){
     
     //Liga Nebulizador
     if(digitalRead(PIN_NEBULIZER) == LOW){
-      if((current_climate_humidity < parameter_nebulizer_on_humidity) && (current_climate_temp > parameter_nebulizer_on_temperature)){
+      if( (current_climate_humidity < parameter_nebulizer_on_humidity) && (current_climate_temp > parameter_nebulizer_on_temperature) ){
         setNebulizer(1);
         Serial.println("Nebulizador ligado via modo automático");
       }
 
     //Desliga Nebulizador
     }else{
-      if((current_climate_humidity > (parameter_nebulizer_on_humidity + 3)) || (current_climate_temp < (parameter_nebulizer_on_temperature + 0.5)) ){
+      if( (current_climate_humidity > parameter_nebulizer_off_humidity) || (current_climate_temp < parameter_nebulizer_off_temperature) ){
         setNebulizer(0);
         Serial.println("Nebulizador desligado via modo automático");
       }
@@ -169,15 +169,14 @@ void automaticModeExchanger(){
 }
 
 void automaticModeFan(){
-  if(!operation_mode_fan)  {//Liga Ventilador
+  if(!operation_mode_fan)  { //Liga Ventilador
     if (digitalRead(PIN_FAN) == LOW){
-      if (current_climate_temp>parameter_fan_on_temperature){
+      if (current_climate_temp > parameter_fan_on_temperature){
         digitalWrite(PIN_FAN, HIGH);
         Serial.println("Ventilaador ligado via modo automático");
       }
-    //Desliga Ventilador
-    }else{
-      if ((current_climate_temp < (parameter_fan_on_temperature - 2)) && (digitalRead(PIN_NEBULIZER) == LOW)){
+    }else{ //Desliga Ventilador
+      if ((current_climate_temp < parameter_fan_off_temperature) && (digitalRead(PIN_NEBULIZER) == LOW)){
         digitalWrite(PIN_FAN, LOW);
         Serial.println("Ventilador ligado via modo automático");
       }
@@ -276,46 +275,71 @@ void setup() {
   });
 
   // HTTP basic authentication
-  server.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
+  /*server.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
     if(!request->authenticate("user", "pass"))
         return request->requestAuthentication();
     request->send(200, "text/plain", "Login Success!");
-  });
+  });*/
 
-  //---Rotas para requisições de origem do JavaScript---
-  server.on("/img/logo.png", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/img/logo.png", "image/png");
-  });
+  // --- URL para arquivos estáticos ---
+  
+  //CSS e JS pessoais
   server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/styles.css", "text/css");
   });
   server.on("/scripts.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/scripts.js", "text/javascript");
   });
+
+  //Bootstrap
+  server.on("/bootstrap/bootstrap.min.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/bootstrap/bootstrap.min.css", "text/css");
+  });
+  server.on("/bootstrap/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/bootstrap/bootstrap.min.js", "text/javascript");
+  });
+  
+  //Imagens
   server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/favicon.ico", "image/png");
   });
+
+  server.on("/img/logo.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/img/logo.png", "image/png");
+  });
+
   server.on("/img/air_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/air_temperature.png", "image/png");
   });
+
   server.on("/img/exchanger.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/exchanger.png", "image/png");
   });
+
   server.on("/img/box_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/box_temperature.png", "image/png");
   });
+
   server.on("/img/fan.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/fan.png", "image/png");
   });
+
   server.on("/img/humidity.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/humidity.png", "image/png");
   });
+
   server.on("/img/nebulizer.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/nebulizer.png", "image/png");
   });
+
   server.on("/img/nipple_temperature.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/img/nipple_temperature.png", "image/png");
   });
+
+
+
+
+  //---Rotas para requisições de origem da Página Web---
   //URL para requisitar a temperatura   temperatura em c_str, porque deve ser mandado em vetor de char   request é um ponteiro
   //request é um ponteiro que aponta pra qual tipo de requisição vai ser feita  send_P é para enviar uma pagina web grande  send é para respostas simples
 
