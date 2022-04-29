@@ -169,7 +169,25 @@ function updateActuatorsState() {
   xhttp.send();
 }
 
+function showModalNotificationParameter(value) {
+  var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+    keyboard: false
+  })
+  var modal_success = document.getElementById("modal_param_success");
+  var modal_error = document.getElementById("modal_param_failed");
+  modal_success.classList.add('d-none');
+  modal_error.classList.add('d-none');
+
+  if(value){
+    modal_success.classList.remove('d-none');
+  }else{
+    modal_error.classList.remove('d-none');
+  }
+  myModal.show()
+}
+
 function buttonSetParameter(url, inputID) {
+  
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/actuators/parameter/" + url, true);
   xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
