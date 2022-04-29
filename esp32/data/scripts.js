@@ -187,22 +187,24 @@ function showModalNotificationParameter(value) {
 }
 
 function buttonSetParameter(url, inputID) {
-  
+
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", "/actuators/parameter/" + url, true);
   xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
+      
       if (this.status == 200) {
-        alert("Parâmetro reconfigurado!");
+        showModalNotificationParameter(1);
       }
       if (this.status == 304) {
-        alert("Erro em Modificar o parâmetro de acionamento do equipamento!");
+        showModalNotificationParameter(0);
       }
     }
 
   };
   xhttp.send("value=" + document.getElementById(inputID).value);
+  document.getElementById(inputID).value = "";
 }
 
 function updateActuatorsOpMode() { //atualizar o modo de operação dos atuadores
@@ -281,8 +283,8 @@ function buttonSetStatusActuator(button_value, actuator_name) {
 //taxa de atualização de 5 segundos
 setInterval(function () {
   //atualizando o valor dos sensores
-  /*updateSensors();
+  updateSensors();
   updateActuatorsState();
   updateActuatorsOpMode();
-  updateActuatorsParam();*/
-}, 5000);
+  updateActuatorsParam();
+}, 500);
