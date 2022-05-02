@@ -17,6 +17,14 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
  * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta_F_O_TCC-Monografia.pdf"> Monografia (em andamento) </a>
  * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta_F_O_Artigo-ForScience.pdf"> Artigo (em andamento) </a>
  
+ ## ⚙️ Bibliotecas para compilar o código arduino
+ * <a href="https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi"> WiFi.h </a>
+ * <a href="https://github.com/PaulStoffregen/OneWire"> OneWire.h </a>
+ * <a href="https://github.com/milesburton/Arduino-Temperature-Control-Library"> DallasTemperature.h </a>
+ * <a href="https://github.com/espressif/arduino-esp32/tree/master/libraries/SPIFFS"> SPIFFS.h </a>
+ * <a href="https://github.com/adafruit/DHT-sensor-library"> DHT.h </a>
+ * <a href="https://github.com/me-no-dev/ESPAsyncWebServer"> ESPAsyncWebServer.h </a>
+ 
 ## 🙍‍♂️ Membros do Projeto
 * Fábio Oliveira Tempesta - Autor
 * Itagildo Edmar Garbazza - Orientador
