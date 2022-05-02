@@ -26,10 +26,12 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
  * <a href="https://github.com/me-no-dev/ESPAsyncWebServer"> ESPAsyncWebServer.h </a>
  
 ## 🙍‍♂️ Membros do Projeto
+<a href = "https://www.ifmg.edu.br/portal"><img align="center" width="22" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Logotipo_IFET.svg/764px-Logotipo_IFET.svg.png" style="max-width:100%;"> </a> Auxílio financeiro do <a href = "https://www.ifmg.edu.br/portal"> Institituto Federal de Minas Gerais </a>
+
 * Fábio Oliveira Tempesta - Autor
 * Itagildo Edmar Garbazza - Orientador
 * Talles Barbosa Portilho - Coorientador do TCC (Monografia)
 * Adriano Geraldo - Coorientador do projeto de iniciação científica
 
-<a href = "https://www.ifmg.edu.br/portal"><img align="center" width="22" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Logotipo_IFET.svg/764px-Logotipo_IFET.svg.png" style="max-width:100%;"> </a> Auxílio financeiro do <a href = "https://www.ifmg.edu.br/portal"> Institituto Federal de Minas Gerais </a>
+
 
