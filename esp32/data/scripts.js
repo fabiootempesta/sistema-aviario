@@ -169,18 +169,25 @@ function updateActuatorsState() {
   xhttp.send();
 }
 
-function showModalNotificationParameter(value) {
+function showModalNotification(value, text) {
   var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
     keyboard: false
   })
   var modal_success = document.getElementById("modal_param_success");
   var modal_error = document.getElementById("modal_param_failed");
+  var text_success = document.getElementById("span_modal_success");
+  var text_failed = document.getElementById("span_modal_failed");
+  
   modal_success.classList.add('d-none');
   modal_error.classList.add('d-none');
+  
+  
 
   if(value){
+    text_success.innerHTML = text;
     modal_success.classList.remove('d-none');
   }else{
+    text_failed.innerHTML = text;
     modal_error.classList.remove('d-none');
   }
   myModal.show()
@@ -195,10 +202,10 @@ function buttonSetParameter(url, inputID) {
     if (this.readyState == 4) {
       
       if (this.status == 200) {
-        showModalNotificationParameter(1);
+        showModalNotification(1, "Parâmetro modificado com sucesso!");
       }
       if (this.status == 304) {
-        showModalNotificationParameter(0);
+        showModalNotification(0, "Falha em modificar o parâmetro!");
       }
     }
 
@@ -269,9 +276,17 @@ function buttonSetStatusActuator(button_value, actuator_name) {
   xhttp.open("POST", "/actuators/status/set/" + actuator_name, true);
   xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      updateActuatorState(button_value, actuator_name);
+    if (this.readyState == 4 ) {
+      if (this.status == 200){
+        updateActuatorState(button_value, actuator_name);
+      }
+     
+      if (this.status == 409){
+        showModalNotification(0, this.responseText);
+      }
+
     }
+
   };
   var requestSend = "value=" + button_value;
   if (actuator_name == "exchanger")

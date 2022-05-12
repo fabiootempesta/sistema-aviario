@@ -10,9 +10,9 @@
 //---Pinos de entrada e saída---
 #define PIN_DS18B20 2
 #define PIN_DHT11 4
-#define PIN_NIPPLE 27  
-#define PIN_FAN 19 
-#define PIN_NEBULIZER 21
+#define PIN_NIPPLE 5  
+#define PIN_FAN 18 
+#define PIN_NEBULIZER 19  
 
 //---Configuração de bibliotecas---
 #define DHTYPE DHT11
@@ -224,10 +224,16 @@ void updateSensorsValue(){
 
   Serial.println("Atualizando valores dos sensores.");
 	ds18b20.requestTemperatures(); 
-	current_nipple_temp = ds18b20.getTempCByIndex(0);
-	current_box_temp = ds18b20.getTempCByIndex(1);
-	current_climate_temp = dht.readTemperature();
-	current_climate_humidity = dht.readHumidity();
+  if (!(isnan( dht.readTemperature()) || isnan(dht.readHumidity()))) {
+    current_climate_temp = dht.readTemperature();
+    current_climate_humidity = dht.readHumidity();
+  }
+  if (ds18b20.getTempCByIndex(0) != -127.00)
+	  current_nipple_temp = ds18b20.getTempCByIndex(0);
+
+  if (ds18b20.getTempCByIndex(1) != -127.00) 
+	  current_box_temp = ds18b20.getTempCByIndex(1);
+	
 }
 
 void setup() {
@@ -369,7 +375,7 @@ void setup() {
     }
   });
 
-  //URL para ligar o trocador de agua
+  //URL para ligar/desligar o trocador de agua
   server.on(
     "/actuators/status/set/exchanger", 
     HTTP_POST,
@@ -420,14 +426,14 @@ void setup() {
         if (stringToBool(p->value())){
           digitalWrite(PIN_FAN,HIGH);
           request->send(200);
-          Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+          Serial.println("Status do ventilador modificado via interface Web!");
         }else{
           if(digitalRead(PIN_NEBULIZER)==HIGH){
-            request->send(409, "text/plain", String("Ventilador não pode ser desligado quando o nebulizador estiver em funcionamento!").c_str());
+            request->send(409, "text/plain", String("Ventilador não pode ser desligado enquanto o nebulizador estiver em funcionamento!").c_str());
           }else{
             digitalWrite(PIN_FAN,LOW);
             request->send(200);
-            Serial.println("Parâmetro de acionamento do ventilador modificado via interface Web!");
+            Serial.println("Status do ventilador modificado via interface Web!");
           }
         }
       }
