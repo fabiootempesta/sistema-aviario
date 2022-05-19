@@ -4,6 +4,17 @@ updateActuatorsState();
 updateActuatorsOpMode();
 updateActuatorsParam();
 
+var countdown_time_exchanger = 0;
+
+var countdownExchanger;
+
+function decrementerCountdown(){
+  if (countdown_time_exchanger > 0) {
+    countdown_time_exchanger--;
+    document.getElementById("countdown_span").innerHTML = countdown_time_exchanger;
+  }
+}
+
 function buttonSetOpModeActuator(id_checkbox, actuator_name) {
   let opmode = 0;
   console.log(document.getElementById(id_checkbox).checked);
@@ -127,6 +138,11 @@ function updateActuatorState(state, actuator_name) {
     if (actuator_name == "exchanger"){
       button.innerHTML = "Interromper a troca";
       document.getElementById("exchanger_off").classList.add('d-none');
+      
+      document.getElementById("countdown").classList.remove('d-none');
+      countdownExchanger = setInterval(decrementerCountdown, 1000);
+      document.getElementById("countdown_span").innerHTML = countdown_time_exchanger;
+      
     }
     else
       button.innerHTML = "Desligar";
@@ -140,6 +156,8 @@ function updateActuatorState(state, actuator_name) {
     if (actuator_name == "exchanger"){
       document.getElementById("exchanger_off").classList.remove('d-none');
       button.innerHTML = "Realizar a troca";
+      document.getElementById("countdown").classList.add('d-none');
+      clearInterval(countdownExchanger);
     }
     else
       button.innerHTML = "Ligar";
@@ -289,11 +307,16 @@ function buttonSetStatusActuator(button_value, actuator_name) {
 
   };
   var requestSend = "value=" + button_value;
-  if (actuator_name == "exchanger")
+  if (actuator_name == "exchanger"){
     requestSend += "&time=" + document.getElementById("exchanger_parameter_time_act").value;
+    countdown_time_exchanger = parseInt(document.getElementById("exchanger_parameter_time_act").value);
+  }
+    
 
   xhttp.send(requestSend);
 }
+
+
 
 //taxa de atualização de 5 segundos
 setInterval(function () {

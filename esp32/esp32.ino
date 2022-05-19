@@ -28,16 +28,16 @@ const char* password = "raulfabio21";
 //---Variáveis globais---
 //Valores dos parâmetros
 
-int parameter_nebulizer_on_humidity = 90;
-int parameter_nebulizer_off_humidity = 90;
-float parameter_nebulizer_on_temperature = 20.0;
-float parameter_nebulizer_off_temperature = 20.0;
+int parameter_nebulizer_on_humidity = 60;
+int parameter_nebulizer_off_humidity = 75;
+float parameter_nebulizer_on_temperature = 26;
+float parameter_nebulizer_off_temperature = 22;
 
 float parameter_nipple_on_deltat = 5.4;
 int parameter_nipple_off_time = 8000;
 
-float parameter_fan_on_temperature = 22.2;
-float parameter_fan_off_temperature = 22.2;
+float parameter_fan_on_temperature = 23.5;
+float parameter_fan_off_temperature = 22;
 
 
 //Valores atuais rebido dos sensores
@@ -297,13 +297,13 @@ void setup() {
     request->send(SPIFFS, "/scripts.js", "text/javascript");
   });
 
-  //Bootstrap
+  /*//Bootstrap
   server.on("/bootstrap/bootstrap.min.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/bootstrap/bootstrap.min.css", "text/css");
   });
   server.on("/bootstrap/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/bootstrap/bootstrap.min.js", "text/javascript");
-  });
+  });*/
   
   //Imagens
   server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -703,7 +703,7 @@ void loop() {
     automaticModeFan();
     automaticModeNebulizer();
 
-    update_time = millis()+5000;
+    update_time = millis() + 3000;
   }
 
   changeWaterOff();

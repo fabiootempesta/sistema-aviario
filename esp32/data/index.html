@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap CSS -->
-<link href="/bootstrap/bootstrap.min.css" rel="stylesheet"
+<!-- <link href="/bootstrap/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+ --> 
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 <link rel="stylesheet" href="/styles.css">
 
@@ -33,7 +36,7 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/login.php">SOBRE</a>
+            <a class="nav-link" href="https://github.com/fabiotempesta/SistemaAviario">SOBRE</a>
           </li>
       </div>
     </div>
@@ -65,8 +68,6 @@
               </p>
               <img class="" src="/img/air_temperature.png" width="210" height="170">
             </div>
-            
-            
             
             <button id="expanded_climate_temperature_button" type="button"
               onclick='retractDiv("expanded_climate_temperature",  "actuators")'
@@ -265,15 +266,15 @@
                   </svg>
                   <span class="fw-bold"> Parâmetros do modo automático</span>
                 </p>
-                <div class="d-flex flex-row ps-2 ">
-                  <div class="form-check form-check-inline me-4">
+                <div class="d-flex justify-content-around">
+                  <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="flexRadioNebulizer" id="param_on_nebulizer"
                       onclick="showHideDivParam(1, 'nebulizer')" checked>
                     <label class="form-check-label text-start negative-ms" for="param_on_nebulizer">
                       Ligar quando:
                     </label>
                   </div>
-                  <div class="form-check form-check-inline me-1 ms-auto">
+                  <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="flexRadioNebulizer" id="param_off_nebulizer"
                       onclick="showHideDivParam(0, 'nebulizer')">
                     <label class="form-check-label text-start negative-ms" for="param_off_nebulizer">
@@ -288,108 +289,99 @@
                     <div id="card_front_nebulizer" class="front">
 
                       <div class="row px-2">
-                        <div class="row">
-                          <div class="col-9">
-                            <label for="nebulizer_parameter_on_humidity" class="col-form-label col-form-label-sm pb-0">A
-                              umidade relativa do ar estiver menor que</label>
-                          </div>
-                        </div>
+                        <label for="nebulizer_parameter_on_humidity" class="col-form-label col-form-label-sm pb-0">A
+                          umidade relativa do ar estiver menor que
+                        </label>
+                      </div>
 
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm"
+                      <div class="d-flex justify-content-evenly">
+                        <div class="col-3 d-flex flex-row align-items-center">
+                          <input type="number" class="form-control form-control-sm me-1"
                             id="nebulizer_parameter_on_humidity">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">% </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning"
-                              onclick='buttonSetParameter("nebulizer/on/humidity", "nebulizer_parameter_on_humidity")'>Salvar</button>
-                          </div>
                         </div>
-
-                        <div class="col-12 pe-0">
-                          <label class="col-form-label col-form-label-sm pb-0 fw-bold">e</label>
+                          
+                        <div class="">
+                          <button type="submit" class="btn font-size-sm bg-warning"
+                            onclick='buttonSetParameter("nebulizer/on/humidity", "nebulizer_parameter_on_humidity")'>Salvar</button>
                         </div>
                       </div>
 
+                      <div class="row">
+                        <label class="col-form-label col-form-label-sm pb-0 fw-bold">e</label>
+                      </div>
 
+                      
+                      <div class="row">
+                          <label for="nebulizer_parameter_on_temperature"
+                            class="col-form-label col-form-label-sm pb-0">A temperatura ambiente estiver maior que</label>
+                      </div>
 
-                      <div class="row px-2 mt-1">
-                        <div class="row">
-                          <div class="col-9">
-                            <label for="nebulizer_parameter_on_temperature"
-                              class="col-form-label col-form-label-sm pb-0">A temperatura ambiente estiver maior que</label>
-                          </div>
-                        </div>
-
-
-                        <div class="col-3 pe-0">
-
-                          <input type="number" class="form-control form-control-sm"
+                      <div class="d-flex justify-content-evenly mb-2">
+                        <div class="col-3 d-flex flex-row align-items-center">
+                          <input type="number" class="form-control form-control-sm me-1"
                             id="nebulizer_parameter_on_temperature">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="btn font-size-sm bg-warning"
                               onclick='buttonSetParameter("nebulizer/on/temp", "nebulizer_parameter_on_temperature")'>Salvar</button>
-                          </div>
                         </div>
                       </div>
+                      
+                      
 
                     </div>
 
                     <div id="card_back_nebulizer" class="back hidden-face">
-                      <div class="row px-2">
                         <div class="row">
-                          <div class="col-9">
                             <label for="nebulizer_parameter_off_humidity"
                               class="col-form-label col-form-label-sm pb-0">A umidade relativa do ar estiver maior que</label>
+                        </div>
+
+                        <div class="d-flex justify-content-evenly">
+                          <div class="col-3 d-flex flex-row align-items-center">
+                            <input type="number" class="form-control form-control-sm me-1"
+                              id="nebulizer_parameter_off_humidity">
+                            <span class="font-size-sm ">% </span>
+                          </div>
+                          <div class="">
+                              <button type="submit"
+                                onclick='buttonSetParameter("nebulizer/off/humidity", "nebulizer_parameter_off_humidity")'
+                                class="btn font-size-sm bg-warning">Salvar</button>
                           </div>
                         </div>
 
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm"
-                            id="nebulizer_parameter_off_humidity">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
-                          <span class="font-size-sm ">% </span>
-                          <div class="ms-auto">
-                            <button type="submit"
-                              onclick='buttonSetParameter("nebulizer/off/humidity", "nebulizer_parameter_off_humidity")'
-                              class="btn px-1 font-size-sm bg-warning">Salvar</button>
-                          </div>
-                        </div>
-
-                        <div class="col-12 pe-0">
+                        <div class="row">
                           <label class="col-form-label col-form-label-sm pb-0 fw-bold">ou</label>
                         </div>
-                      </div>
-
-
-
-                      <div class="row px-2 mt-1">
+                        
                         <div class="row">
-                          <div class="col-9">
-                            <label for="nebulizer_parameter_off_temperature"
-                              class="col-form-label col-form-label-sm pb-0">A temperatura ambiente estiver menor que</label>
+                          <label for="nebulizer_parameter_off_temperature"
+                            class="col-form-label col-form-label-sm pb-0">A temperatura ambiente estiver menor que</label>
+                        </div>
+                        <div class="d-flex justify-content-evenly">
+                          <div class="col-3 d-flex flex-row align-items-center">
+
+                            <input type="number" class="form-control form-control-sm me-1"
+                              id="nebulizer_parameter_off_temperature">
+                            <span class="font-size-sm ">°C </span>
                           </div>
-                        </div>
-
-
-                        <div class="col-3 pe-0">
-
-                          <input type="number" class="form-control form-control-sm"
-                            id="nebulizer_parameter_off_temperature">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
-                          <span class="font-size-sm ">°C </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            
+                          <div class="">
+                            <button type="submit" class="btn font-size-sm bg-warning"
                               onclick='buttonSetParameter("nebulizer/off/temp", "nebulizer_parameter_off_temperature")'>Salvar</button>
                           </div>
                         </div>
-                      </div>
+                        
+
+
+
+                        
+
+
+                        
                     </div>
 
                   </div>
@@ -465,15 +457,15 @@
                   </svg>
                   <span class="fw-bold"> Parâmetros do modo automático</span>
                 </p>
-                <div class="d-flex flex-row ps-2 ">
-                  <div class="form-check form-check-inline me-4">
+                <div class="d-flex justify-content-around">
+                  <div class="form-check form-check-inline ">
                     <input class="form-check-input" type="radio" name="flexRadioExchanger" id="param_on_exchanger"
                       onclick="showHideDivParam(1, 'exchanger')" checked>
                     <label class="form-check-label text-start negative-ms" for="param_on_exchanger">
                       Ligar quando:
                     </label>
                   </div>
-                  <div class="form-check form-check-inline me-1 ms-auto">
+                  <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="flexRadioExchanger" id="param_off_exchanger"
                       onclick="showHideDivParam(0, 'exchanger')">
                     <label class="form-check-label text-start negative-ms" for="param_off_exchanger">
@@ -487,42 +479,38 @@
 
                     <div id="card_front_exchanger" class="front">
 
-                      <div class="row px-2">
-                        <div class="row">
-                          <div class="col-9">
-                            <label for="exchanger_parameter_on_temperature"
-                              class="col-form-label col-form-label-sm pb-0">
-                              A diferença de temperatura entre o bebedouro e a caixa estiver maior que </label>
-                          </div>
-                        </div>
-
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm"
+                      <div class="row">
+                        <label for="exchanger_parameter_on_temperature"
+                          class="col-form-label col-form-label-sm pb-0">
+                          A diferença de temperatura entre o bebedouro e a caixa estiver maior que </label>
+                      </div>
+                      <div class="d-flex justify-content-evenly align-items-center mb-2">
+                        <div class="col-3 d-flex flex-row align-items-center">
+                          <input type="number" class="form-control form-control-sm me-1"
                             id="exchanger_parameter_on_temperature">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
                           <span class="font-size-sm ">°C </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                        </div>
+                        <div class="">
+                          
+                            <button type="submit" class="btn font-size-sm bg-warning"
                               onclick='buttonSetParameter("exchanger/on/deltatemp", "exchanger_parameter_on_temperature")'>Salvar</button>
-                          </div>
                         </div>
                       </div>
+                        
                     </div>
 
                     <div id="card_back_exchanger" class="back hidden-face">
-                      <div class="row px-2 mt-4">
+                      <div class="d-flex justify-content-evenly">
 
 
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm" id="exchanger_parameter_off_time">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
+                        <div class="col-5 d-flex flex-row align-items-center">
+                          <input type="number" class="form-control form-control-sm me-1" id="exchanger_parameter_off_time">
                           <span class="font-size-sm ">segundos </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
-                              onclick='buttonSetParameter("exchanger/off/time", "exchanger_parameter_off_time")'>Salvar</button>
-                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                          
+                          <button type="submit" class="btn font-size-sm bg-warning"
+                            onclick='buttonSetParameter("exchanger/off/time", "exchanger_parameter_off_time")'>Salvar</button>
                         </div>
                       </div>
                     </div>
@@ -557,7 +545,12 @@
                     </div>
                   </div>
                   <button id="button_act_exchanger" value="0" type="submit" class="btn bg-warning btn-lg mt-2 mb-2"
-                    onclick='buttonSetStatusActuator(this.value, "exchanger")'>Interromper</button>
+                    onclick='buttonSetStatusActuator(this.value, "exchanger")'>Interromper
+                  </button>
+                  <div id="countdown" class="fs-1 d-none">
+                    <span id="countdown_span"></span>
+                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -611,15 +604,15 @@
                   </svg>
                   <span class="fw-bold"> Parâmetros do modo automático</span>
                 </p>
-                <div class="d-flex flex-row ps-2 ">
-                  <div class="form-check form-check-inline me-4">
+                <div class="d-flex justify-content-around">
+                  <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="flexRadioFan" id="param_on_fan"
                       onclick="showHideDivParam(1, 'fan')" checked>
                     <label class="form-check-label text-start negative-ms" for="param_on_fan">
                       Ligar quando:
                     </label>
                   </div>
-                  <div class="form-check form-check-inline me-1 ms-auto">
+                  <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="flexRadioFan" id="param_off_fan"
                       onclick="showHideDivParam(0, 'fan')">
                     <label class="form-check-label text-start negative-ms" for="param_off_fan">
@@ -630,43 +623,40 @@
                 <div id="card_param_fan" class="flip-container mt-3">
                   <div class="flipper">
                     <div id="card_front_fan" class="front">
-                      <div class="row px-2">
-                        <div class="row">
-                          <div class="col-9">
-                            <label for="fan_parameter_on_temperature" class="col-form-label col-form-label-sm pb-0">A
-                              temperatura ambiente estiver maior que</label>
-                          </div>
-                        </div>
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm" id="fan_parameter_on_temperature">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
+                      <div class="row">
+                        <label for="fan_parameter_on_temperature" class="col-form-label col-form-label-sm pb-0">A
+                          temperatura ambiente estiver maior que</label>
+                      </div>
+                      <div class="d-flex justify-content-evenly">
+                          
+                        <div class="col-3 d-flex flex-row align-items-center ">
+                          <input type="number" class="form-control form-control-sm me-1" id="fan_parameter_on_temperature">
                           <span class="font-size-sm ">°C </span>
+                        </div>
+                        <div class="">
                           <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                            <button type="submit" class="btn font-size-sm bg-warning"
                               onclick='buttonSetParameter("fan/on/temp", "fan_parameter_on_temperature")'>Salvar</button>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div id="card_back_fan" class="back hidden-face">
-                      <div class="row px-2">
-                        <div class="row">
-                          <div class="col-9">
-                            <label for="fan_parameter_off_temperature" class="col-form-label col-form-label-sm pb-0">A
-                              temperatura
-                              ambiente estiver menor que</label>
-                          </div>
-                        </div>
-                        <div class="col-3 pe-0">
-                          <input type="number" class="form-control form-control-sm" id="fan_parameter_off_temperature">
-                        </div>
-                        <div class="col-9 ps-1 pe-2 d-flex flex-row align-items-center ">
+                      
+                      <div class="row">
+                          <label for="fan_parameter_off_temperature" class="col-form-label col-form-label-sm pb-0">
+                            A temperatura ambiente estiver menor que
+                          </label>
+                      </div>
+                      <div class="d-flex justify-content-evenly mb-2">
+                        <div class="col-3 d-flex flex-row align-items-center">
+                          <input type="number" class="form-control form-control-sm me-1" id="fan_parameter_off_temperature">
                           <span class="font-size-sm ">°C </span>
-                          <div class="ms-auto">
-                            <button type="submit" class="btn px-1 font-size-sm bg-warning mb-2"
+                        </div>
+                        <div class="">
+                          
+                            <button type="submit" class="btn font-size-sm bg-warning"
                               onclick='buttonSetParameter("fan/off/temp", "fan_parameter_off_temperature")'>Salvar</button>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -784,11 +774,13 @@
     </div>
   </div>
 
-  <script src="bootstrap/bootstrap.min.js"
+  <!--<script src="bootstrap/bootstrap.min.js"
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
+  <script src="/scripts.js"> </script> -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src="/scripts.js"> </script>
-
 </body>
 
 </html>
