@@ -6,7 +6,8 @@ updateActuatorsParam();
 
 var countdown_time_exchanger = 0;
 
-var countdownExchanger;
+var countdown_exchanger;
+var parameter_time_exchanger;
 
 function decrementerCountdown(){
   if (countdown_time_exchanger > 0) {
@@ -108,9 +109,11 @@ function updateActuatorsParam() {
       document.getElementById("exchanger_parameter_on_temperature").placeholder = array[4].replace(".", ",");
       document.getElementById("exchanger_parameter_off_time").placeholder = array[5].replace(".", ",");
       document.getElementById("exchanger_parameter_time_act").placeholder = array[5].replace(".", ",");
+      parameter_time_exchanger = parseInt(array[5]);
       document.getElementById("fan_parameter_on_temperature").placeholder = array[6].replace(".", ",");
       document.getElementById("fan_parameter_off_temperature").placeholder = array[7].replace(".", ",");
       
+
     }
   };
   xhttp.open("GET", "/actuators/parameter/getall", true);
@@ -139,9 +142,7 @@ function updateActuatorState(state, actuator_name) {
       button.innerHTML = "Interromper a troca";
       document.getElementById("exchanger_off").classList.add('d-none');
       
-      document.getElementById("countdown").classList.remove('d-none');
-      countdownExchanger = setInterval(decrementerCountdown, 1000);
-      document.getElementById("countdown_span").innerHTML = countdown_time_exchanger;
+      
       
     }
     else
@@ -157,7 +158,7 @@ function updateActuatorState(state, actuator_name) {
       document.getElementById("exchanger_off").classList.remove('d-none');
       button.innerHTML = "Realizar a troca";
       document.getElementById("countdown").classList.add('d-none');
-      clearInterval(countdownExchanger);
+      clearInterval(countdown_exchanger);
     }
     else
       button.innerHTML = "Ligar";
@@ -296,6 +297,11 @@ function buttonSetStatusActuator(button_value, actuator_name) {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 ) {
       if (this.status == 200){
+        if(button_value == 1 && actuator_name == "exchanger"){
+          document.getElementById("countdown").classList.remove('d-none');
+          countdown_exchanger = setInterval(decrementerCountdown, 1000);
+          document.getElementById("countdown_span").innerHTML = countdown_time_exchanger;
+        }
         updateActuatorState(button_value, actuator_name);
       }
      
@@ -308,8 +314,13 @@ function buttonSetStatusActuator(button_value, actuator_name) {
   };
   var requestSend = "value=" + button_value;
   if (actuator_name == "exchanger"){
+    let timeCountdown = parseInt(document.getElementById("exchanger_parameter_time_act").value);
+    if(!isNaN(timeCountdown)){
+      countdown_time_exchanger = timeCountdown;
+    }else{
+      countdown_time_exchanger = parameter_time_exchanger;
+    }
     requestSend += "&time=" + document.getElementById("exchanger_parameter_time_act").value;
-    countdown_time_exchanger = parseInt(document.getElementById("exchanger_parameter_time_act").value);
   }
     
 
@@ -319,10 +330,10 @@ function buttonSetStatusActuator(button_value, actuator_name) {
 
 
 //taxa de atualização de 5 segundos
-setInterval(function () {
+/*setInterval(function () {
   //atualizando o valor dos sensores
   updateSensors();
   updateActuatorsState();
   updateActuatorsOpMode();
   updateActuatorsParam();
-}, 500);
+}, 500);*/

@@ -10,6 +10,7 @@
 //---Pinos de entrada e saída---
 #define PIN_DS18B20 2
 #define PIN_DHT11 4
+
 #define PIN_NIPPLE 5  
 #define PIN_FAN 18 
 #define PIN_NEBULIZER 19  
@@ -703,7 +704,7 @@ void loop() {
     automaticModeFan();
     automaticModeNebulizer();
 
-    update_time = millis() + 3000;
+    update_time = millis() + 10000;
   }
 
   changeWaterOff();
