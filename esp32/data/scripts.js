@@ -224,7 +224,7 @@ function buttonSetParameter(url, inputID) {
         showModalNotification(1, "Parâmetro modificado com sucesso!");
       }
       if (this.status == 304) {
-        showModalNotification(0, "Falha em modificar o parâmetro!");
+        showModalNotification(0, this.responseText != "" ? this.responseText : "Falha ao modificar parâmetro!");
       }
     }
 
@@ -330,10 +330,10 @@ function buttonSetStatusActuator(button_value, actuator_name) {
 
 
 //taxa de atualização de 5 segundos
-/*setInterval(function () {
+setInterval(function () {
   //atualizando o valor dos sensores
   updateSensors();
   updateActuatorsState();
   updateActuatorsOpMode();
   updateActuatorsParam();
-}, 500);*/
+}, 500);
