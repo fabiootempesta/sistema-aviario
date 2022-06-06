@@ -8,7 +8,12 @@
 
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 -->
-<link rel="stylesheet" href="/styles.css">
+
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="styles.css">
 
 <title>Controle Aviário</title>
 </head>
@@ -63,7 +68,6 @@
               <p class="h5 text-center text-uppercase">
                 <span class="fw-bold" id="climate_temperature2"> --- </span>
               </p>
-              <img class="" src="/img/air_temperature.png" width="210" height="170">
             </div>
             
             <button id="expanded_climate_temperature_button" type="button"
@@ -85,7 +89,6 @@
               <p class="h5 text-center text-uppercase ">
                 <span class="fw-bold" id="climate_humidity2"> --- </span>
               </p>
-              <img class="pb-2" src="/img/humidity.png" width="160" height="170">
             </div>
             
             <button id="expanded_climate_humidity_button" type="button"
@@ -107,7 +110,6 @@
               <p class="h5 text-center text-uppercase">
                 <span class="fw-bold" id="nipple_temperature2"> --- </span>
               </p>
-              <img class="" src="/img/nipple_temperature.png" width="130" height="170">
             </div>
             
             <button id="expanded_nipple_temperature_button" type="button"
@@ -128,7 +130,6 @@
               <p class="h5 text-center text-uppercase ">
                 <span class="fw-bold" id="box_temperature2"> --- </span>
               </p>
-              <img class="" src="/img/box_temperature.png" width="200" height="170">
             </div>
             
             <button id="expanded_box_temperature_button" type="button"
@@ -219,7 +220,6 @@
           <div id="expanded_nebulizer"
             class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
             <p class="h5 text-center text-uppercase ">Nebulizador</p>
-            <img class=" pt-2 pb-2" src="/img/nebulizer.png" height="170">
             <p class=" text-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
                 class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
@@ -416,7 +416,6 @@
           <div id="expanded_exchanger"
             class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column border-end border-4 border-dark px-0 pt-2">
             <p class="h5 text-center text-uppercase">Trocador de Água</p>
-            <img class="pt-2" src="/img/exchanger.png" height="170">
             <p class=" text-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
                 class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
@@ -564,7 +563,6 @@
 
           <div id="expanded_fan" class="d-lg-flex d-none col-12 col-lg-4 d-flex flex-column px-0 pt-2">
             <p class="h5 text-center text-uppercase">Ventilador</p>
-            <img src="/img/fan.png" height="170">
             <p class=" text-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor"
                 class="bi bi-play-fill pb-1 negative-me" viewBox="0 0 16 16">
@@ -773,6 +771,9 @@
 
   
   <script src="/scripts.js"> </script>
+  <script src="bootstrap/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
   
 </body>
 
