@@ -24,8 +24,8 @@ DallasTemperature ds18b20(&oneWire);
 AsyncWebServer server(80);
 
 //---Conexão na rede local sem fio---
-const char* ssid     = "Bethpsi";
-const char* password = "raulfabio21";
+const char* ssid     = "Sistema Aviário v1";
+const char* password = "user12345678";
 
 //---Variáveis globais---
 
@@ -56,6 +56,12 @@ long exchanger_time = 0;
 
 //Variável para auxiliar desligar ou manter o ventilador ligado após desligar o nebulizador
 bool fan_on_directly = 0;
+
+//Variáveis para informar erro de leitura do sensor
+int error_read_dht11 = 0;
+int error_read_nipple = 0;
+int error_read_box = 0;
+
  
 //Modos de operação
 bool operation_mode_nebulizer = false; //false = automático | true = manual
@@ -226,18 +232,51 @@ void printSensorsValue(){
 
 void updateSensorsValue(){
 
-  Serial.println("Atualizando valores dos sensores.");
 	ds18b20.requestTemperatures(); 
-  if (!(isnan( dht.readTemperature()) || isnan(dht.readHumidity()))) {
+  if ((!(isnan( dht.readTemperature()) || isnan(dht.readHumidity()))) || error_read_dht11 >= 4 ) {
     current_climate_temp = dht.readTemperature();
     current_climate_humidity = dht.readHumidity();
+    error_read_dht11 = 0;
+  }else{
+    error_read_dht11++;
   }
-  if (ds18b20.getTempCByIndex(0) > -50)
+  if ((ds18b20.getTempCByIndex(0) != -127.00) || error_read_nipple >= 4 ) {
 	  current_nipple_temp = ds18b20.getTempCByIndex(0);
+    error_read_nipple = 0;
+  }else{
+    error_read_nipple++;
+  }
 
-  if (ds18b20.getTempCByIndex(1) > -50) 
+  if (ds18b20.getTempCByIndex(1) > -50 || error_read_box >= 4 ) {
 	  current_box_temp = ds18b20.getTempCByIndex(1);
+    error_read_box = 0;
+  }else{
+    error_read_box++;
+  }
 	
+}
+
+void taskCore0UpdateValues( void * pvParameters ){
+  for(;;){
+    printActuators();
+    updateSensorsValue();
+    printSensorsValue();
+    
+    automaticModeExchanger();
+    automaticModeFan();
+    automaticModeNebulizer();
+
+    delay(6000);
+  }
+
+}
+void taskCore0ExchangerOff( void * pvParameters ){
+  for(;;){
+    changeWaterOff();
+
+    delay(200);
+  }
+
 }
 
 void setup() {
@@ -250,6 +289,23 @@ void setup() {
 	digitalWrite(PIN_FAN, LOW);
 	digitalWrite(PIN_NEBULIZER, LOW);
 
+  xTaskCreatePinnedToCore(
+                    taskCore0UpdateValues,   /* função que implementa a tarefa */
+                    "taskCore0UpdateValues", /* nome da tarefa */
+                    8000,      /* número de palavras a serem alocadas para uso com a pilha da tarefa */
+                    NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
+                    1,          /* prioridade da tarefa (0 a N) */
+                    NULL,       /* referência para a tarefa (pode ser NULL) */
+                    0); 
+
+  xTaskCreatePinnedToCore(
+                    taskCore0ExchangerOff,   /* função que implementa a tarefa */
+                    "taskCore0ExchangerOff", /* nome da tarefa */
+                    2000,      /* número de palavras a serem alocadas para uso com a pilha da tarefa */
+                    NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
+                    1,          /* prioridade da tarefa (0 a N) */
+                    NULL,       /* referência para a tarefa (pode ser NULL) */
+                    0); 
   
   ds18b20.begin();
 	dht.begin();
@@ -730,6 +786,9 @@ void setup() {
 
 }
 
+
 void loop() {
 
+
+  
 }
