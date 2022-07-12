@@ -10,8 +10,8 @@ O sistema visa monitorar e controlar um galpão aviário remotamente, bastando t
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Autenticação na interface
-- [ ] Captação de dados das condições ambientais ao longo do dia para análises
+- [ ] Conclusão da monografia
+- [ ] Conclusão e realização de testes no código que atuará no aviário do instituto
  
  ## 📝 Documentos
  * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta_F_O_TCC-Monografia.pdf"> Monografia (em andamento) </a>
