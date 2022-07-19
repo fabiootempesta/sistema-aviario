@@ -48,7 +48,17 @@ float parameter_fan_off_temperature = 22;
 float current_nipple_temp = 0;
 float current_box_temp = 0;
 float current_climate_temp = 0;
+<<<<<<< Updated upstream
 float current_climate_humidity = 0;
+=======
+float current_climate_humidity = 0;  
+
+//Flag de erro de leitura dos sensores
+bool error_read_nipple_temp = false;
+bool error_read_box_temp = false;
+bool error_read_dht = false;
+bool error_write_google_sheet = false;
+>>>>>>> Stashed changes
 
 //Variáveis de tempo para função millis()
 long update_time = 0;
@@ -57,10 +67,18 @@ long exchanger_time = 0;
 //Variável para auxiliar desligar ou manter o ventilador ligado após desligar o nebulizador
 bool fan_on_directly = 0;
 
+<<<<<<< Updated upstream
 //Variáveis para informar erro de leitura do sensor
 int error_read_dht11 = 0;
 int error_read_nipple = 0;
 int error_read_box = 0;
+=======
+//Máximo erro de leituras consecutivos até o sistema considerar erro do sensor e os contadores dos sensores
+int error_read_sensor_max = 8;
+int counter_error_read_nipple_temp = 0;
+int counter_error_read_box_temp = 0;
+int counter_error_read_dht = 0;
+>>>>>>> Stashed changes
 
  
 //Modos de operação
@@ -232,6 +250,7 @@ void printSensorsValue(){
 
 void updateSensorsValue(){
 
+<<<<<<< Updated upstream
 	ds18b20.requestTemperatures(); 
   if ((!(isnan( dht.readTemperature()) || isnan(dht.readHumidity()))) || error_read_dht11 >= 4 ) {
     current_climate_temp = dht.readTemperature();
@@ -254,6 +273,84 @@ void updateSensorsValue(){
     error_read_box++;
   }
 	
+=======
+  ds18b20.requestTemperatures(); 
+
+  if (ds18b20.getTempCByIndex(0) != -127.00 ) {
+    current_nipple_temp = ds18b20.getTempCByIndex(0);
+    error_read_nipple_temp = false;
+    counter_error_read_nipple_temp = 0;
+  }else{
+    error_read_nipple_temp = true;
+  }
+  
+  if (ds18b20.getTempCByIndex(1) != -127.00 ) {
+    current_box_temp = ds18b20.getTempCByIndex(1);
+    error_read_box_temp = false;
+    counter_error_read_box_temp = 0;
+  }else{
+    error_read_box_temp = true;
+  }
+  
+  if (!(isnan( dht.readTemperature()) || isnan(dht.readHumidity())) ) {
+    current_climate_temp = dht.readTemperature();
+    counter_error_read_dht = 0;
+    current_climate_humidity = dht.readHumidity();
+    error_read_dht = false;
+  }else{
+    error_read_dht = true;
+  }
+
+}
+
+void TryReadSensorsError() {
+  if (error_read_box_temp || error_read_nipple_temp){
+      ds18b20.requestTemperatures(); 
+      
+      if (error_read_box_temp && (ds18b20.getTempCByIndex(1) != -127.00) ) {
+        error_read_box_temp = false;
+        counter_error_read_box_temp = 0;
+        current_box_temp = ds18b20.getTempCByIndex(1);
+      }else{
+        if (counter_error_read_box_temp > error_read_sensor_max){
+          current_box_temp = ds18b20.getTempCByIndex(1);
+          counter_error_read_box_temp = 0;
+        }else{
+          counter_error_read_box_temp++;
+        }
+      }
+
+      if (error_read_nipple_temp && (ds18b20.getTempCByIndex(0) != -127.00) ) {
+        error_read_nipple_temp = false;
+        counter_error_read_nipple_temp = 0;
+        current_nipple_temp = ds18b20.getTempCByIndex(0);
+      }else{
+        if (counter_error_read_nipple_temp > error_read_sensor_max){
+          current_nipple_temp = ds18b20.getTempCByIndex(0);
+          counter_error_read_nipple_temp = 0;
+        }else{
+          counter_error_read_nipple_temp++;
+        }
+      }
+    }
+
+    if (error_read_dht){
+      if (!(isnan( dht.readTemperature()) || isnan(dht.readHumidity())) ) {
+        current_climate_temp = dht.readTemperature();
+        counter_error_read_dht = 0;
+        current_climate_humidity = dht.readHumidity();
+        error_read_dht = false;
+      }else{
+        if(counter_error_read_dht > error_read_sensor_max){
+          current_climate_temp = dht.readTemperature();
+          current_climate_humidity = dht.readHumidity();
+          counter_error_read_dht = 0;
+        }else{
+          counter_error_read_dht++;
+        }
+      }
+    }
+>>>>>>> Stashed changes
 }
 
 void taskCore0UpdateValues( void * pvParameters ){
@@ -279,6 +376,25 @@ void taskCore0ExchangerOff( void * pvParameters ){
 
 }
 
+<<<<<<< Updated upstream
+=======
+void taskCore0TryReadWriteSensors( void * pvParameters ){
+  for(;;){
+
+    TryReadSensorsError();
+
+    
+    
+    if(error_write_google_sheet){
+      writeSensorsValueInSheet();
+    }
+
+    delay(6000);
+  }
+
+}
+
+>>>>>>> Stashed changes
 void setup() {
 
 	Serial.begin(9600);
@@ -305,6 +421,18 @@ void setup() {
                     NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
                     1,          /* prioridade da tarefa (0 a N) */
                     NULL,       /* referência para a tarefa (pode ser NULL) */
+<<<<<<< Updated upstream
+=======
+                    1); 
+
+  xTaskCreatePinnedToCore(
+                    taskCore0TryReadWriteSensors,   /* função que implementa a tarefa */
+                    "taskCore0TryReadWriteSensors", /* nome da tarefa */
+                    8000,      /* número de palavras a serem alocadas para uso com a pilha da tarefa */
+                    NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
+                    3,          /* prioridade da tarefa (0 a N) */
+                    NULL,       /* referência para a tarefa (pode ser NULL) */
+>>>>>>> Stashed changes
                     0); 
   
   ds18b20.begin();
