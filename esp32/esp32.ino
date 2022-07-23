@@ -155,7 +155,7 @@ void setExchanger(bool state, int time_exchange){
 }
 
 void automaticModeNebulizer(){
-  if(!operation_mode_nebulizer){
+  if(!operation_mode_nebulizer && !error_read_dht){
     
     //Liga Nebulizador
     if(digitalRead(PIN_NEBULIZER) == LOW){
@@ -175,7 +175,7 @@ void automaticModeNebulizer(){
 }
 
 void automaticModeExchanger(){
-  if(!operation_mode_exchanger){
+  if(!operation_mode_exchanger && !error_read_box_temp && !error_read_nipple_temp){
     if( (current_nipple_temp - current_box_temp) > parameter_nipple_on_deltat){
       Serial.println("Água trocada via modo automático");
       setExchanger(1, 0);
@@ -184,8 +184,8 @@ void automaticModeExchanger(){
 }
 
 void automaticModeFan(){
-  if(!operation_mode_fan)  { //Liga Ventilador
-    if (digitalRead(PIN_FAN) == LOW){
+  if(!operation_mode_fan && !error_read_dht)  { 
+    if (digitalRead(PIN_FAN) == LOW){ //Liga Ventilador
       if (current_climate_temp > parameter_fan_on_temperature){
         digitalWrite(PIN_FAN, HIGH);
         Serial.println("Ventilaador ligado via modo automático");
@@ -235,8 +235,6 @@ void printSensorsValue(){
   
 }
 
-
-
 void updateSensorsValue(){
 
   ds18b20.requestTemperatures(); 
@@ -279,7 +277,6 @@ void TryReadSensorsError() {
       }else{
         if (counter_error_read_box_temp > error_read_sensor_max){
           current_box_temp = ds18b20.getTempCByIndex(1);
-          counter_error_read_box_temp = 0;
         }else{
           counter_error_read_box_temp++;
         }
@@ -292,7 +289,6 @@ void TryReadSensorsError() {
       }else{
         if (counter_error_read_nipple_temp > error_read_sensor_max){
           current_nipple_temp = ds18b20.getTempCByIndex(0);
-          counter_error_read_nipple_temp = 0;
         }else{
           counter_error_read_nipple_temp++;
         }
@@ -309,7 +305,6 @@ void TryReadSensorsError() {
         if(counter_error_read_dht > error_read_sensor_max){
           current_climate_temp = dht.readTemperature();
           current_climate_humidity = dht.readHumidity();
-          counter_error_read_dht = 0;
         }else{
           counter_error_read_dht++;
         }
@@ -319,18 +314,14 @@ void TryReadSensorsError() {
 
 void taskCore0UpdateValues( void * pvParameters ){
   for(;;){
-    printActuators();
     updateSensorsValue();
     printSensorsValue();
-    
-    automaticModeExchanger();
-    automaticModeFan();
-    automaticModeNebulizer();
-
-    delay(6000);
+    writeSensorsValueInSheet();
+    delay(300000);
   }
 
 }
+
 void taskCore0ExchangerOff( void * pvParameters ){
   for(;;){
     changeWaterOff();
@@ -345,7 +336,9 @@ void taskCore0TryReadWriteSensors( void * pvParameters ){
 
     TryReadSensorsError();
 
-    
+    automaticModeExchanger();
+    automaticModeFan();
+    automaticModeNebulizer();
     
     if(error_write_google_sheet){
       writeSensorsValueInSheet();
