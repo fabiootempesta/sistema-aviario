@@ -48,9 +48,6 @@ float parameter_fan_off_temperature = 22;
 float current_nipple_temp = 0;
 float current_box_temp = 0;
 float current_climate_temp = 0;
-<<<<<<< Updated upstream
-float current_climate_humidity = 0;
-=======
 float current_climate_humidity = 0;  
 
 //Flag de erro de leitura dos sensores
@@ -58,7 +55,6 @@ bool error_read_nipple_temp = false;
 bool error_read_box_temp = false;
 bool error_read_dht = false;
 bool error_write_google_sheet = false;
->>>>>>> Stashed changes
 
 //Variáveis de tempo para função millis()
 long update_time = 0;
@@ -67,18 +63,11 @@ long exchanger_time = 0;
 //Variável para auxiliar desligar ou manter o ventilador ligado após desligar o nebulizador
 bool fan_on_directly = 0;
 
-<<<<<<< Updated upstream
-//Variáveis para informar erro de leitura do sensor
-int error_read_dht11 = 0;
-int error_read_nipple = 0;
-int error_read_box = 0;
-=======
 //Máximo erro de leituras consecutivos até o sistema considerar erro do sensor e os contadores dos sensores
 int error_read_sensor_max = 8;
 int counter_error_read_nipple_temp = 0;
 int counter_error_read_box_temp = 0;
 int counter_error_read_dht = 0;
->>>>>>> Stashed changes
 
  
 //Modos de operação
@@ -250,30 +239,6 @@ void printSensorsValue(){
 
 void updateSensorsValue(){
 
-<<<<<<< Updated upstream
-	ds18b20.requestTemperatures(); 
-  if ((!(isnan( dht.readTemperature()) || isnan(dht.readHumidity()))) || error_read_dht11 >= 4 ) {
-    current_climate_temp = dht.readTemperature();
-    current_climate_humidity = dht.readHumidity();
-    error_read_dht11 = 0;
-  }else{
-    error_read_dht11++;
-  }
-  if ((ds18b20.getTempCByIndex(0) != -127.00) || error_read_nipple >= 4 ) {
-	  current_nipple_temp = ds18b20.getTempCByIndex(0);
-    error_read_nipple = 0;
-  }else{
-    error_read_nipple++;
-  }
-
-  if (ds18b20.getTempCByIndex(1) > -50 || error_read_box >= 4 ) {
-	  current_box_temp = ds18b20.getTempCByIndex(1);
-    error_read_box = 0;
-  }else{
-    error_read_box++;
-  }
-	
-=======
   ds18b20.requestTemperatures(); 
 
   if (ds18b20.getTempCByIndex(0) != -127.00 ) {
@@ -350,7 +315,6 @@ void TryReadSensorsError() {
         }
       }
     }
->>>>>>> Stashed changes
 }
 
 void taskCore0UpdateValues( void * pvParameters ){
@@ -376,8 +340,6 @@ void taskCore0ExchangerOff( void * pvParameters ){
 
 }
 
-<<<<<<< Updated upstream
-=======
 void taskCore0TryReadWriteSensors( void * pvParameters ){
   for(;;){
 
@@ -394,7 +356,6 @@ void taskCore0TryReadWriteSensors( void * pvParameters ){
 
 }
 
->>>>>>> Stashed changes
 void setup() {
 
 	Serial.begin(9600);
@@ -421,8 +382,6 @@ void setup() {
                     NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
                     1,          /* prioridade da tarefa (0 a N) */
                     NULL,       /* referência para a tarefa (pode ser NULL) */
-<<<<<<< Updated upstream
-=======
                     1); 
 
   xTaskCreatePinnedToCore(
@@ -432,7 +391,6 @@ void setup() {
                     NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
                     3,          /* prioridade da tarefa (0 a N) */
                     NULL,       /* referência para a tarefa (pode ser NULL) */
->>>>>>> Stashed changes
                     0); 
   
   ds18b20.begin();
