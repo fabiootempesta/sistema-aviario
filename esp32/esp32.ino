@@ -5,6 +5,7 @@
 #include <SPIFFS.h>
 #include "DHT.h"
 #include "ESPAsyncWebServer.h"
+#include <ESP_Google_Sheet_Client.h>
 
 
 //---Pinos de entrada e saída---
@@ -133,7 +134,6 @@ void setNebulizer(bool state){
   }else{
     Serial.println("desligou nebulizador");
     digitalWrite(PIN_NEBULIZER, LOW);
-    Serial.println("desligou nebulizador");
     if(fan_on_directly == 0)
       digitalWrite(PIN_FAN, LOW);
   }
@@ -264,6 +264,50 @@ void updateSensorsValue(){
     error_read_dht = true;
   }
 
+}
+
+void writeSensorsValueInSheet (){
+  bool ready = GSheet.ready();
+
+    if (ready)
+    {
+      error_write_google_sheet = false;
+      FirebaseJson response, valueRange, valueRangeCounter;
+
+      valueRangeCounter.add("majorDimension", "COLUMNS");
+      valueRangeCounter.set("values/[0]/[0]", "  ");
+      
+      GSheet.values.update(&response , SPREADSHEET_ID , "Sheet1!H2", &valueRangeCounter);
+      
+      response.toString(Serial, true);
+
+      FirebaseJsonData result;
+
+      valueRange.add("majorDimension", "COLUMNS");
+      valueRange.set("values/[0]/[0]", String(current_climate_temp));
+      valueRange.set("values/[1]/[0]", String(current_climate_humidity));
+      valueRange.set("values/[2]/[0]", String(current_nipple_temp));
+      valueRange.set("values/[3]/[0]", String(current_box_temp));
+
+
+      GSheet.values.get(&response, SPREADSHEET_ID, "Sheet1!G2");
+      response.toString(Serial, true);
+      Serial.println("");
+
+      response.get(result, "values/[0]/[0]");
+      if(result.success){
+        valueRange.set("values/[4]/[0]", result.to<String>());
+  
+        GSheet.values.append(&response , SPREADSHEET_ID , "Sheet1!A1:E1", &valueRange);
+        response.toString(Serial, true);
+      }
+
+      
+      
+
+    }else{
+      error_write_google_sheet = true;
+    }
 }
 
 void TryReadSensorsError() {
