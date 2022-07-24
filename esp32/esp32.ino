@@ -17,6 +17,12 @@
 #define PIN_FAN 4 
 #define PIN_NEBULIZER 5  
 
+
+// ---Google Sheets---
+#define PROJECT_ID "esp32-sistema-aviario"
+#define CLIENT_EMAIL "planilha-sensores@esp32-sistema-aviario.iam.gserviceaccount.com"
+const char SPREADSHEET_ID[] PROGMEM = "1WAGvzfbu8AwclL53U0DNYz3XNECpaJQcgW4RCpPri-M";
+
 //---Configuração de bibliotecas---
 #define DHTYPE DHT11
 DHT dht(PIN_DHT11, DHTYPE);
@@ -25,8 +31,12 @@ DallasTemperature ds18b20(&oneWire);
 AsyncWebServer server(80);
 
 //---Conexão na rede local sem fio---
-const char* ssid     = "Sistema Aviário v1";
-const char* password = "user12345678";
+const char* ssid     = "Bethpsi";
+const char* password = "raulfabio21";
+
+
+
+
 
 //---Variáveis globais---
 
@@ -46,16 +56,16 @@ float parameter_fan_off_temperature = 22;
 
 
 //Valores atuais rebido dos sensores
-float current_nipple_temp = 0;
-float current_box_temp = 0;
-float current_climate_temp = 0;
-float current_climate_humidity = 0;  
+float current_nipple_temp = -127.00; //Erro de leitura no ds18b20
+float current_box_temp = -127.00; //Erro de leitura no ds18b20
+float current_climate_temp = 1.0 / 0.0; //Not a Number
+float current_climate_humidity = 1.0 / 0.0; //Not a Number
 
 //Flag de erro de leitura dos sensores
-bool error_read_nipple_temp = false;
-bool error_read_box_temp = false;
-bool error_read_dht = false;
-bool error_write_google_sheet = false;
+bool error_read_nipple_temp = true;
+bool error_read_box_temp = true;
+bool error_read_dht = true;
+bool error_write_google_sheet = true;
 
 //Variáveis de tempo para função millis()
 long update_time = 0;
@@ -72,9 +82,9 @@ int counter_error_read_dht = 0;
 
  
 //Modos de operação
-bool operation_mode_nebulizer = false; //false = automático | true = manual
-bool operation_mode_fan = false; //false = automático | true = manual
-bool operation_mode_exchanger = true; //false = automático | true = manual
+bool operation_mode_nebulizer = false;  //false = automático | true = manual
+bool operation_mode_fan = false;        //false = automático | true = manual
+bool operation_mode_exchanger = true;   //false = automático | true = manual
 
 
 bool stringToBool(String n){ //qualquer valor diferente de 1 retornará false
@@ -436,19 +446,29 @@ void setup() {
   Serial.print("Conectando em ");
   Serial.println(ssid);
 
-  // Connect to Wi-Fi network with SSID and password
-  Serial.print("Setting AP (Access Point)…");
-  // Remove the password parameter, if you want the AP (Access Point) to be open
-  WiFi.softAP(ssid, password);
+
+  WiFi.begin(ssid, password);
   
-  IPAddress IP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(IP);
-  
+  long time_out_connect = 30000 + millis();
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    if (time_out_connect > millis()){
+      WiFi.reconnect();
+      long time_out_connect = 30000 + millis();
+    }
+  }
   if(!SPIFFS.begin()){
         Serial.println("An Error has occurred while mounting SPIFFS");
         return;
   }
+  
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  GSheet.begin(CLIENT_EMAIL, PROJECT_ID, PRIVATE_KEY);
 
   // URL para raiz (index)
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
