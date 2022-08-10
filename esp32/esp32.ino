@@ -51,10 +51,9 @@ float current_climate_temp = 0;
 float current_climate_humidity = 0;  
 
 //Flag de erro de leitura dos sensores
-bool error_read_nipple_temp = false;
-bool error_read_box_temp = false;
-bool error_read_dht = false;
-bool error_write_google_sheet = false;
+bool error_read_nipple_temp = true;
+bool error_read_box_temp = true;
+bool error_read_dht = true;
 
 //Variáveis de tempo para função millis()
 long update_time = 0;
@@ -95,7 +94,7 @@ String getStatusActuator(char n){
       break;
   }
 
-  if(digitalRead(pin) == HIGH)
+  if(digitalRead(pin) == LOW)
     return "1";
   else
     return "0";
@@ -123,19 +122,19 @@ void printActuators(){
 void setNebulizer(bool state){
   if (state){
     Serial.println("ligou");
-    digitalWrite(PIN_NEBULIZER, HIGH);
-    if (digitalRead(PIN_FAN)==HIGH)
+    digitalWrite(PIN_NEBULIZER, LOW);
+    if (digitalRead(PIN_FAN)==LOW)
       fan_on_directly = 1;
     else{
       fan_on_directly=0;
-      digitalWrite(PIN_FAN, HIGH);
+      digitalWrite(PIN_FAN, LOW);
     }
   }else{
     Serial.println("desligou nebulizador");
-    digitalWrite(PIN_NEBULIZER, LOW);
+    digitalWrite(PIN_NEBULIZER, HIGH);
     Serial.println("desligou nebulizador");
     if(fan_on_directly == 0)
-      digitalWrite(PIN_FAN, LOW);
+      digitalWrite(PIN_FAN, HIGH);
   }
   printActuators();
 }
@@ -144,13 +143,13 @@ void setExchanger(bool state, int time_exchange){
   //Liga trocador de água
   //timeExchange = 0 quando a duração da troca for da variavel parameter_nipple_off_time
 	if (state){
-    digitalWrite(PIN_NIPPLE, HIGH);
+    digitalWrite(PIN_NIPPLE, LOW);
     if (time_exchange == 0)
       exchanger_time = millis() + parameter_nipple_off_time;
     else
       exchanger_time = millis() + time_exchange;
 	}else{ 
-    digitalWrite(PIN_NIPPLE, LOW);
+    digitalWrite(PIN_NIPPLE, HIGH);
 	}
 }
 
@@ -158,7 +157,7 @@ void automaticModeNebulizer(){
   if(!operation_mode_nebulizer && !error_read_dht){
     
     //Liga Nebulizador
-    if(digitalRead(PIN_NEBULIZER) == LOW){
+    if(digitalRead(PIN_NEBULIZER) == HIGH){
       if( (current_climate_humidity < parameter_nebulizer_on_humidity) && (current_climate_temp > parameter_nebulizer_on_temperature) ){
         setNebulizer(1);
         Serial.println("Nebulizador ligado via modo automático");
@@ -185,14 +184,14 @@ void automaticModeExchanger(){
 
 void automaticModeFan(){
   if(!operation_mode_fan && !error_read_dht)  { 
-    if (digitalRead(PIN_FAN) == LOW){ //Liga Ventilador
+    if (digitalRead(PIN_FAN) == HIGH){ //Liga Ventilador
       if (current_climate_temp > parameter_fan_on_temperature){
-        digitalWrite(PIN_FAN, HIGH);
+        digitalWrite(PIN_FAN, LOW);
         Serial.println("Ventilaador ligado via modo automático");
       }
     }else{ //Desliga Ventilador
-      if ((current_climate_temp < parameter_fan_off_temperature) && (digitalRead(PIN_NEBULIZER) == LOW)){
-        digitalWrite(PIN_FAN, LOW);
+      if ((current_climate_temp < parameter_fan_off_temperature) && (digitalRead(PIN_NEBULIZER) == HIGH)){
+        digitalWrite(PIN_FAN, HIGH);
         Serial.println("Ventilador ligado via modo automático");
       }
     }
@@ -200,8 +199,8 @@ void automaticModeFan(){
 }
 
 void changeWaterOff(){
-  if((digitalRead(PIN_NIPPLE) == HIGH) && (exchanger_time < millis())){
-    digitalWrite(PIN_NIPPLE, LOW);
+  if((digitalRead(PIN_NIPPLE) == LOW) && (exchanger_time < millis())){
+    digitalWrite(PIN_NIPPLE, HIGH);
     Serial.println("Trocador de água terminou sua ação!");
 	}
 }
@@ -316,7 +315,6 @@ void taskCore0UpdateValues( void * pvParameters ){
   for(;;){
     updateSensorsValue();
     printSensorsValue();
-    writeSensorsValueInSheet();
     delay(300000);
   }
 
@@ -331,7 +329,7 @@ void taskCore0ExchangerOff( void * pvParameters ){
 
 }
 
-void taskCore0TryReadWriteSensors( void * pvParameters ){
+void taskCore0TryReadSensors( void * pvParameters ){
   for(;;){
 
     TryReadSensorsError();
@@ -340,10 +338,7 @@ void taskCore0TryReadWriteSensors( void * pvParameters ){
     automaticModeFan();
     automaticModeNebulizer();
     
-    if(error_write_google_sheet){
-      writeSensorsValueInSheet();
-    }
-
+    
     delay(6000);
   }
 
@@ -355,9 +350,9 @@ void setup() {
 	pinMode(PIN_NIPPLE, OUTPUT);
 	pinMode(PIN_FAN, OUTPUT);
 	pinMode(PIN_NEBULIZER, OUTPUT);
-	digitalWrite(PIN_NIPPLE, LOW);
-	digitalWrite(PIN_FAN, LOW);
-	digitalWrite(PIN_NEBULIZER, LOW);
+	digitalWrite(PIN_NIPPLE, HIGH);
+	digitalWrite(PIN_FAN, HIGH);
+	digitalWrite(PIN_NEBULIZER, HIGH);
 
   xTaskCreatePinnedToCore(
                     taskCore0UpdateValues,   /* função que implementa a tarefa */
@@ -378,8 +373,8 @@ void setup() {
                     1); 
 
   xTaskCreatePinnedToCore(
-                    taskCore0TryReadWriteSensors,   /* função que implementa a tarefa */
-                    "taskCore0TryReadWriteSensors", /* nome da tarefa */
+                    taskCore0TryReadSensors,   /* função que implementa a tarefa */
+                    "taskCore0TryReadSensors", /* nome da tarefa */
                     8000,      /* número de palavras a serem alocadas para uso com a pilha da tarefa */
                     NULL,       /* parâmetro de entrada para a tarefa (pode ser NULL) */
                     3,          /* prioridade da tarefa (0 a N) */
@@ -551,14 +546,14 @@ void setup() {
       
       if(p->name()=="value"){
         if (stringToBool(p->value())){
-          digitalWrite(PIN_FAN,HIGH);
+          digitalWrite(PIN_FAN,LOW);
           request->send(200);
           Serial.println("Status do ventilador modificado via interface Web!");
         }else{
-          if(digitalRead(PIN_NEBULIZER)==HIGH){
+          if(digitalRead(PIN_NEBULIZER)==LOW){
             request->send(409, "text/plain", String("Ventilador não pode ser desligado enquanto o nebulizador estiver em funcionamento!").c_str());
           }else{
-            digitalWrite(PIN_FAN,LOW);
+            digitalWrite(PIN_FAN,HIGH);
             request->send(200);
             Serial.println("Status do ventilador modificado via interface Web!");
           }
