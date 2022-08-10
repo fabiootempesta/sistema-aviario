@@ -70,8 +70,8 @@ int counter_error_read_dht = 0;
 
  
 //Modos de operação
-bool operation_mode_nebulizer = false; //false = automático | true = manual
-bool operation_mode_fan = false; //false = automático | true = manual
+bool operation_mode_nebulizer = true; //false = automático | true = manual
+bool operation_mode_fan = true; //false = automático | true = manual
 bool operation_mode_exchanger = true; //false = automático | true = manual
 
 
