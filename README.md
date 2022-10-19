@@ -16,7 +16,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
  ## 📝 Documentos
  * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta__F__O____TCC___Monografia.pdf"> Monografia (em andamento) </a>
  * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta__F__O____Artigo___ForScience.pdf"> Artigo (em andamento) </a>
- * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/JornadaCientifica2022-ModeloPoster.pdf"> Pôster jornada científica (em andamento) </a>
+ * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/JornadaCientifica2022-ModeloPoster.pdf"> Pôster jornada científica </a>
  
  ## ⚙️ Bibliotecas para compilar o código arduino
  * <a href="https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi"> WiFi.h </a>
