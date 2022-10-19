@@ -10,12 +10,13 @@ O sistema visa monitorar e controlar um galpão aviário remotamente, bastando t
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Conclusão da monografia
-- [ ] Conclusão e realização de testes no código que atuará no aviário do instituto
+- [ ] Correção da monografia
+- [ ] Correção do artigo
  
  ## 📝 Documentos
- * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta_F_O_TCC-Monografia.pdf"> Monografia (em andamento) </a>
- * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta_F_O_Artigo-ForScience.pdf"> Artigo (em andamento) </a>
+ * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta__F__O____TCC___Monografia.pdf"> Monografia (em andamento) </a>
+ * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/Tempesta__F__O____Artigo___ForScience.pdf"> Artigo (em andamento) </a>
+ * <a href="https://github.com/fabiotempesta/SistemaAviario/blob/main/documentos/JornadaCientifica2022-ModeloPoster.pdf"> Pôster jornada científica (em andamento) </a>
  
  ## ⚙️ Bibliotecas para compilar o código arduino
  * <a href="https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi"> WiFi.h </a>
